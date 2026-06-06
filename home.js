@@ -58,6 +58,11 @@ function showScreen(name) {
 
   screens[name].classList.add("active");
 
+  document.body.classList.toggle("is-game-screen", name === "game");
+  document.body.classList.toggle("is-ranking-screen", name === "ranking");
+  document.body.classList.toggle("is-profile-screen", name === "profile");
+  document.body.classList.toggle("is-home-screen", name === "home");
+
   if (name === "home") {
     setHeader({
       title: "Mini Game Arena",
