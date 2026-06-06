@@ -38,12 +38,16 @@ export async function submitScore(gameId, score) {
   const user = auth.currentUser;
 
   if (!user) {
-    console.log("ゲストなのでランキング保存なし");
+    alert("ゲストプレイなのでランキングには保存されません。ログインすると記録できます。");
     return;
   }
 
+  const profile = await getUserProfile(user.uid);
+
   const playerId = user.uid;
-  const name = user.displayName || "名無し";
+  const name = profile.displayName || user.displayName || "名無し";
+  const iconType = profile.iconType || "cat";
+  const iconColor = profile.iconColor || "pink";
 
   const weekKey = getWeekKey();
   const monthKey = getMonthKey();
@@ -51,6 +55,8 @@ export async function submitScore(gameId, score) {
   await addDoc(collection(db, "scores"), {
     playerId,
     name,
+    iconType,
+    iconColor,
     gameId,
     score,
     weekKey,
@@ -58,12 +64,23 @@ export async function submitScore(gameId, score) {
     createdAt: serverTimestamp()
   });
 
-  await updateBestScore(gameId, playerId, name, score, "week", weekKey);
-  await updateBestScore(gameId, playerId, name, score, "month", monthKey);
-  await updateBestScore(gameId, playerId, name, score, "all", "all");
+  await updateBestScore(gameId, playerId, name, iconType, iconColor, score, "week", weekKey);
+  await updateBestScore(gameId, playerId, name, iconType, iconColor, score, "month", monthKey);
+  await updateBestScore(gameId, playerId, name, iconType, iconColor, score, "all", "all");
 }
 
-async function updateBestScore(gameId, playerId, name, score, period, periodKey) {
+async function getUserProfile(uid) {
+  const userRef = doc(db, "users", uid);
+  const snap = await getDoc(userRef);
+
+  if (!snap.exists()) {
+    return {};
+  }
+
+  return snap.data();
+}
+
+async function updateBestScore(gameId, playerId, name, iconType, iconColor, score, period, periodKey) {
   const boardId = `${gameId}_${period}_${periodKey}`;
   const entryRef = doc(db, "leaderboards", boardId, "entries", playerId);
 
@@ -80,6 +97,8 @@ async function updateBestScore(gameId, playerId, name, score, period, periodKey)
   await setDoc(entryRef, {
     playerId,
     name,
+    iconType,
+    iconColor,
     gameId,
     score,
     period,
@@ -127,12 +146,17 @@ export async function showRanking(period = "week") {
   }
 
   rankingArea.innerHTML = ranking.map(item => `
-    <div class="ranking-item">
-      <span>${item.rank}位</span>
-      <span>${item.name}</span>
-      <span>${item.score}</span>
-    </div>
-  `).join("");
+  <div class="ranking-item">
+    <span>${item.rank}位</span>
+
+    <span class="ranking-user">
+      ${createAvatarHtml(item.iconType || "cat", item.iconColor || "pink")}
+      ${escapeHtml(item.name)}
+    </span>
+
+    <span>${item.score}</span>
+  </div>
+`).join("");
 }
 
 document.querySelectorAll(".tabs button").forEach(button => {
@@ -140,5 +164,19 @@ document.querySelectorAll(".tabs button").forEach(button => {
     showRanking(button.dataset.period);
   };
 });
+
+function createAvatarHtml(type, color) {
+  return `
+    <span class="avatar ranking-avatar ${escapeHtml(type)} ${escapeHtml(color)}">
+      <span class="ear left"></span>
+      <span class="ear right"></span>
+      <span class="face">
+        <span class="eye left"></span>
+        <span class="eye right"></span>
+        <span class="mouth"></span>
+      </span>
+    </span>
+  `;
+}
 
 showRanking("week");
