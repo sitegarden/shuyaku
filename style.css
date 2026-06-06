@@ -479,10 +479,100 @@ main {
 }
 
 .ranking-avatar {
-  transform: scale(0.45);
-  transform-origin: center;
+  width: 36px;
+  height: 36px;
   flex: 0 0 36px;
-  margin: -18px;
+  margin: 0;
+  transform: none;
+  box-shadow:
+    inset 0 -3px 0 rgba(0, 0, 0, 0.08),
+    0 3px 8px rgba(0, 0, 0, 0.12);
+}
+
+.ranking-avatar .eye {
+  top: 16px;
+  width: 4px;
+  height: 5px;
+}
+
+.ranking-avatar .eye.left {
+  left: 12px;
+}
+
+.ranking-avatar .eye.right {
+  right: 12px;
+}
+
+.ranking-avatar .mouth {
+  top: 23px;
+  width: 8px;
+  height: 4px;
+  border-bottom-width: 2px;
+}
+
+.ranking-avatar.cat .ear {
+  top: -5px;
+  width: 14px;
+  height: 14px;
+}
+
+.ranking-avatar.cat .ear.left {
+  left: 3px;
+}
+
+.ranking-avatar.cat .ear.right {
+  right: 3px;
+}
+
+.ranking-avatar.cat .ear::after {
+  width: 6px;
+  height: 6px;
+  left: 4px;
+  top: 4px;
+}
+
+.ranking-avatar.cat .face::before,
+.ranking-avatar.cat .face::after {
+  top: 21px;
+  width: 8px;
+  height: 1px;
+  box-shadow: 0 3px 0 rgba(59, 47, 47, 0.45);
+}
+
+.ranking-avatar.cat .face::before {
+  left: 5px;
+}
+
+.ranking-avatar.cat .face::after {
+  right: 5px;
+}
+
+.ranking-avatar.rabbit .ear {
+  top: -14px;
+  width: 9px;
+  height: 22px;
+}
+
+.ranking-avatar.rabbit .ear.left {
+  left: 9px;
+}
+
+.ranking-avatar.rabbit .ear.right {
+  right: 9px;
+}
+
+.ranking-avatar.bear .ear {
+  top: -2px;
+  width: 12px;
+  height: 12px;
+}
+
+.ranking-avatar.bear .ear.left {
+  left: -2px;
+}
+
+.ranking-avatar.bear .ear.right {
+  right: -2px;
 }
 
 .screen {
@@ -1115,4 +1205,31 @@ body.is-game-screen .score-box {
 body.is-game-screen #board {
   width: min(94vw, 430px, calc(100dvh - 260px));
   height: min(94vw, 430px, calc(100dvh - 260px));
+}
+
+.ranking-user {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.ranking-item {
+  align-items: center;
+  gap: 10px;
+}
+
+.ranking-item > span:first-child {
+  flex: 0 0 48px;
+  text-align: left;
+}
+
+.ranking-item > span:nth-child(2) {
+  flex: 1;
+}
+
+.ranking-item > span:last-child {
+  flex: 0 0 72px;
+  text-align: right;
 }
