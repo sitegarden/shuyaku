@@ -213,3 +213,239 @@ main {
     max-width: 320px;
   }
 }
+
+.profile-box {
+  margin: 16px auto 0;
+  max-width: 380px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+}
+
+.profile-box h2 {
+  margin-top: 0;
+  font-size: 18px;
+}
+
+.profile-label {
+  margin: 14px 0 8px;
+  font-weight: bold;
+}
+
+.avatar-preview {
+  display: flex;
+  justify-content: center;
+  margin: 12px 0;
+}
+
+.avatar {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--avatar-bg);
+  box-shadow:
+    inset 0 -6px 0 rgba(0, 0, 0, 0.08),
+    0 6px 14px rgba(0, 0, 0, 0.18);
+}
+
+.avatar.pink {
+  --avatar-bg: #ffd6e7;
+  --avatar-dark: #f29abe;
+}
+
+.avatar.cream {
+  --avatar-bg: #ffe8bd;
+  --avatar-dark: #e6b76f;
+}
+
+.avatar.mint {
+  --avatar-bg: #c9f5df;
+  --avatar-dark: #7fcba3;
+}
+
+.avatar.blue {
+  --avatar-bg: #cfe6ff;
+  --avatar-dark: #82addd;
+}
+
+.avatar.purple {
+  --avatar-bg: #e5d4ff;
+  --avatar-dark: #ad8fe8;
+}
+
+.avatar.brown {
+  --avatar-bg: #d8b08c;
+  --avatar-dark: #93694c;
+}
+
+.avatar .face {
+  position: absolute;
+  inset: 0;
+}
+
+.avatar .eye {
+  position: absolute;
+  top: 32px;
+  width: 7px;
+  height: 9px;
+  border-radius: 50%;
+  background: #3b2f2f;
+}
+
+.avatar .eye.left {
+  left: 24px;
+}
+
+.avatar .eye.right {
+  right: 24px;
+}
+
+.avatar .mouth {
+  position: absolute;
+  left: 50%;
+  top: 45px;
+  width: 14px;
+  height: 7px;
+  border-bottom: 3px solid #3b2f2f;
+  border-radius: 0 0 16px 16px;
+  transform: translateX(-50%);
+}
+
+.avatar .ear {
+  position: absolute;
+  background: var(--avatar-bg);
+  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.08);
+}
+
+/* まる */
+.avatar.round .ear {
+  display: none;
+}
+
+/* ねこ */
+.avatar.cat .ear {
+  top: -8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 8px 8px 4px 4px;
+  transform: rotate(45deg);
+}
+
+.avatar.cat .ear.left {
+  left: 9px;
+}
+
+.avatar.cat .ear.right {
+  right: 9px;
+}
+
+/* うさぎ */
+.avatar.rabbit .ear {
+  top: -28px;
+  width: 18px;
+  height: 44px;
+  border-radius: 50% 50% 40% 40%;
+}
+
+.avatar.rabbit .ear.left {
+  left: 17px;
+  transform: rotate(-12deg);
+}
+
+.avatar.rabbit .ear.right {
+  right: 17px;
+  transform: rotate(12deg);
+}
+
+/* くま */
+.avatar.bear .ear {
+  top: -3px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+.avatar.bear .ear.left {
+  left: -4px;
+}
+
+.avatar.bear .ear.right {
+  right: -4px;
+}
+
+/* もち */
+.avatar.mochi {
+  border-radius: 42% 48% 45% 50%;
+}
+
+.avatar.mochi .ear {
+  display: none;
+}
+
+.avatar-options,
+.color-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 10px 0 14px;
+}
+
+.avatarTypeBtn {
+  background: white;
+  color: #333;
+}
+
+.avatarTypeBtn.selected {
+  outline: 3px solid #edcf72;
+}
+
+.colorBtn {
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border-radius: 50%;
+  border: 3px solid white;
+}
+
+.colorBtn.pink {
+  background: #ffd6e7;
+}
+
+.colorBtn.cream {
+  background: #ffe8bd;
+}
+
+.colorBtn.mint {
+  background: #c9f5df;
+}
+
+.colorBtn.blue {
+  background: #cfe6ff;
+}
+
+.colorBtn.purple {
+  background: #e5d4ff;
+}
+
+.colorBtn.brown {
+  background: #d8b08c;
+}
+
+.colorBtn.selected {
+  outline: 3px solid #edcf72;
+}
+
+.ranking-user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ranking-avatar {
+  transform: scale(0.45);
+  transform-origin: center;
+  flex: 0 0 36px;
+  margin: -18px;
+}
