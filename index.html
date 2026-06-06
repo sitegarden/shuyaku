@@ -30,15 +30,19 @@
     <div id="gameList"></div>
   </section>
 
-  <section id="gameScreen" class="screen">
-    <div class="screen-header">
-      <button id="backHomeBtn">←</button>
-      <h2 id="gameTitle"></h2>
-      <button id="openRankingBtn">ランキング</button>
-    </div>
+ <section id="gameScreen" class="screen">
+  <div id="gameContainer"></div>
+</section>
 
-    <div id="gameContainer"></div>
-  </section>
+<section id="rankingScreen" class="screen">
+  <div class="tabs">
+    <button data-period="week">今週</button>
+    <button data-period="month">今月</button>
+    <button data-period="all">全体</button>
+  </div>
+
+  <div id="rankingArea"></div>
+</section>
 
   <section id="rankingScreen" class="screen">
     <div class="screen-header">
