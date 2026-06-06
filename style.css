@@ -2017,3 +2017,367 @@ body.is-game-screen #board {
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: transparent;
 }
+
+/* =========================
+   shuyaku.me 公開前 レイアウト調整
+========================= */
+
+:root {
+  --app-bg: #f7f2e8;
+  --app-dark: #2f2929;
+  --app-text: #352d2d;
+  --app-muted: #7d6f67;
+  --app-card: rgba(255, 255, 255, 0.88);
+  --app-accent: #9b836b;
+  --app-accent-dark: #6f5c4c;
+  --app-line: rgba(80, 60, 48, 0.12);
+}
+
+html {
+  background: var(--app-bg);
+}
+
+body {
+  background:
+    radial-gradient(circle at 12% 22%, rgba(255, 214, 231, 0.42) 0 90px, transparent 92px),
+    radial-gradient(circle at 92% 28%, rgba(201, 245, 223, 0.36) 0 86px, transparent 88px),
+    linear-gradient(180deg, #fbf7ee 0%, var(--app-bg) 100%);
+  color: var(--app-text);
+}
+
+/* ヘッダーをコンパクトに上品寄りへ */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  padding: 12px 16px 10px;
+  background: rgba(47, 41, 41, 0.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.top-bar {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 88px;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-title {
+  grid-column: 2;
+  min-width: 0;
+  text-align: center;
+}
+
+.header-title h1 {
+  margin: 0;
+  font-size: 23px;
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.header-title p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  line-height: 1.35;
+  opacity: 0.82;
+}
+
+#headerUserArea {
+  margin-top: 6px;
+  font-size: 12px;
+  opacity: 0.86;
+}
+
+#headerBackBtn,
+#headerActionBtn {
+  min-height: 38px;
+  padding: 7px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  background: var(--app-accent);
+}
+
+#headerBackBtn {
+  grid-column: 1;
+}
+
+#headerActionBtn {
+  grid-column: 3;
+}
+
+/* メイン余白 */
+main {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.screen {
+  min-height: calc(100dvh - 150px);
+  padding: 26px 18px calc(112px + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+}
+
+.screen.active {
+  display: block;
+}
+
+/* ホーム画面 */
+#homeScreen {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0;
+  background:
+    radial-gradient(circle at 16% 20%, rgba(255, 214, 231, 0.5) 0 74px, transparent 76px),
+    radial-gradient(circle at 90% 22%, rgba(201, 245, 223, 0.48) 0 70px, transparent 72px),
+    radial-gradient(circle at 20% 92%, rgba(207, 230, 255, 0.36) 0 78px, transparent 80px);
+}
+
+#homeScreen h2 {
+  margin: 0 0 8px;
+  color: var(--app-text);
+  font-size: 34px;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+}
+
+#homeScreen h2::after {
+  content: "";
+  display: block;
+  width: 44px;
+  height: 5px;
+  margin: 16px auto 0;
+  border-radius: 999px;
+  background: var(--app-accent);
+}
+
+/* ゲーム一覧 */
+#gameList {
+  width: 100%;
+  max-width: 560px;
+  margin: 34px auto 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+.game-card {
+  position: relative;
+  min-height: 138px;
+  padding: 24px 24px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  border-radius: 26px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 248, 234, 0.86));
+  box-shadow:
+    0 16px 34px rgba(70, 50, 38, 0.13),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.72);
+  color: var(--app-text);
+  text-align: left;
+  overflow: hidden;
+  transform: translateY(0);
+  transition:
+    transform 0.16s ease,
+    box-shadow 0.16s ease,
+    border-color 0.16s ease;
+}
+
+.game-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(237, 207, 114, 0.92);
+  box-shadow:
+    0 20px 40px rgba(70, 50, 38, 0.18),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.72);
+}
+
+.game-card::before {
+  content: "";
+  position: absolute;
+  right: -50px;
+  top: -56px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(255, 214, 231, 0.96) 0 56%, rgba(255, 232, 189, 0.72) 57% 100%);
+}
+
+.game-card::after {
+  content: "PLAY";
+  position: absolute;
+  right: 20px;
+  bottom: 18px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: var(--app-dark);
+  color: white;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+}
+
+.game-card strong {
+  position: relative;
+  z-index: 1;
+  display: block;
+  margin: 0 0 10px;
+  color: var(--app-text);
+  font-size: 34px;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.game-card span {
+  position: relative;
+  z-index: 1;
+  display: block;
+  max-width: calc(100% - 88px);
+  color: var(--app-muted);
+  font-size: 16px;
+  line-height: 1.65;
+  font-weight: 700;
+}
+
+/* ゲームカードの絵文字を無効化 */
+.game-card strong::before {
+  content: "";
+  display: block;
+  width: 42px;
+  height: 42px;
+  margin: 0 0 14px;
+  border-radius: 15px;
+  background:
+    linear-gradient(135deg, #ffd6e7, #ffe8bd 55%, #edcf72);
+  box-shadow:
+    inset 0 -5px 0 rgba(0, 0, 0, 0.08),
+    0 8px 18px rgba(70, 50, 38, 0.18);
+}
+
+/* 下ナビ */
+.bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  height: calc(84px + env(safe-area-inset-bottom));
+  padding: 12px 18px calc(12px + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  background: rgba(47, 41, 41, 0.98);
+  box-shadow: 0 -10px 26px rgba(0, 0, 0, 0.18);
+}
+
+.bottom-nav button {
+  flex: 1;
+  max-width: 190px;
+  min-width: 0;
+  min-height: 56px;
+  border-radius: 18px;
+  font-size: 17px;
+  background: var(--app-accent);
+}
+
+/* ランキング・プロフィールなどのカード余白 */
+.profile-box,
+.ranking-item {
+  box-shadow: 0 14px 30px rgba(70, 50, 38, 0.12);
+}
+
+/* ゲーム画面では下ナビを消す */
+body.is-game-screen .bottom-nav {
+  display: none;
+}
+
+body.is-game-screen .screen {
+  padding-bottom: 24px;
+}
+
+/* スマホ最適化 */
+@media (max-width: 600px) {
+  header {
+    padding: 10px 12px 9px;
+  }
+
+  .top-bar {
+    grid-template-columns: 42px minmax(0, 1fr) 82px;
+    gap: 7px;
+  }
+
+  .header-title h1 {
+    font-size: 21px;
+  }
+
+  .header-title p {
+    font-size: 11px;
+  }
+
+  #headerUserArea {
+    font-size: 11px;
+  }
+
+  #headerBackBtn,
+  #headerActionBtn {
+    min-height: 36px;
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+
+  .screen {
+    padding: 24px 18px calc(112px + env(safe-area-inset-bottom));
+  }
+
+  #homeScreen h2 {
+    font-size: 31px;
+  }
+
+  #gameList {
+    max-width: none;
+    margin-top: 30px;
+    gap: 18px;
+  }
+
+  .game-card {
+    min-height: 142px;
+    padding: 24px 24px 22px;
+    border-radius: 26px;
+  }
+
+  .game-card strong {
+    font-size: 34px;
+  }
+
+  .game-card span {
+    max-width: calc(100% - 74px);
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
+  .game-card::before {
+    right: -52px;
+    top: -54px;
+    width: 150px;
+    height: 150px;
+  }
+
+  .game-card::after {
+    right: 18px;
+    bottom: 18px;
+    font-size: 12px;
+  }
+
+  .bottom-nav {
+    height: calc(84px + env(safe-area-inset-bottom));
+    padding: 12px 18px calc(12px + env(safe-area-inset-bottom));
+  }
+
+  .bottom-nav button {
+    min-height: 56px;
+    font-size: 17px;
+  }
+}
