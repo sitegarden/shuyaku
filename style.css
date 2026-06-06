@@ -1545,15 +1545,15 @@ body.is-game-screen #board {
   justify-content: center;
   box-shadow:
     inset 0 -5px 0 rgba(0, 0, 0, 0.08);
-  transition:
-    transform 0.08s ease,
-    filter 0.08s ease;
+  transition: none;
   touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .taprush-cell.hit {
-  transform: scale(0.94);
-  filter: brightness(1.05);
+  filter: brightness(1.08);
 }
 
 .taprush-symbol {
