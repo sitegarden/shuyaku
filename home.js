@@ -64,8 +64,51 @@ function showScreen(name) {
   });
 
   screens[name].classList.add("active");
-}
 
+  if (name === "home") {
+    setHeader({
+      title: "Mini Game Arena",
+      subtitle: "好きなゲームを選んでスコアを競え",
+      showBack: false,
+      actionText: ""
+    });
+  }
+
+  if (name === "game") {
+    setHeader({
+      title: gameTitle.textContent || "ゲーム",
+      subtitle: "スコアを狙え",
+      showBack: true,
+      actionText: "ランキング",
+      onBack: () => showScreen("home"),
+      onAction: async () => {
+        if (!currentGameId) return;
+        showScreen("ranking");
+        await showRanking(currentGameId, "week");
+      }
+    });
+  }
+
+  if (name === "ranking") {
+    setHeader({
+      title: "ランキング",
+      subtitle: gameTitle.textContent || "",
+      showBack: true,
+      actionText: "",
+      onBack: () => showScreen("game")
+    });
+  }
+
+  if (name === "profile") {
+    setHeader({
+      title: "プロフィール",
+      subtitle: "名前とアイコンを設定",
+      showBack: true,
+      actionText: "",
+      onBack: () => showScreen("home")
+    });
+  }
+}
 document.getElementById("backHomeBtn").onclick = () => {
   showScreen("home");
 };
@@ -92,3 +135,28 @@ document.getElementById("navProfileBtn").onclick = () => {
 document.getElementById("backHomeFromProfileBtn").onclick = () => {
   showScreen("home");
 };
+
+const headerBackBtn = document.getElementById("headerBackBtn");
+const headerActionBtn = document.getElementById("headerActionBtn");
+const headerTitle = document.getElementById("headerTitle");
+const headerSubtitle = document.getElementById("headerSubtitle");
+
+function setHeader({
+  title,
+  subtitle = "",
+  showBack = false,
+  actionText = "",
+  onBack = null,
+  onAction = null
+}) {
+  headerTitle.textContent = title;
+  headerSubtitle.textContent = subtitle;
+
+  headerBackBtn.classList.toggle("hidden", !showBack);
+  headerActionBtn.classList.toggle("hidden", !actionText);
+
+  headerActionBtn.textContent = actionText || "";
+
+  headerBackBtn.onclick = onBack;
+  headerActionBtn.onclick = onAction;
+}
