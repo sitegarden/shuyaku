@@ -41,7 +41,6 @@ gameContainer.innerHTML = `
 const timeEl = document.getElementById("taprushTime");
 const scoreEl = document.getElementById("taprushScore");
 const messageEl = document.getElementById("taprushMessage");
-const boardEl = document.getElementById("taprushBoard");
 const startBtn = document.getElementById("taprushStartBtn");
 const cells = document.querySelectorAll(".taprush-cell");
 
@@ -164,30 +163,35 @@ function getRandomCellData() {
   return CELL_TYPES[2];
 }
 
+function tapCell(cell) {
+  if (!playing) {
+    return;
+  }
+
+  const index = Number(cell.dataset.index);
+  const value = values[index];
+
+  score += value;
+
+  if (score < 0) {
+    score = 0;
+  }
+
+  scoreEl.textContent = score;
+
+  cell.classList.add("hit");
+
+  requestAnimationFrame(() => {
+    cell.classList.remove("hit");
+    updateBoard();
+  });
+}
+
 cells.forEach(cell => {
-  cell.onclick = () => {
-    if (!playing) {
-      return;
-    }
-
-    const index = Number(cell.dataset.index);
-    const value = values[index];
-
-    score += value;
-
-    if (score < 0) {
-      score = 0;
-    }
-
-    scoreEl.textContent = score;
-
-    cell.classList.add("hit");
-
-    setTimeout(() => {
-      cell.classList.remove("hit");
-      updateBoard();
-    }, 80);
-  };
+  cell.addEventListener("pointerdown", event => {
+    event.preventDefault();
+    tapCell(cell);
+  });
 });
 
 startBtn.onclick = () => {
