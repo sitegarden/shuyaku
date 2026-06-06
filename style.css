@@ -1987,3 +1987,33 @@ body.is-game-screen #board {
     font-size: 11px;
   }
 }
+
+
+/* =========================
+   sunvader 長押しメニュー対策
+========================= */
+
+.sunvader-field,
+.sunvader-field *,
+.sunvader-control,
+.sunvader-player,
+.sunvader-object,
+.sun,
+.monster {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sunvader-field {
+  touch-action: none;
+  overscroll-behavior: contain;
+}
+
+.sunvader-control {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
