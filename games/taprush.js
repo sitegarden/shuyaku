@@ -9,7 +9,7 @@ gameContainer.innerHTML = `
     <div class="taprush-status">
       <div class="taprush-status-card">
         <span class="taprush-label">TIME</span>
-        <strong id="taprushTime">25</strong>
+        <strong id="taprushTime">30</strong>
       </div>
 
       <div class="taprush-status-card">
@@ -44,7 +44,7 @@ const messageEl = document.getElementById("taprushMessage");
 const startBtn = document.getElementById("taprushStartBtn");
 const cells = document.querySelectorAll(".taprush-cell");
 
-let timer = 25;
+let timer = 30;
 let score = 0;
 let values = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 let playing = false;
