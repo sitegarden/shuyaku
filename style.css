@@ -549,11 +549,10 @@ main {
 
 .top-bar {
   display: grid;
-  grid-template-columns: 56px 1fr 96px;
+  grid-template-columns: 56px minmax(0, 1fr) 96px;
   align-items: center;
   gap: 8px;
 }
-
 .header-title h1 {
   margin: 0;
   font-size: 26px;
@@ -577,19 +576,44 @@ main {
 
 @media (max-width: 520px) {
   .top-bar {
-    grid-template-columns: 48px 1fr 84px;
+    grid-template-columns: 48px minmax(0, 1fr) 84px;
   }
 
   .header-title h1 {
     font-size: 22px;
+    white-space: nowrap;
   }
 
   .header-title p {
     font-size: 12px;
+    line-height: 1.4;
   }
 
   #headerActionBtn {
     font-size: 12px;
     padding: 9px 8px;
   }
+}
+
+#headerBackBtn {
+  grid-column: 1;
+}
+
+.header-title {
+  grid-column: 2;
+  min-width: 0;
+  text-align: center;
+}
+
+#headerActionBtn {
+  grid-column: 3;
+}
+
+.header-title h1 {
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.header-title p {
+  line-height: 1.4;
 }
