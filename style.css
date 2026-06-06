@@ -325,19 +325,54 @@ main {
 
 /* ねこ */
 .avatar.cat .ear {
-  top: -8px;
-  width: 24px;
-  height: 24px;
-  border-radius: 8px 8px 4px 4px;
-  transform: rotate(45deg);
+  top: -10px;
+  width: 28px;
+  height: 28px;
+  background: var(--avatar-bg);
+  border-radius: 6px 70% 6px 70%;
+  box-shadow: inset -4px -4px 0 rgba(0, 0, 0, 0.08);
 }
 
 .avatar.cat .ear.left {
-  left: 9px;
+  left: 5px;
+  transform: rotate(-18deg);
 }
 
 .avatar.cat .ear.right {
-  right: 9px;
+  right: 5px;
+  transform: rotate(108deg);
+}
+
+.avatar.cat .ear::after {
+  content: "";
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  left: 7px;
+  top: 7px;
+  background: rgba(255, 255, 255, 0.38);
+  border-radius: 4px 70% 4px 70%;
+}
+
+.avatar.cat .face::before,
+.avatar.cat .face::after {
+  content: "";
+  position: absolute;
+  top: 42px;
+  width: 18px;
+  height: 1.8px;
+  background: rgba(59, 47, 47, 0.55);
+  box-shadow: 0 6px 0 rgba(59, 47, 47, 0.45);
+}
+
+.avatar.cat .face::before {
+  left: 10px;
+  transform: rotate(8deg);
+}
+
+.avatar.cat .face::after {
+  right: 10px;
+  transform: rotate(-8deg);
 }
 
 /* うさぎ */
