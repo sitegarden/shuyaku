@@ -1233,3 +1233,234 @@ body.is-game-screen #board {
   flex: 0 0 72px;
   text-align: right;
 }
+
+/* =========================
+   ランキング用ミニアイコン修正
+   スマホ用 .avatar の上書き対策
+========================= */
+
+.ranking-item {
+  width: 100%;
+  max-width: 380px;
+  min-height: 74px;
+  box-sizing: border-box;
+  margin: 10px auto;
+  padding: 14px 16px;
+  background: white;
+  border-radius: 16px;
+  display: grid;
+  grid-template-columns: 52px 1fr 78px;
+  align-items: center;
+  gap: 10px;
+}
+
+.ranking-item > span:first-child {
+  text-align: left;
+  font-size: 22px;
+}
+
+.ranking-item > span:nth-child(2) {
+  min-width: 0;
+}
+
+.ranking-item > span:last-child {
+  text-align: right;
+  font-size: 22px;
+}
+
+.ranking-user {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  min-width: 0;
+  font-size: 22px;
+}
+
+.ranking-avatar,
+.avatar.ranking-avatar {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  margin: 0;
+  transform: none;
+  border-radius: 50%;
+  box-shadow:
+    inset 0 -3px 0 rgba(0, 0, 0, 0.08),
+    0 3px 8px rgba(0, 0, 0, 0.12);
+}
+
+.ranking-avatar .face {
+  position: absolute;
+  inset: 0;
+}
+
+.ranking-avatar .eye,
+.avatar.ranking-avatar .eye {
+  top: 18px;
+  width: 4px;
+  height: 6px;
+  border-radius: 50%;
+  background: #3b2f2f;
+}
+
+.ranking-avatar .eye.left,
+.avatar.ranking-avatar .eye.left {
+  left: 14px;
+}
+
+.ranking-avatar .eye.right,
+.avatar.ranking-avatar .eye.right {
+  right: 14px;
+}
+
+.ranking-avatar .mouth,
+.avatar.ranking-avatar .mouth {
+  top: 27px;
+  width: 9px;
+  height: 5px;
+  border-bottom: 2px solid #3b2f2f;
+}
+
+.ranking-avatar .ear,
+.avatar.ranking-avatar .ear {
+  position: absolute;
+  background: var(--avatar-bg);
+}
+
+/* ランキング用ねこ */
+.ranking-avatar.cat .ear,
+.avatar.ranking-avatar.cat .ear {
+  top: -5px;
+  width: 15px;
+  height: 15px;
+  border-radius: 4px 70% 4px 70%;
+  box-shadow: inset -2px -2px 0 rgba(0, 0, 0, 0.08);
+}
+
+.ranking-avatar.cat .ear.left,
+.avatar.ranking-avatar.cat .ear.left {
+  left: 4px;
+  transform: rotate(-18deg);
+}
+
+.ranking-avatar.cat .ear.right,
+.avatar.ranking-avatar.cat .ear.right {
+  right: 4px;
+  transform: rotate(108deg);
+}
+
+.ranking-avatar.cat .ear::after,
+.avatar.ranking-avatar.cat .ear::after {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  left: 4px;
+  top: 4px;
+  background: rgba(255, 255, 255, 0.38);
+  border-radius: 3px 70% 3px 70%;
+}
+
+.ranking-avatar.cat .face::before,
+.ranking-avatar.cat .face::after,
+.avatar.ranking-avatar.cat .face::before,
+.avatar.ranking-avatar.cat .face::after {
+  content: "";
+  position: absolute;
+  top: 25px;
+  width: 8px;
+  height: 1px;
+  background: rgba(59, 47, 47, 0.5);
+  box-shadow: 0 3px 0 rgba(59, 47, 47, 0.4);
+}
+
+.ranking-avatar.cat .face::before,
+.avatar.ranking-avatar.cat .face::before {
+  left: 6px;
+  transform: rotate(8deg);
+}
+
+.ranking-avatar.cat .face::after,
+.avatar.ranking-avatar.cat .face::after {
+  right: 6px;
+  transform: rotate(-8deg);
+}
+
+/* ランキング用うさぎ */
+.ranking-avatar.rabbit .ear,
+.avatar.ranking-avatar.rabbit .ear {
+  top: -14px;
+  width: 9px;
+  height: 23px;
+  border-radius: 50% 50% 40% 40%;
+}
+
+.ranking-avatar.rabbit .ear.left,
+.avatar.ranking-avatar.rabbit .ear.left {
+  left: 10px;
+  transform: rotate(-12deg);
+}
+
+.ranking-avatar.rabbit .ear.right,
+.avatar.ranking-avatar.rabbit .ear.right {
+  right: 10px;
+  transform: rotate(12deg);
+}
+
+/* ランキング用くま */
+.ranking-avatar.bear .ear,
+.avatar.ranking-avatar.bear .ear {
+  top: -2px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+}
+
+.ranking-avatar.bear .ear.left,
+.avatar.ranking-avatar.bear .ear.left {
+  left: -2px;
+}
+
+.ranking-avatar.bear .ear.right,
+.avatar.ranking-avatar.bear .ear.right {
+  right: -2px;
+}
+
+/* ランキング用まる・もち */
+.ranking-avatar.round .ear,
+.avatar.ranking-avatar.round .ear,
+.ranking-avatar.mochi .ear,
+.avatar.ranking-avatar.mochi .ear {
+  display: none;
+}
+
+.ranking-avatar.mochi,
+.avatar.ranking-avatar.mochi {
+  border-radius: 42% 48% 45% 50%;
+}
+
+@media (max-width: 600px) {
+  .ranking-item {
+    max-width: none;
+    min-height: 78px;
+    grid-template-columns: 54px 1fr 82px;
+    padding: 14px 16px;
+  }
+
+  .ranking-avatar,
+  .avatar.ranking-avatar {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+  }
+
+  .ranking-user {
+    font-size: 22px;
+  }
+
+  .ranking-item > span:first-child,
+  .ranking-item > span:last-child {
+    font-size: 22px;
+  }
+}
