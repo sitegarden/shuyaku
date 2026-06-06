@@ -29,6 +29,8 @@ GAMES.forEach(game => {
   gameList.appendChild(card);
 });
 
+let currentGameTitle = "";
+
 async function startGame(game) {
   currentGameId = game.id;
 
@@ -67,7 +69,7 @@ function showScreen(name) {
 
   if (name === "home") {
     setHeader({
-      title: "Mini Game Arena",
+      title: currentGameTitle || "ゲーム"
       subtitle: "好きなゲームを選んでスコアを競え",
       showBack: false,
       actionText: ""
