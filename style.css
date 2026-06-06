@@ -1,0 +1,154 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: #f5f1e8;
+  color: #333;
+  text-align: center;
+}
+
+header {
+  padding: 24px;
+  background: #2f2a2a;
+  color: white;
+}
+
+input {
+  display: block;
+  width: 260px;
+  margin: 8px auto;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+button {
+  padding: 10px 16px;
+  margin: 4px;
+  border: none;
+  border-radius: 8px;
+  background: #8f7a66;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.85;
+}
+
+.hidden {
+  display: none;
+}
+
+main {
+  max-width: 900px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+#gameList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.game-card {
+  min-height: 120px;
+  background: white;
+  color: #333;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.game-card strong {
+  display: block;
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+.game-card span {
+  display: block;
+  font-size: 14px;
+}
+
+.score-box {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+#board {
+  width: 320px;
+  height: 320px;
+  margin: 20px auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  background: #bbada0;
+  padding: 8px;
+  border-radius: 10px;
+}
+
+.cell {
+  width: 68px;
+  height: 68px;
+  background: #cdc1b4;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.cell[data-value="2"] {
+  background: #eee4da;
+}
+
+.cell[data-value="4"] {
+  background: #ede0c8;
+}
+
+.cell[data-value="8"] {
+  background: #f2b179;
+  color: white;
+}
+
+.cell[data-value="16"] {
+  background: #f59563;
+  color: white;
+}
+
+.cell[data-value="32"] {
+  background: #f67c5f;
+  color: white;
+}
+
+.cell[data-value="64"] {
+  background: #f65e3b;
+  color: white;
+}
+
+.cell[data-value="128"],
+.cell[data-value="256"],
+.cell[data-value="512"],
+.cell[data-value="1024"],
+.cell[data-value="2048"] {
+  background: #edcf72;
+  color: white;
+  font-size: 22px;
+}
+
+.ranking-item {
+  width: 320px;
+  margin: 8px auto;
+  padding: 12px;
+  background: white;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+}
