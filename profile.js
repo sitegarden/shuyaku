@@ -83,35 +83,39 @@ saveProfileBtn.onclick = async () => {
   const user = auth.currentUser;
 
   if (!user) {
-    alert("ログインしてから保存してくれ");
+    alert("ログインしてから保存してね");
     return;
   }
 
   const displayName = nicknameInput.value.trim();
 
   if (!displayName) {
-    alert("ニックネームを入れてくれ");
+    alert("ニックネームを入れてね");
     return;
   }
 
   if (displayName.length > 16) {
-    alert("ニックネームは16文字以内にしてくれ");
+    alert("ニックネームは16文字以内にしてね");
     return;
   }
 
-  await updateProfile(user, {
-    displayName
-  });
+  try {
+    await updateProfile(user, {
+      displayName
+    });
 
-  await setDoc(doc(db, "users", user.uid), {
-    displayName,
-    iconType: currentType,
-    iconColor: currentColor,
-    email: user.email || "",
-    updatedAt: serverTimestamp()
-  }, { merge: true });
+    await setDoc(doc(db, "users", user.uid), {
+      displayName,
+      iconType: currentType,
+      iconColor: currentColor,
+      updatedAt: serverTimestamp()
+    }, { merge: true });
 
-  alert("プロフィールを保存した");
+    alert("プロフィールを保存したよ");
+  } catch (error) {
+    console.error(error);
+    alert(`プロフィール保存エラー: ${error.message}`);
+  }
 };
 
 function updateSelectedButtons() {
