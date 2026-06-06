@@ -60,13 +60,61 @@
   </section>
 
   <section id="profileScreen" class="screen">
-    <div class="screen-header">
-      <button id="backHomeFromProfileBtn">←</button>
-      <h2>プロフィール</h2>
+  <div id="loginArea" class="profile-box">
+    <h2>ログイン</h2>
+
+    <input id="emailInput" type="email" placeholder="メールアドレス">
+    <input id="passwordInput" type="password" placeholder="パスワード">
+    <input id="displayNameInput" type="text" placeholder="表示名 ※新規登録時">
+
+    <button id="registerBtn">新規登録</button>
+    <button id="emailLoginBtn">メールでログイン</button>
+    <button id="googleLoginBtn">Googleでログイン</button>
+  </div>
+
+  <section id="profileArea" class="hidden profile-box">
+    <h2>プロフィール</h2>
+
+    <input id="nicknameInput" type="text" placeholder="ニックネーム">
+
+    <p class="profile-label">アイコン</p>
+
+    <div class="avatar-preview">
+      <div id="avatarPreview" class="avatar cat pink">
+        <span class="ear left"></span>
+        <span class="ear right"></span>
+        <span class="face">
+          <span class="eye left"></span>
+          <span class="eye right"></span>
+          <span class="mouth"></span>
+        </span>
+      </div>
     </div>
 
-    <!-- ここにプロフィール欄を入れる -->
+    <div class="avatar-options">
+      <button class="avatarTypeBtn" data-type="round">まる</button>
+      <button class="avatarTypeBtn" data-type="cat">ねこ</button>
+      <button class="avatarTypeBtn" data-type="rabbit">うさぎ</button>
+      <button class="avatarTypeBtn" data-type="bear">くま</button>
+      <button class="avatarTypeBtn" data-type="mochi">もち</button>
+    </div>
+
+    <p class="profile-label">カラー</p>
+
+    <div class="color-options">
+      <button class="colorBtn pink" data-color="pink"></button>
+      <button class="colorBtn cream" data-color="cream"></button>
+      <button class="colorBtn mint" data-color="mint"></button>
+      <button class="colorBtn blue" data-color="blue"></button>
+      <button class="colorBtn purple" data-color="purple"></button>
+      <button class="colorBtn brown" data-color="brown"></button>
+    </div>
+
+    <button id="saveProfileBtn">プロフィール保存</button>
   </section>
+
+  <button id="logoutBtn" class="hidden">ログアウト</button>
+</section>
 
 </main>
 
