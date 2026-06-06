@@ -90,7 +90,7 @@ saveProfileBtn.onclick = async () => {
   const displayName = nicknameInput.value.trim();
 
   if (!displayName) {
-    alert("ニックネームを入れてね");
+    alert("ニックネームを入力してね");
     return;
   }
 
