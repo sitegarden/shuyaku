@@ -68,33 +68,53 @@
       <button id="logoutBtn" class="hidden">ログアウト</button>
     </div>
   </header>
+<main>
 
-  <main>
+  <section id="homeScreen" class="screen active">
+    <h2>ゲームを選ぶ</h2>
+    <div id="gameList"></div>
+  </section>
 
-    <section id="gameSelect">
-      <h2>ゲームを選ぶ</h2>
-      <div id="gameList"></div>
-    </section>
-
-    <section id="gameArea" class="hidden">
-      <button id="backBtn">← ゲーム一覧に戻る</button>
+  <section id="gameScreen" class="screen">
+    <div class="screen-header">
+      <button id="backHomeBtn">←</button>
       <h2 id="gameTitle"></h2>
-      <div id="gameContainer"></div>
-    </section>
+      <button id="openRankingBtn">ランキング</button>
+    </div>
 
-    <section id="rankingSection" class="hidden">
+    <div id="gameContainer"></div>
+  </section>
+
+  <section id="rankingScreen" class="screen">
+    <div class="screen-header">
+      <button id="backGameBtn">←</button>
       <h2>ランキング</h2>
+    </div>
 
-      <div class="tabs">
-        <button data-period="week">今週</button>
-        <button data-period="month">今月</button>
-        <button data-period="all">全体</button>
-      </div>
+    <div class="tabs">
+      <button data-period="week">今週</button>
+      <button data-period="month">今月</button>
+      <button data-period="all">全体</button>
+    </div>
 
-      <div id="rankingArea"></div>
-    </section>
+    <div id="rankingArea"></div>
+  </section>
 
-  </main>
+  <section id="profileScreen" class="screen">
+    <div class="screen-header">
+      <button id="backHomeFromProfileBtn">←</button>
+      <h2>プロフィール</h2>
+    </div>
+
+    <!-- ここにプロフィール欄を入れる -->
+  </section>
+
+</main>
+
+<nav class="bottom-nav">
+  <button id="navHomeBtn">ホーム</button>
+  <button id="navProfileBtn">プロフィール</button>
+</nav>
 
   <script type="module" src="auth.js"></script>
   <script type="module" src="profile.js"></script>
