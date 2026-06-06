@@ -37,36 +37,49 @@ function getMonthKey(date = new Date()) {
 export async function submitScore(gameId, score) {
   const user = auth.currentUser;
 
+  console.log("スコア送信チェック", {
+    gameId,
+    score,
+    user
+  });
+
   if (!user) {
     alert("ゲストプレイなのでランキングには保存されません。ログインすると記録できます。");
     return;
   }
 
-  const profile = await getUserProfile(user.uid);
+  try {
+    const profile = await getUserProfile(user.uid);
 
-  const playerId = user.uid;
-  const name = profile.displayName || user.displayName || "名無し";
-  const iconType = profile.iconType || "cat";
-  const iconColor = profile.iconColor || "pink";
+    const playerId = user.uid;
+    const name = profile.displayName || user.displayName || "名無し";
+    const iconType = profile.iconType || "cat";
+    const iconColor = profile.iconColor || "pink";
 
-  const weekKey = getWeekKey();
-  const monthKey = getMonthKey();
+    const weekKey = getWeekKey();
+    const monthKey = getMonthKey();
 
-  await addDoc(collection(db, "scores"), {
-    playerId,
-    name,
-    iconType,
-    iconColor,
-    gameId,
-    score,
-    weekKey,
-    monthKey,
-    createdAt: serverTimestamp()
-  });
+    await addDoc(collection(db, "scores"), {
+      playerId,
+      name,
+      iconType,
+      iconColor,
+      gameId,
+      score,
+      weekKey,
+      monthKey,
+      createdAt: serverTimestamp()
+    });
 
-  await updateBestScore(gameId, playerId, name, iconType, iconColor, score, "week", weekKey);
-  await updateBestScore(gameId, playerId, name, iconType, iconColor, score, "month", monthKey);
-  await updateBestScore(gameId, playerId, name, iconType, iconColor, score, "all", "all");
+    await updateBestScore(gameId, playerId, name, iconType, iconColor, score, "week", weekKey);
+    await updateBestScore(gameId, playerId, name, iconType, iconColor, score, "month", monthKey);
+    await updateBestScore(gameId, playerId, name, iconType, iconColor, score, "all", "all");
+
+    console.log("ランキング保存完了");
+  } catch (error) {
+    console.error("ランキング保存エラー:", error);
+    alert(`ランキング保存エラー: ${error.message}`);
+  }
 }
 
 async function getUserProfile(uid) {
@@ -84,12 +97,25 @@ async function updateBestScore(gameId, playerId, name, iconType, iconColor, scor
   const boardId = `${gameId}_${period}_${periodKey}`;
   const entryRef = doc(db, "leaderboards", boardId, "entries", playerId);
 
+  console.log("ベスト更新チェック", {
+    boardId,
+    playerId,
+    score,
+    period,
+    periodKey
+  });
+
   const snap = await getDoc(entryRef);
 
   if (snap.exists()) {
     const oldScore = snap.data().score;
 
     if (oldScore >= score) {
+      console.log("既存スコアの方が高いので更新しません", {
+        oldScore,
+        score
+      });
+
       return;
     }
   }
@@ -104,6 +130,12 @@ async function updateBestScore(gameId, playerId, name, iconType, iconColor, scor
     period,
     periodKey,
     updatedAt: serverTimestamp()
+  });
+
+  console.log("ベスト更新完了", {
+    boardId,
+    playerId,
+    score
   });
 }
 
@@ -120,6 +152,13 @@ export async function getRanking(gameId, period) {
 
   const boardId = `${gameId}_${period}_${periodKey}`;
 
+  console.log("ランキング取得", {
+    gameId,
+    period,
+    periodKey,
+    boardId
+  });
+
   const q = query(
     collection(db, "leaderboards", boardId, "entries"),
     orderBy("score", "desc"),
@@ -135,10 +174,10 @@ export async function getRanking(gameId, period) {
   }));
 }
 
-export async function showRanking(period = "week") {
+export async function showRanking(gameId, period = "week") {
   const rankingArea = document.getElementById("rankingArea");
 
-  const ranking = await getRanking("2048", period);
+  const ranking = await getRanking(gameId, period);
 
   if (ranking.length === 0) {
     rankingArea.innerHTML = "<p>まだランキングはありません</p>";
@@ -146,24 +185,18 @@ export async function showRanking(period = "week") {
   }
 
   rankingArea.innerHTML = ranking.map(item => `
-  <div class="ranking-item">
-    <span>${item.rank}位</span>
+    <div class="ranking-item">
+      <span>${item.rank}位</span>
 
-    <span class="ranking-user">
-      ${createAvatarHtml(item.iconType || "cat", item.iconColor || "pink")}
-      ${escapeHtml(item.name)}
-    </span>
+      <span class="ranking-user">
+        ${createAvatarHtml(item.iconType || "cat", item.iconColor || "pink")}
+        ${escapeHtml(item.name)}
+      </span>
 
-    <span>${item.score}</span>
-  </div>
-`).join("");
+      <span>${item.score}</span>
+    </div>
+  `).join("");
 }
-
-document.querySelectorAll(".tabs button").forEach(button => {
-  button.onclick = () => {
-    showRanking(button.dataset.period);
-  };
-});
 
 function createAvatarHtml(type, color) {
   return `
@@ -179,4 +212,11 @@ function createAvatarHtml(type, color) {
   `;
 }
 
-showRanking("week");
+function escapeHtml(text) {
+  return String(text)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
