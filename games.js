@@ -1,7 +1,5 @@
 // games.js
 
-// games.js
-
 export const GAMES = [
   {
     id: "2048",
@@ -14,5 +12,11 @@ export const GAMES = [
     title: "Tap Rush",
     description: "30秒以内に高得点マスを連打する反射ゲーム",
     script: "./games/taprush.js"
+  },
+  {
+    id: "sunvader",
+    title: "sunvader",
+    description: "太陽を集めてモンスターを避けるランゲーム",
+    script: "./games/sunvader.js"
   }
 ];
