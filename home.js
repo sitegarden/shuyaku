@@ -4,14 +4,25 @@ import { GAMES } from "./games.js";
 import { showRanking } from "./ranking.js";
 
 const gameList = document.getElementById("gameList");
-const gameSelect = document.getElementById("gameSelect");
-const gameArea = document.getElementById("gameArea");
-const gameTitle = document.getElementById("gameTitle");
 const gameContainer = document.getElementById("gameContainer");
-const backBtn = document.getElementById("backBtn");
-const rankingSection = document.getElementById("rankingSection");
+
+const headerBackBtn = document.getElementById("headerBackBtn");
+const headerActionBtn = document.getElementById("headerActionBtn");
+const headerTitle = document.getElementById("headerTitle");
+const headerSubtitle = document.getElementById("headerSubtitle");
+
+const navHomeBtn = document.getElementById("navHomeBtn");
+const navProfileBtn = document.getElementById("navProfileBtn");
+
+const screens = {
+  home: document.getElementById("homeScreen"),
+  game: document.getElementById("gameScreen"),
+  ranking: document.getElementById("rankingScreen"),
+  profile: document.getElementById("profileScreen")
+};
 
 let currentGameId = null;
+let currentGameTitle = "";
 
 GAMES.forEach(game => {
   const card = document.createElement("button");
@@ -29,36 +40,16 @@ GAMES.forEach(game => {
   gameList.appendChild(card);
 });
 
-let currentGameTitle = "";
-
 async function startGame(game) {
   currentGameId = game.id;
+  currentGameTitle = game.title;
 
-  gameTitle.textContent = game.title;
   gameContainer.innerHTML = "";
 
   showScreen("game");
 
   await import(game.script);
 }
-
-backBtn.onclick = () => {
-  location.reload();
-};
-
-document.querySelectorAll(".tabs button").forEach(button => {
-  button.onclick = () => {
-    if (!currentGameId) return;
-    showRanking(currentGameId, button.dataset.period);
-  };
-});
-
-const screens = {
-  home: document.getElementById("homeScreen"),
-  game: document.getElementById("gameScreen"),
-  ranking: document.getElementById("rankingScreen"),
-  profile: document.getElementById("profileScreen")
-};
 
 function showScreen(name) {
   Object.values(screens).forEach(screen => {
@@ -69,7 +60,7 @@ function showScreen(name) {
 
   if (name === "home") {
     setHeader({
-      title: currentGameTitle || "ゲーム"
+      title: "Mini Game Arena",
       subtitle: "好きなゲームを選んでスコアを競え",
       showBack: false,
       actionText: ""
@@ -78,13 +69,14 @@ function showScreen(name) {
 
   if (name === "game") {
     setHeader({
-      title: gameTitle.textContent || "ゲーム",
+      title: currentGameTitle || "ゲーム",
       subtitle: "スコアを狙え",
       showBack: true,
       actionText: "ランキング",
       onBack: () => showScreen("home"),
       onAction: async () => {
         if (!currentGameId) return;
+
         showScreen("ranking");
         await showRanking(currentGameId, "week");
       }
@@ -94,7 +86,7 @@ function showScreen(name) {
   if (name === "ranking") {
     setHeader({
       title: "ランキング",
-      subtitle: gameTitle.textContent || "",
+      subtitle: currentGameTitle || "",
       showBack: true,
       actionText: "",
       onBack: () => showScreen("game")
@@ -111,37 +103,6 @@ function showScreen(name) {
     });
   }
 }
-document.getElementById("backHomeBtn").onclick = () => {
-  showScreen("home");
-};
-
-document.getElementById("openRankingBtn").onclick = async () => {
-  if (!currentGameId) return;
-
-  showScreen("ranking");
-  await showRanking(currentGameId, "week");
-};
-
-document.getElementById("backGameBtn").onclick = () => {
-  showScreen("game");
-};
-
-document.getElementById("navHomeBtn").onclick = () => {
-  showScreen("home");
-};
-
-document.getElementById("navProfileBtn").onclick = () => {
-  showScreen("profile");
-};
-
-document.getElementById("backHomeFromProfileBtn").onclick = () => {
-  showScreen("home");
-};
-
-const headerBackBtn = document.getElementById("headerBackBtn");
-const headerActionBtn = document.getElementById("headerActionBtn");
-const headerTitle = document.getElementById("headerTitle");
-const headerSubtitle = document.getElementById("headerSubtitle");
 
 function setHeader({
   title,
@@ -162,3 +123,20 @@ function setHeader({
   headerBackBtn.onclick = onBack;
   headerActionBtn.onclick = onAction;
 }
+
+document.querySelectorAll(".tabs button").forEach(button => {
+  button.onclick = () => {
+    if (!currentGameId) return;
+    showRanking(currentGameId, button.dataset.period);
+  };
+});
+
+navHomeBtn.onclick = () => {
+  showScreen("home");
+};
+
+navProfileBtn.onclick = () => {
+  showScreen("profile");
+};
+
+showScreen("home");
