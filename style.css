@@ -152,3 +152,64 @@ main {
   display: flex;
   justify-content: space-between;
 }
+
+@media (max-width: 520px) {
+  header {
+    padding: 18px 12px;
+  }
+
+  h1 {
+    font-size: 26px;
+  }
+
+  main {
+    margin: 16px auto;
+    padding: 0 12px;
+  }
+
+  input {
+    width: 90%;
+    max-width: 320px;
+  }
+
+  #gameList {
+    grid-template-columns: 1fr;
+  }
+
+  .game-card {
+    min-height: 96px;
+  }
+
+  .score-box {
+    gap: 14px;
+    font-size: 18px;
+  }
+
+  #board {
+    width: min(88vw, 320px);
+    height: min(88vw, 320px);
+    gap: 6px;
+    padding: 6px;
+    touch-action: none;
+  }
+
+  .cell {
+    width: auto;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    font-size: clamp(20px, 7vw, 26px);
+  }
+
+  .cell[data-value="128"],
+  .cell[data-value="256"],
+  .cell[data-value="512"],
+  .cell[data-value="1024"],
+  .cell[data-value="2048"] {
+    font-size: clamp(16px, 5.5vw, 22px);
+  }
+
+  .ranking-item {
+    width: 90%;
+    max-width: 320px;
+  }
+}
