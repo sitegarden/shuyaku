@@ -1,1 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Game Arena</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+  <header>
+    <h1>Mini Game Arena</h1>
+    <p>好きなゲームを選んでスコアを競え</p>
+
+    <div id="userArea">
+      <p id="userName">ゲストプレイ中</p>
+
+      <div id="authForm">
+        <input id="emailInput" type="email" placeholder="メールアドレス">
+        <input id="passwordInput" type="password" placeholder="パスワード">
+        <input id="displayNameInput" type="text" placeholder="表示名 ※新規登録時">
+
+        <button id="registerBtn">新規登録</button>
+        <button id="emailLoginBtn">メールでログイン</button>
+        <button id="googleLoginBtn">Googleでログイン</button>
+      </div>
+
+      <button id="logoutBtn" class="hidden">ログアウト</button>
+    </div>
+  </header>
+
+  <main>
+
+    <section id="gameSelect">
+      <h2>ゲームを選ぶ</h2>
+      <div id="gameList"></div>
+    </section>
+
+    <section id="gameArea" class="hidden">
+      <button id="backBtn">← ゲーム一覧に戻る</button>
+      <h2 id="gameTitle"></h2>
+      <div id="gameContainer"></div>
+    </section>
+
+    <section id="rankingSection" class="hidden">
+      <h2>ランキング</h2>
+
+      <div class="tabs">
+        <button data-period="week">今週</button>
+        <button data-period="month">今月</button>
+        <button data-period="all">全体</button>
+      </div>
+
+      <div id="rankingArea"></div>
+    </section>
+
+  </main>
+
+  <script type="module" src="auth.js"></script>
+  <script type="module" src="home.js"></script>
+</body>
+</html>
