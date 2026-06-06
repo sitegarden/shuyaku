@@ -32,16 +32,12 @@ GAMES.forEach(game => {
 async function startGame(game) {
   currentGameId = game.id;
 
-  gameSelect.classList.add("hidden");
-  gameArea.classList.remove("hidden");
-  rankingSection.classList.remove("hidden");
-
   gameTitle.textContent = game.title;
   gameContainer.innerHTML = "";
 
-  await import(game.script);
+  showScreen("game");
 
-  await showRanking(currentGameId, "week");
+  await import(game.script);
 }
 
 backBtn.onclick = () => {
@@ -54,3 +50,45 @@ document.querySelectorAll(".tabs button").forEach(button => {
     showRanking(currentGameId, button.dataset.period);
   };
 });
+
+const screens = {
+  home: document.getElementById("homeScreen"),
+  game: document.getElementById("gameScreen"),
+  ranking: document.getElementById("rankingScreen"),
+  profile: document.getElementById("profileScreen")
+};
+
+function showScreen(name) {
+  Object.values(screens).forEach(screen => {
+    screen.classList.remove("active");
+  });
+
+  screens[name].classList.add("active");
+}
+
+document.getElementById("backHomeBtn").onclick = () => {
+  showScreen("home");
+};
+
+document.getElementById("openRankingBtn").onclick = async () => {
+  if (!currentGameId) return;
+
+  showScreen("ranking");
+  await showRanking(currentGameId, "week");
+};
+
+document.getElementById("backGameBtn").onclick = () => {
+  showScreen("game");
+};
+
+document.getElementById("navHomeBtn").onclick = () => {
+  showScreen("home");
+};
+
+document.getElementById("navProfileBtn").onclick = () => {
+  showScreen("profile");
+};
+
+document.getElementById("backHomeFromProfileBtn").onclick = () => {
+  showScreen("home");
+};
