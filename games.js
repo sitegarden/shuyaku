@@ -12,7 +12,7 @@ export const GAMES = [
   {
     id: "taprush",
     title: "Tap Rush",
-    description: "25秒以内に高得点マスを連打する反射ゲーム",
+    description: "30秒以内に高得点マスを連打する反射ゲーム",
     script: "./games/taprush.js"
   }
 ];
