@@ -231,32 +231,14 @@ function handleMove(direction) {
   if (direction === "up") moved = moveUp();
   if (direction === "down") moved = moveDown();
 
-  if (moved) {
+if (moved) {
   addRandomTile();
   render();
-  animateBoard(direction);
 
   if (!canMove()) {
     endGame();
   }
 }
-}
-
-function animateBoard(direction) {
-  boardEl.classList.remove(
-    "board-move-left",
-    "board-move-right",
-    "board-move-up",
-    "board-move-down"
-  );
-
-  void boardEl.offsetWidth;
-
-  boardEl.classList.add(`board-move-${direction}`);
-
-  setTimeout(() => {
-    boardEl.classList.remove(`board-move-${direction}`);
-  }, 180);
 }
 
 document.onkeydown = event => {
