@@ -617,3 +617,257 @@ main {
 .header-title p {
   line-height: 1.4;
 }
+
+
+
+
+/* =========================
+   スマホ全体調整
+========================= */
+
+@media (max-width: 520px) {
+  body {
+    font-size: 16px;
+  }
+
+  header {
+    padding: 16px 10px 12px;
+  }
+
+  .top-bar {
+    grid-template-columns: 44px minmax(0, 1fr) 86px;
+    gap: 6px;
+  }
+
+  .header-title h1 {
+    font-size: 22px;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .header-title p {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  #headerUserArea {
+    margin-top: 8px;
+    font-size: 13px;
+  }
+
+  #headerBackBtn,
+  #headerActionBtn {
+    padding: 9px 8px;
+    font-size: 13px;
+  }
+
+  main {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .screen {
+    min-height: calc(100vh - 140px);
+    padding: 18px 14px 96px;
+  }
+
+  .screen h2 {
+    font-size: 22px;
+    margin: 8px 0 16px;
+  }
+
+  button {
+    min-height: 44px;
+    font-size: 15px;
+    border-radius: 12px;
+  }
+
+  input {
+    width: 100%;
+    max-width: 340px;
+    box-sizing: border-box;
+    font-size: 16px;
+    padding: 13px 12px;
+    border-radius: 12px;
+  }
+
+  #gameList {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-top: 16px;
+  }
+
+  .game-card {
+    min-height: 110px;
+    padding: 18px;
+    border-radius: 18px;
+    text-align: left;
+  }
+
+  .game-card strong {
+    font-size: 22px;
+  }
+
+  .game-card span {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .profile-box {
+    width: 100%;
+    max-width: 360px;
+    box-sizing: border-box;
+    padding: 18px;
+    margin: 12px auto;
+  }
+
+  .profile-box h2 {
+    font-size: 22px;
+  }
+
+  .profile-label {
+    font-size: 16px;
+  }
+
+  .avatar {
+    width: 88px;
+    height: 88px;
+  }
+
+  .avatar .eye {
+    top: 39px;
+    width: 8px;
+    height: 11px;
+  }
+
+  .avatar .eye.left {
+    left: 30px;
+  }
+
+  .avatar .eye.right {
+    right: 30px;
+  }
+
+  .avatar .mouth {
+    top: 55px;
+    width: 16px;
+    height: 8px;
+  }
+
+  .avatar.cat .ear {
+    top: -12px;
+    width: 32px;
+    height: 32px;
+  }
+
+  .avatar.cat .ear.left {
+    left: 7px;
+  }
+
+  .avatar.cat .ear.right {
+    right: 7px;
+  }
+
+  .avatar.rabbit .ear {
+    top: -32px;
+    width: 21px;
+    height: 52px;
+  }
+
+  .avatar.rabbit .ear.left {
+    left: 22px;
+  }
+
+  .avatar.rabbit .ear.right {
+    right: 22px;
+  }
+
+  .avatar.bear .ear {
+    width: 28px;
+    height: 28px;
+  }
+
+  .avatarTypeBtn {
+    font-size: 15px;
+    padding: 10px 14px;
+  }
+
+  .colorBtn {
+    width: 42px;
+    height: 42px;
+  }
+
+  .score-box {
+    gap: 16px;
+    font-size: 20px;
+  }
+
+  #board {
+    width: min(92vw, 390px);
+    height: min(92vw, 390px);
+    gap: 7px;
+    padding: 7px;
+    touch-action: none;
+  }
+
+  .cell {
+    width: auto;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    font-size: clamp(24px, 8vw, 34px);
+  }
+
+  .cell[data-value="128"],
+  .cell[data-value="256"],
+  .cell[data-value="512"],
+  .cell[data-value="1024"],
+  .cell[data-value="2048"] {
+    font-size: clamp(19px, 6vw, 28px);
+  }
+
+  .game-hint {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 12px 0 18px;
+  }
+
+  .tabs button {
+    flex: 1;
+    max-width: 110px;
+    font-size: 15px;
+  }
+
+  .ranking-item {
+    width: 100%;
+    max-width: 360px;
+    box-sizing: border-box;
+    font-size: 16px;
+    padding: 14px;
+    align-items: center;
+  }
+
+  .ranking-user {
+    font-size: 16px;
+  }
+
+  .bottom-nav {
+    height: 76px;
+    padding: 10px 12px;
+    box-sizing: border-box;
+  }
+
+  .bottom-nav button {
+    flex: 1;
+    min-width: 0;
+    max-width: 170px;
+    font-size: 15px;
+  }
+}
