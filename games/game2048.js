@@ -248,6 +248,48 @@ document.onkeydown = event => {
   if (event.key === "ArrowDown") handleMove("down");
 };
 
+let touchStartX = 0;
+let touchStartY = 0;
+
+boardEl.addEventListener("touchstart", event => {
+  const touch = event.touches[0];
+
+  touchStartX = touch.clientX;
+  touchStartY = touch.clientY;
+}, { passive: true });
+
+boardEl.addEventListener("touchmove", event => {
+  event.preventDefault();
+}, { passive: false });
+
+boardEl.addEventListener("touchend", event => {
+  const touch = event.changedTouches[0];
+
+  const diffX = touch.clientX - touchStartX;
+  const diffY = touch.clientY - touchStartY;
+
+  const absX = Math.abs(diffX);
+  const absY = Math.abs(diffY);
+
+  if (Math.max(absX, absY) < 30) {
+    return;
+  }
+
+  if (absX > absY) {
+    if (diffX > 0) {
+      handleMove("right");
+    } else {
+      handleMove("left");
+    }
+  } else {
+    if (diffY > 0) {
+      handleMove("down");
+    } else {
+      handleMove("up");
+    }
+  }
+});
+
 restartBtn.onclick = () => {
   startGame();
 };
