@@ -29,7 +29,7 @@ const googleLoginBtn = document.getElementById("googleLoginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
 
 const userName = document.getElementById("userName");
-const authForm = document.getElementById("authForm");
+const loginArea = document.getElementById("loginArea");
 
 const provider = new GoogleAuthProvider();
 
@@ -39,22 +39,26 @@ registerBtn.onclick = async () => {
   const displayName = displayNameInput.value.trim();
 
   if (!email || !password || !displayName) {
-    alert("メール・パスワード・表示名を入れてくれ");
+    alert("メール・パスワード・表示名を入力してね");
     return;
   }
 
-  const result = await createUserWithEmailAndPassword(auth, email, password);
+  try {
+    const result = await createUserWithEmailAndPassword(auth, email, password);
 
-  await updateProfile(result.user, {
-    displayName
-  });
+    await updateProfile(result.user, {
+      displayName
+    });
 
-  await saveUserData(result.user.uid, {
-    displayName,
-    email
-  });
+    await saveUserData(result.user.uid, {
+      displayName
+    });
 
-  alert("登録できた");
+    alert("登録できたよ");
+  } catch (error) {
+    console.error(error);
+    alert(`登録エラー: ${error.message}`);
+  }
 };
 
 emailLoginBtn.onclick = async () => {
@@ -62,35 +66,51 @@ emailLoginBtn.onclick = async () => {
   const password = passwordInput.value.trim();
 
   if (!email || !password) {
-    alert("メールとパスワードを入れてくれ");
+    alert("メールとパスワードを入力してね");
     return;
   }
 
-  await signInWithEmailAndPassword(auth, email, password);
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+  } catch (error) {
+    console.error(error);
+    alert(`ログインエラー: ${error.message}`);
+  }
 };
 
 googleLoginBtn.onclick = async () => {
-  const result = await signInWithPopup(auth, provider);
+  try {
+    const result = await signInWithPopup(auth, provider);
 
-  const user = result.user;
+    const user = result.user;
 
-  await saveUserData(user.uid, {
-    displayName: user.displayName || "名無し",
-    email: user.email || ""
-  });
+    await saveUserData(user.uid, {
+      displayName: user.displayName || "名無し"
+    });
+  } catch (error) {
+    console.error(error);
+    alert(`Googleログインエラー: ${error.message}`);
+  }
 };
 
 logoutBtn.onclick = async () => {
-  await signOut(auth);
+  try {
+    await signOut(auth);
+  } catch (error) {
+    console.error(error);
+    alert(`ログアウトエラー: ${error.message}`);
+  }
 };
 
 onAuthStateChanged(auth, user => {
+  console.log("ログイン状態:", user);
+
   if (user) {
-    authForm.classList.add("hidden");
+    loginArea.classList.add("hidden");
     logoutBtn.classList.remove("hidden");
     userName.textContent = `${user.displayName || "名無し"} でログイン中`;
   } else {
-    authForm.classList.remove("hidden");
+    loginArea.classList.remove("hidden");
     logoutBtn.classList.add("hidden");
     userName.textContent = "ゲストプレイ中";
   }
@@ -106,7 +126,8 @@ async function saveUserData(uid, data) {
 
   await setDoc(userRef, {
     displayName: data.displayName,
-    email: data.email,
+    iconType: "cat",
+    iconColor: "pink",
     createdAt: serverTimestamp()
   });
 }
