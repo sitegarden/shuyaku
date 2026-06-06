@@ -535,3 +535,14 @@ main {
 .bottom-nav button {
   min-width: 130px;
 }
+
+#board {
+  width: min(92vw, 420px);
+  height: min(92vw, 420px);
+}
+
+.cell {
+  width: auto;
+  height: auto;
+  aspect-ratio: 1 / 1;
+}
