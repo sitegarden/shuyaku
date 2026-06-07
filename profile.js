@@ -25,6 +25,8 @@ let currentIconId = "cat";
 let currentType = "cat";
 let currentColor = "pink";
 let currentMbti = "estp";
+let currentSelectedTitle = "PLAYER";
+let currentUnlockedTitles = ["PLAYER"];
 
 function updateAvatarPreview() {
   if (currentIconCategory === "mbti") {
@@ -97,34 +99,48 @@ onAuthStateChanged(auth, async user => {
   const snap = await getDoc(userRef);
 
   if (snap.exists()) {
-    const data = snap.data();
+  const data = snap.data();
 
-    nicknameInput.value = data.displayName || user.displayName || "";
+  nicknameInput.value = data.displayName || user.displayName || "";
 
-    currentIconCategory = data.iconCategory || "animal";
+  currentUnlockedTitles = data.unlockedTitles || ["PLAYER"];
+  currentSelectedTitle = data.selectedTitle || "PLAYER";
 
-    if (currentIconCategory === "mbti") {
-      currentMbti = data.iconId || data.mbtiType || "estp";
-      currentIconId = currentMbti;
-      currentType = data.iconType || "cat";
-      currentColor = data.iconColor || "pink";
-    } else {
-      currentType = data.iconType || data.iconId || "cat";
-      currentColor = data.iconColor || "pink";
-      currentIconId = currentType;
-      currentMbti = data.mbtiType || "estp";
-    }
-  } else {
-    nicknameInput.value = user.displayName || "";
-    currentIconCategory = "animal";
-    currentType = "cat";
-    currentColor = "pink";
-    currentIconId = "cat";
-    currentMbti = "estp";
+  if (!currentUnlockedTitles.includes("PLAYER")) {
+    currentUnlockedTitles.unshift("PLAYER");
   }
 
-  updateAvatarPreview();
-  updateSelectedButtons();
+  if (!currentUnlockedTitles.includes(currentSelectedTitle)) {
+    currentSelectedTitle = "PLAYER";
+  }
+
+  currentIconCategory = data.iconCategory || "animal";
+
+  if (currentIconCategory === "mbti") {
+    currentMbti = data.iconId || data.mbtiType || "estp";
+    currentIconId = currentMbti;
+    currentType = data.iconType || "cat";
+    currentColor = data.iconColor || "pink";
+  } else {
+    currentType = data.iconType || data.iconId || "cat";
+    currentColor = data.iconColor || "pink";
+    currentIconId = currentType;
+    currentMbti = data.mbtiType || "estp";
+  }
+} else {
+  nicknameInput.value = user.displayName || "";
+  currentIconCategory = "animal";
+  currentType = "cat";
+  currentColor = "pink";
+  currentIconId = "cat";
+  currentMbti = "estp";
+  currentUnlockedTitles = ["PLAYER"];
+  currentSelectedTitle = "PLAYER";
+}
+
+updateAvatarPreview();
+updateSelectedButtons();
+updateTitleSelect();
 });
 
 saveProfileBtn.onclick = async () => {
@@ -153,18 +169,18 @@ saveProfileBtn.onclick = async () => {
     });
 
     const saveData = {
-      displayName,
-      iconCategory: currentIconCategory,
-      iconId: currentIconId,
-      iconType: currentType,
-      iconColor: currentColor,
-      mbtiType: currentMbti,
-      selectedTitle: "PLAYER",
-      unlockedTitles: ["PLAYER"],
-      updatedAt: serverTimestamp()
-    };
+  displayName,
+  iconCategory: currentIconCategory,
+  iconId: currentIconId,
+  iconType: currentType,
+  iconColor: currentColor,
+  mbtiType: currentMbti,
+  selectedTitle: currentSelectedTitle,
+  unlockedTitles: currentUnlockedTitles,
+  updatedAt: serverTimestamp()
+};
 
-    await setDoc(doc(db, "users", user.uid), saveData, { merge: true });
+await setDoc(doc(db, "users", user.uid), saveData, { merge: true });
 
     alert("プロフィールを保存したよ");
   } catch (error) {
@@ -198,3 +214,23 @@ function updateSelectedButtons() {
     button.classList.toggle("selected", isSelected);
   });
 }
+
+function updateTitleSelect() {
+  titleSelect.innerHTML = "";
+
+  currentUnlockedTitles.forEach(title => {
+    const option = document.createElement("option");
+    option.value = title;
+    option.textContent = title;
+
+    if (title === currentSelectedTitle) {
+      option.selected = true;
+    }
+
+    titleSelect.appendChild(option);
+  });
+}
+
+titleSelect.onchange = () => {
+  currentSelectedTitle = titleSelect.value;
+};
