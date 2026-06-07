@@ -143,6 +143,8 @@ export async function submitScore(gameId, score) {
 
     const profile = await getUserProfile(user.uid);
 
+    console.log("読み込んだプロフィール:", profile);
+
     const playerId = user.uid;
     const name = profile.displayName || user.displayName || "名無し";
 
@@ -172,7 +174,73 @@ export async function submitScore(gameId, score) {
       createdAt: serverTimestamp()
     });
 
-    async function updateBestScore({
+    await updateBestScore({
+      gameId,
+      playerId,
+      name,
+      iconCategory,
+      iconId,
+      iconType,
+      iconColor,
+      mbtiType,
+      title,
+      isGuest,
+      score,
+      period: "week",
+      periodKey: weekKey
+    });
+
+    await updateBestScore({
+      gameId,
+      playerId,
+      name,
+      iconCategory,
+      iconId,
+      iconType,
+      iconColor,
+      mbtiType,
+      title,
+      isGuest,
+      score,
+      period: "month",
+      periodKey: monthKey
+    });
+
+    await updateBestScore({
+      gameId,
+      playerId,
+      name,
+      iconCategory,
+      iconId,
+      iconType,
+      iconColor,
+      mbtiType,
+      title,
+      isGuest,
+      score,
+      period: "all",
+      periodKey: "all"
+    });
+
+    console.log("ランキング保存完了");
+  } catch (error) {
+    console.error("ランキング保存エラー:", error);
+    alert(`ランキング保存エラー: ${error.message}`);
+  }
+}
+
+async function getUserProfile(uid) {
+  const userRef = doc(db, "users", uid);
+  const snap = await getDoc(userRef);
+
+  if (!snap.exists()) {
+    return {};
+  }
+
+  return snap.data();
+}
+
+async function updateBestScore({
   gameId,
   playerId,
   name,
