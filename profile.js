@@ -19,36 +19,68 @@ const nicknameInput = document.getElementById("nicknameInput");
 const avatarPreview = document.getElementById("avatarPreview");
 const saveProfileBtn = document.getElementById("saveProfileBtn");
 
+let currentIconCategory = "animal";
+let currentIconId = "cat";
 let currentType = "cat";
 let currentColor = "pink";
+let currentMbti = "estp";
 
 function updateAvatarPreview() {
+  if (currentIconCategory === "mbti") {
+    avatarPreview.className = "";
+    avatarPreview.innerHTML = `
+      <img
+        class="mbti-avatar-img"
+        src="./assets/icons/mbti/${currentMbti}.png"
+        alt="${currentMbti.toUpperCase()} icon"
+      >
+    `;
+
+    return;
+  }
+
   avatarPreview.className = `avatar ${currentType} ${currentColor}`;
+  avatarPreview.innerHTML = `
+    <span class="ear left"></span>
+    <span class="ear right"></span>
+    <span class="face">
+      <span class="eye left"></span>
+      <span class="eye right"></span>
+      <span class="mouth"></span>
+    </span>
+  `;
 }
 
 document.querySelectorAll(".avatarTypeBtn").forEach(button => {
   button.onclick = () => {
+    currentIconCategory = "animal";
     currentType = button.dataset.type;
+    currentIconId = currentType;
+
     updateAvatarPreview();
-
-    document.querySelectorAll(".avatarTypeBtn").forEach(btn => {
-      btn.classList.remove("selected");
-    });
-
-    button.classList.add("selected");
+    updateSelectedButtons();
   };
 });
 
 document.querySelectorAll(".colorBtn").forEach(button => {
   button.onclick = () => {
+    currentIconCategory = "animal";
     currentColor = button.dataset.color;
+    currentIconId = currentType;
+
     updateAvatarPreview();
+    updateSelectedButtons();
+  };
+});
 
-    document.querySelectorAll(".colorBtn").forEach(btn => {
-      btn.classList.remove("selected");
-    });
+document.querySelectorAll(".mbtiIconBtn").forEach(button => {
+  button.onclick = () => {
+    currentIconCategory = "mbti";
+    currentMbti = button.dataset.mbti;
+    currentIconId = currentMbti;
 
-    button.classList.add("selected");
+    updateAvatarPreview();
+    updateSelectedButtons();
   };
 });
 
@@ -67,12 +99,27 @@ onAuthStateChanged(auth, async user => {
     const data = snap.data();
 
     nicknameInput.value = data.displayName || user.displayName || "";
-    currentType = data.iconType || "cat";
-    currentColor = data.iconColor || "pink";
+
+    currentIconCategory = data.iconCategory || "animal";
+
+    if (currentIconCategory === "mbti") {
+      currentMbti = data.iconId || data.mbtiType || "estp";
+      currentIconId = currentMbti;
+      currentType = data.iconType || "cat";
+      currentColor = data.iconColor || "pink";
+    } else {
+      currentType = data.iconType || data.iconId || "cat";
+      currentColor = data.iconColor || "pink";
+      currentIconId = currentType;
+      currentMbti = data.mbtiType || "estp";
+    }
   } else {
     nicknameInput.value = user.displayName || "";
+    currentIconCategory = "animal";
     currentType = "cat";
     currentColor = "pink";
+    currentIconId = "cat";
+    currentMbti = "estp";
   }
 
   updateAvatarPreview();
@@ -90,7 +137,7 @@ saveProfileBtn.onclick = async () => {
   const displayName = nicknameInput.value.trim();
 
   if (!displayName) {
-    alert("ニックネームを入力してね");
+    alert("ニックネームを入れてね");
     return;
   }
 
@@ -104,14 +151,19 @@ saveProfileBtn.onclick = async () => {
       displayName
     });
 
-    await setDoc(doc(db, "users", user.uid), {
-  displayName,
-  iconType: currentType,
-  iconColor: currentColor,
-  selectedTitle: "PLAYER",
-  unlockedTitles: ["PLAYER"],
-  updatedAt: serverTimestamp()
-}, { merge: true });
+    const saveData = {
+      displayName,
+      iconCategory: currentIconCategory,
+      iconId: currentIconId,
+      iconType: currentType,
+      iconColor: currentColor,
+      mbtiType: currentMbti,
+      selectedTitle: "PLAYER",
+      unlockedTitles: ["PLAYER"],
+      updatedAt: serverTimestamp()
+    };
+
+    await setDoc(doc(db, "users", user.uid), saveData, { merge: true });
 
     alert("プロフィールを保存したよ");
   } catch (error) {
@@ -122,10 +174,26 @@ saveProfileBtn.onclick = async () => {
 
 function updateSelectedButtons() {
   document.querySelectorAll(".avatarTypeBtn").forEach(button => {
-    button.classList.toggle("selected", button.dataset.type === currentType);
+    const isSelected =
+      currentIconCategory === "animal" &&
+      button.dataset.type === currentType;
+
+    button.classList.toggle("selected", isSelected);
   });
 
   document.querySelectorAll(".colorBtn").forEach(button => {
-    button.classList.toggle("selected", button.dataset.color === currentColor);
+    const isSelected =
+      currentIconCategory === "animal" &&
+      button.dataset.color === currentColor;
+
+    button.classList.toggle("selected", isSelected);
+  });
+
+  document.querySelectorAll(".mbtiIconBtn").forEach(button => {
+    const isSelected =
+      currentIconCategory === "mbti" &&
+      button.dataset.mbti === currentMbti;
+
+    button.classList.toggle("selected", isSelected);
   });
 }
