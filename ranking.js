@@ -172,73 +172,7 @@ export async function submitScore(gameId, score) {
       createdAt: serverTimestamp()
     });
 
-    await updateBestScore({
-      gameId,
-      playerId,
-      name,
-      iconCategory,
-      iconId,
-      iconType,
-      iconColor,
-      mbtiType,
-      title,
-      isGuest,
-      score,
-      period: "week",
-      periodKey: weekKey
-    });
-
-    await updateBestScore({
-      gameId,
-      playerId,
-      name,
-      iconCategory,
-      iconId,
-      iconType,
-      iconColor,
-      mbtiType,
-      title,
-      isGuest,
-      score,
-      period: "month",
-      periodKey: monthKey
-    });
-
-    await updateBestScore({
-      gameId,
-      playerId,
-      name,
-      iconCategory,
-      iconId,
-      iconType,
-      iconColor,
-      mbtiType,
-      title,
-      isGuest,
-      score,
-      period: "all",
-      periodKey: "all"
-    });
-
-    console.log("ランキング保存完了");
-  } catch (error) {
-    console.error("ランキング保存エラー:", error);
-    alert(`ランキング保存エラー: ${error.message}`);
-  }
-}
-
-async function getUserProfile(uid) {
-  const userRef = doc(db, "users", uid);
-  const snap = await getDoc(userRef);
-
-  if (!snap.exists()) {
-    return {};
-  }
-
-  return snap.data();
-}
-
-async function updateBestScore({
+    async function updateBestScore({
   gameId,
   playerId,
   name,
@@ -271,10 +205,28 @@ async function updateBestScore({
   const snap = await getDoc(entryRef);
 
   if (snap.exists()) {
-    const oldScore = snap.data().score;
+    const oldData = snap.data();
+    const oldScore = oldData.score || 0;
 
     if (oldScore >= score) {
-      console.log("既存スコアの方が高いので更新しません", {
+      await setDoc(entryRef, {
+        playerId,
+        name,
+        iconCategory,
+        iconId,
+        iconType,
+        iconColor,
+        mbtiType,
+        title,
+        isGuest,
+        gameId,
+        score: oldScore,
+        period,
+        periodKey,
+        updatedAt: serverTimestamp()
+      }, { merge: true });
+
+      console.log("スコアは更新せず、プロフィール情報だけ更新しました", {
         oldScore,
         score
       });
