@@ -2604,3 +2604,42 @@ body.is-game-screen .screen {
     0 0 0 1px rgba(237, 207, 114, 0.35),
     0 4px 12px rgba(40, 36, 120, 0.3);
 }
+
+/* =========================
+   長押しコピー・選択防止
+========================= */
+
+html,
+body {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+/* ボタンやゲーム画面も選択されないようにする */
+button,
+.game-card,
+.screen,
+#gameContainer,
+#board,
+.cell,
+.taprush-board,
+.taprush-cell,
+.sunvader-field,
+.sunvader-field * {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 入力欄だけは文字入力・選択できるように戻す */
+input,
+textarea,
+select {
+  user-select: text;
+  -webkit-user-select: text;
+  -webkit-touch-callout: default;
+}
