@@ -34,6 +34,43 @@ function getMonthKey(date = new Date()) {
   return `${year}-${month}`;
 }
 
+function getGuestId() {
+  let guestId = localStorage.getItem("guestId");
+
+  if (!guestId) {
+    guestId = crypto.randomUUID();
+    localStorage.setItem("guestId", guestId);
+  }
+
+  return guestId;
+}
+
+function getGuestName() {
+  let guestName = localStorage.getItem("guestName");
+
+  if (!guestName) {
+    guestName = prompt("今週ランキングに載せる名前を入力してね");
+
+    if (!guestName) {
+      return null;
+    }
+
+    guestName = guestName.trim();
+
+    if (!guestName) {
+      return null;
+    }
+
+    if (guestName.length > 12) {
+      guestName = guestName.slice(0, 12);
+    }
+
+    localStorage.setItem("guestName", guestName);
+  }
+
+  return guestName;
+}
+
 export async function submitScore(gameId, score) {
   const user = auth.currentUser;
 
@@ -43,27 +80,73 @@ export async function submitScore(gameId, score) {
     user
   });
 
-  if (!user) {
-    alert("ゲストプレイなのでランキングには保存されません。ログインすると記録できます。");
-    return;
-  }
-
   try {
+    const weekKey = getWeekKey();
+    const monthKey = getMonthKey();
+
+    if (!user) {
+      const guestName = getGuestName();
+
+      if (!guestName) {
+        alert("ランキング登録をキャンセルしました");
+        return;
+      }
+
+      const guestId = getGuestId();
+      const playerId = `guest_${guestId}`;
+      const name = guestName;
+      const iconType = "round";
+      const iconColor = "cream";
+      const title = "GUEST";
+      const isGuest = true;
+
+      await addDoc(collection(db, "scores"), {
+        playerId,
+        name,
+        iconType,
+        iconColor,
+        title,
+        isGuest,
+        gameId,
+        score,
+        weekKey,
+        monthKey,
+        createdAt: serverTimestamp()
+      });
+
+      await updateBestScore(
+        gameId,
+        playerId,
+        name,
+        iconType,
+        iconColor,
+        title,
+        isGuest,
+        score,
+        "week",
+        weekKey
+      );
+
+      alert("今週ランキングに登録しました");
+      return;
+    }
+
     const profile = await getUserProfile(user.uid);
 
     const playerId = user.uid;
     const name = profile.displayName || user.displayName || "名無し";
     const iconType = profile.iconType || "cat";
     const iconColor = profile.iconColor || "pink";
-
-    const weekKey = getWeekKey();
-    const monthKey = getMonthKey();
+    const title = profile.selectedTitle || "PLAYER";
+    const isGuest = false;
 
     await addDoc(collection(db, "scores"), {
       playerId,
       name,
       iconType,
       iconColor,
+      title,
+      isGuest,
       gameId,
       score,
       weekKey,
@@ -71,9 +154,44 @@ export async function submitScore(gameId, score) {
       createdAt: serverTimestamp()
     });
 
-    await updateBestScore(gameId, playerId, name, iconType, iconColor, score, "week", weekKey);
-    await updateBestScore(gameId, playerId, name, iconType, iconColor, score, "month", monthKey);
-    await updateBestScore(gameId, playerId, name, iconType, iconColor, score, "all", "all");
+    await updateBestScore(
+      gameId,
+      playerId,
+      name,
+      iconType,
+      iconColor,
+      title,
+      isGuest,
+      score,
+      "week",
+      weekKey
+    );
+
+    await updateBestScore(
+      gameId,
+      playerId,
+      name,
+      iconType,
+      iconColor,
+      title,
+      isGuest,
+      score,
+      "month",
+      monthKey
+    );
+
+    await updateBestScore(
+      gameId,
+      playerId,
+      name,
+      iconType,
+      iconColor,
+      title,
+      isGuest,
+      score,
+      "all",
+      "all"
+    );
 
     console.log("ランキング保存完了");
   } catch (error) {
@@ -93,7 +211,18 @@ async function getUserProfile(uid) {
   return snap.data();
 }
 
-async function updateBestScore(gameId, playerId, name, iconType, iconColor, score, period, periodKey) {
+async function updateBestScore(
+  gameId,
+  playerId,
+  name,
+  iconType,
+  iconColor,
+  title,
+  isGuest,
+  score,
+  period,
+  periodKey
+) {
   const boardId = `${gameId}_${period}_${periodKey}`;
   const entryRef = doc(db, "leaderboards", boardId, "entries", playerId);
 
@@ -102,7 +231,9 @@ async function updateBestScore(gameId, playerId, name, iconType, iconColor, scor
     playerId,
     score,
     period,
-    periodKey
+    periodKey,
+    title,
+    isGuest
   });
 
   const snap = await getDoc(entryRef);
@@ -125,6 +256,8 @@ async function updateBestScore(gameId, playerId, name, iconType, iconColor, scor
     name,
     iconType,
     iconColor,
+    title,
+    isGuest,
     gameId,
     score,
     period,
@@ -190,7 +323,8 @@ export async function showRanking(gameId, period = "week") {
 
       <span class="ranking-user">
         ${createAvatarHtml(item.iconType || "cat", item.iconColor || "pink")}
-        ${escapeHtml(item.name)}
+        <span class="ranking-name">${escapeHtml(item.name)}</span>
+        <span class="title-badge ${getTitleClass(item.title || "PLAYER")}">${escapeHtml(item.title || "PLAYER")}</span>
       </span>
 
       <span>${item.score}</span>
@@ -210,6 +344,26 @@ function createAvatarHtml(type, color) {
       </span>
     </span>
   `;
+}
+
+function getTitleClass(title) {
+  if (title === "GUEST") {
+    return "guest-title";
+  }
+
+  if (title === "PLAYER") {
+    return "player-title";
+  }
+
+  if (title === "WEEK TOP 1") {
+    return "top-title";
+  }
+
+  if (title === "WEEK TOP 10") {
+    return "top10-title";
+  }
+
+  return "normal-title";
 }
 
 function escapeHtml(text) {
