@@ -18,6 +18,7 @@ const profileArea = document.getElementById("profileArea");
 const nicknameInput = document.getElementById("nicknameInput");
 const avatarPreview = document.getElementById("avatarPreview");
 const saveProfileBtn = document.getElementById("saveProfileBtn");
+const titleSelect = document.getElementById("titleSelect");
 
 let currentIconCategory = "animal";
 let currentIconId = "cat";
