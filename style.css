@@ -2562,3 +2562,45 @@ body.is-game-screen .screen {
     border-radius: 12px;
   }
 }
+
+/* =========================
+   称号選択
+========================= */
+
+.title-select {
+  display: block;
+  width: 100%;
+  max-width: 340px;
+  margin: 8px auto 16px;
+  padding: 13px 14px;
+  border: none;
+  border-radius: 14px;
+  background: white;
+  color: #3b2f2f;
+  font-size: 16px;
+  font-weight: 800;
+  text-align: center;
+  box-shadow: 0 6px 14px rgba(70, 50, 38, 0.12);
+}
+
+/* =========================
+   特別称号バッジ
+========================= */
+
+.developer-title {
+  background: linear-gradient(135deg, #221533, #6c3fd1);
+  color: #ffffff;
+  border-color: rgba(214, 190, 255, 0.48);
+  box-shadow:
+    0 0 0 1px rgba(214, 190, 255, 0.35),
+    0 4px 12px rgba(70, 40, 130, 0.3);
+}
+
+.admin-title {
+  background: linear-gradient(135deg, #171a3d, #5b4bc4, #9b7cff);
+  color: #ffffff;
+  border-color: rgba(237, 207, 114, 0.48);
+  box-shadow:
+    0 0 0 1px rgba(237, 207, 114, 0.35),
+    0 4px 12px rgba(40, 36, 120, 0.3);
+}
