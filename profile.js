@@ -24,7 +24,7 @@ let currentIconCategory = "animal";
 let currentIconId = "cat";
 let currentType = "cat";
 let currentColor = "pink";
-let currentMbti = "estp";
+let currentMbti = "enfp";
 let currentSelectedTitle = "PLAYER";
 let currentUnlockedTitles = ["PLAYER"];
 
