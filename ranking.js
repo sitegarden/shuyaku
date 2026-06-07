@@ -427,6 +427,14 @@ function getTitleClass(title) {
     return "player-title";
   }
 
+  if (title === "DEVELOPER") {
+    return "developer-title";
+  }
+
+  if (title === "ADMIN") {
+    return "admin-title";
+  }
+
   if (title === "WEEK TOP 1") {
     return "top-title";
   }
@@ -437,7 +445,6 @@ function getTitleClass(title) {
 
   return "normal-title";
 }
-
 function escapeHtml(text) {
   return String(text)
     .replaceAll("&", "&amp;")
