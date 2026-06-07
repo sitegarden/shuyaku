@@ -105,11 +105,13 @@ saveProfileBtn.onclick = async () => {
     });
 
     await setDoc(doc(db, "users", user.uid), {
-      displayName,
-      iconType: currentType,
-      iconColor: currentColor,
-      updatedAt: serverTimestamp()
-    }, { merge: true });
+  displayName,
+  iconType: currentType,
+  iconColor: currentColor,
+  selectedTitle: "PLAYER",
+  unlockedTitles: ["PLAYER"],
+  updatedAt: serverTimestamp()
+}, { merge: true });
 
     alert("プロフィールを保存したよ");
   } catch (error) {
