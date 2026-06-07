@@ -83,7 +83,7 @@
     <div id="rankingArea"></div>
   </section>
 
-  <section id="profileScreen" class="screen">
+<section id="profileScreen" class="screen">
   <div id="loginArea" class="profile-box">
     <h2>ログイン</h2>
 
@@ -101,7 +101,7 @@
 
     <input id="nicknameInput" type="text" placeholder="ニックネーム">
 
-    <p class="profile-label">アイコン</p>
+    <p class="profile-label">アイコンプレビュー</p>
 
     <div class="avatar-preview">
       <div id="avatarPreview" class="avatar cat pink">
@@ -114,6 +114,8 @@
         </span>
       </div>
     </div>
+
+    <p class="profile-label">どうぶつアイコン</p>
 
     <div class="avatar-options">
       <button class="avatarTypeBtn" data-type="round">まる</button>
@@ -134,10 +136,34 @@
       <button class="colorBtn brown" data-color="brown"></button>
     </div>
 
+    <p class="profile-label">MBTIアイコン</p>
+
+    <div class="mbti-options">
+      <button class="mbtiIconBtn" data-mbti="intj">INTJ</button>
+      <button class="mbtiIconBtn" data-mbti="intp">INTP</button>
+      <button class="mbtiIconBtn" data-mbti="entj">ENTJ</button>
+      <button class="mbtiIconBtn" data-mbti="entp">ENTP</button>
+
+      <button class="mbtiIconBtn" data-mbti="infj">INFJ</button>
+      <button class="mbtiIconBtn" data-mbti="infp">INFP</button>
+      <button class="mbtiIconBtn" data-mbti="enfj">ENFJ</button>
+      <button class="mbtiIconBtn" data-mbti="enfp">ENFP</button>
+
+      <button class="mbtiIconBtn" data-mbti="istj">ISTJ</button>
+      <button class="mbtiIconBtn" data-mbti="isfj">ISFJ</button>
+      <button class="mbtiIconBtn" data-mbti="estj">ESTJ</button>
+      <button class="mbtiIconBtn" data-mbti="esfj">ESFJ</button>
+
+      <button class="mbtiIconBtn" data-mbti="istp">ISTP</button>
+      <button class="mbtiIconBtn" data-mbti="isfp">ISFP</button>
+      <button class="mbtiIconBtn" data-mbti="estp">ESTP</button>
+      <button class="mbtiIconBtn" data-mbti="esfp">ESFP</button>
+    </div>
+
     <button id="saveProfileBtn">プロフィール保存</button>
   </section>
 
-  <button id="logoutBtn" class="hidden">ログアウト</button>
+  <button id="logoutBtn" class="hidden logout-button">ログアウト</button>
 </section>
 
 </main>
