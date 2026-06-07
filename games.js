@@ -18,5 +18,11 @@ export const GAMES = [
     title: "sunvader",
     description: "太陽を集めてモンスターを避けるランゲーム",
     script: "./games/sunvader.js"
+  },
+  {
+    id: "memorychain",
+    title: "Memory Chain",
+    description: "光った順番を覚えてタッチする記憶ゲーム",
+    script: "./games/memorychain.js"
   }
 ];
