@@ -93,18 +93,25 @@ export async function submitScore(gameId, score) {
       }
 
       const guestId = getGuestId();
+
       const playerId = `guest_${guestId}`;
       const name = guestName;
+      const iconCategory = "animal";
+      const iconId = "round";
       const iconType = "round";
       const iconColor = "cream";
+      const mbtiType = "";
       const title = "GUEST";
       const isGuest = true;
 
       await addDoc(collection(db, "scores"), {
         playerId,
         name,
+        iconCategory,
+        iconId,
         iconType,
         iconColor,
+        mbtiType,
         title,
         isGuest,
         gameId,
@@ -114,18 +121,21 @@ export async function submitScore(gameId, score) {
         createdAt: serverTimestamp()
       });
 
-      await updateBestScore(
+      await updateBestScore({
         gameId,
         playerId,
         name,
+        iconCategory,
+        iconId,
         iconType,
         iconColor,
+        mbtiType,
         title,
         isGuest,
         score,
-        "week",
-        weekKey
-      );
+        period: "week",
+        periodKey: weekKey
+      });
 
       alert("今週ランキングに登録しました");
       return;
@@ -135,16 +145,24 @@ export async function submitScore(gameId, score) {
 
     const playerId = user.uid;
     const name = profile.displayName || user.displayName || "名無し";
+
+    const iconCategory = profile.iconCategory || "animal";
+    const iconId = profile.iconId || profile.iconType || "cat";
     const iconType = profile.iconType || "cat";
     const iconColor = profile.iconColor || "pink";
+    const mbtiType = profile.mbtiType || "";
+
     const title = profile.selectedTitle || "PLAYER";
     const isGuest = false;
 
     await addDoc(collection(db, "scores"), {
       playerId,
       name,
+      iconCategory,
+      iconId,
       iconType,
       iconColor,
+      mbtiType,
       title,
       isGuest,
       gameId,
@@ -154,44 +172,53 @@ export async function submitScore(gameId, score) {
       createdAt: serverTimestamp()
     });
 
-    await updateBestScore(
+    await updateBestScore({
       gameId,
       playerId,
       name,
+      iconCategory,
+      iconId,
       iconType,
       iconColor,
+      mbtiType,
       title,
       isGuest,
       score,
-      "week",
-      weekKey
-    );
+      period: "week",
+      periodKey: weekKey
+    });
 
-    await updateBestScore(
+    await updateBestScore({
       gameId,
       playerId,
       name,
+      iconCategory,
+      iconId,
       iconType,
       iconColor,
+      mbtiType,
       title,
       isGuest,
       score,
-      "month",
-      monthKey
-    );
+      period: "month",
+      periodKey: monthKey
+    });
 
-    await updateBestScore(
+    await updateBestScore({
       gameId,
       playerId,
       name,
+      iconCategory,
+      iconId,
       iconType,
       iconColor,
+      mbtiType,
       title,
       isGuest,
       score,
-      "all",
-      "all"
-    );
+      period: "all",
+      periodKey: "all"
+    });
 
     console.log("ランキング保存完了");
   } catch (error) {
@@ -211,18 +238,21 @@ async function getUserProfile(uid) {
   return snap.data();
 }
 
-async function updateBestScore(
+async function updateBestScore({
   gameId,
   playerId,
   name,
+  iconCategory,
+  iconId,
   iconType,
   iconColor,
+  mbtiType,
   title,
   isGuest,
   score,
   period,
   periodKey
-) {
+}) {
   const boardId = `${gameId}_${period}_${periodKey}`;
   const entryRef = doc(db, "leaderboards", boardId, "entries", playerId);
 
@@ -232,6 +262,8 @@ async function updateBestScore(
     score,
     period,
     periodKey,
+    iconCategory,
+    iconId,
     title,
     isGuest
   });
@@ -254,8 +286,11 @@ async function updateBestScore(
   await setDoc(entryRef, {
     playerId,
     name,
+    iconCategory,
+    iconId,
     iconType,
     iconColor,
+    mbtiType,
     title,
     isGuest,
     gameId,
@@ -322,7 +357,7 @@ export async function showRanking(gameId, period = "week") {
       <span>${item.rank}位</span>
 
       <span class="ranking-user">
-        ${createAvatarHtml(item.iconType || "cat", item.iconColor || "pink")}
+        ${createRankingIconHtml(item)}
         <span class="ranking-name">${escapeHtml(item.name)}</span>
         <span class="title-badge ${getTitleClass(item.title || "PLAYER")}">${escapeHtml(item.title || "PLAYER")}</span>
       </span>
@@ -332,7 +367,24 @@ export async function showRanking(gameId, period = "week") {
   `).join("");
 }
 
-function createAvatarHtml(type, color) {
+function createRankingIconHtml(item) {
+  const iconCategory = item.iconCategory || "animal";
+
+  if (iconCategory === "mbti") {
+    const mbti = item.iconId || item.mbtiType || "estp";
+
+    return `
+      <img
+        class="ranking-mbti-avatar"
+        src="./assets/icons/mbti/${escapeHtml(mbti)}.png"
+        alt="${escapeHtml(mbti.toUpperCase())} icon"
+      >
+    `;
+  }
+
+  const type = item.iconType || item.iconId || "cat";
+  const color = item.iconColor || "pink";
+
   return `
     <span class="avatar ranking-avatar ${escapeHtml(type)} ${escapeHtml(color)}">
       <span class="ear left"></span>
