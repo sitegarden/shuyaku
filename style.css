@@ -2498,3 +2498,43 @@ body.is-game-screen .screen {
     font-size: 25px;
   }
 }
+
+/* =========================
+   MBTIアイコン選択
+========================= */
+
+.mbti-options {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin: 10px 0 14px;
+}
+
+.mbtiIconBtn {
+  min-height: 42px;
+  padding: 8px;
+  background: white;
+  color: #3b2f2f;
+  border-radius: 12px;
+  font-size: 13px;
+}
+
+.mbtiIconBtn.selected {
+  outline: 3px solid #edcf72;
+}
+
+.mbti-avatar-img {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  object-fit: cover;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+}
+
+.ranking-mbti-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  object-fit: cover;
+  flex: 0 0 42px;
+}
