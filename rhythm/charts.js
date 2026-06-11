@@ -315,15 +315,7 @@ function isChordNote(char) {
 }
 
 function normalizeSongId(songId) {
-  const id = String(songId || "").trim();
-
-  const aliases = {
-    kimiToBokuNoMelody: "piko",
-    miracleJumpBeat: "miracle",
-    tapHell: "taphell"
-  };
-
-  return aliases[id] || id.toLowerCase();
+  return String(songId || "").trim();
 }
 
 function normalizeDifficultyId(difficultyId) {
