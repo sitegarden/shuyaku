@@ -15,6 +15,7 @@ const gameBackBtn = document.getElementById("gameBackBtn");
 const tabGamesBtn = document.getElementById("tabGamesBtn");
 const tabRankingBtn = document.getElementById("tabRankingBtn");
 
+const rankingGameTabs = document.getElementById("rankingGameTabs");
 const rankingPeriodButtons = document.querySelectorAll(".tabs button");
 
 const screens = {
@@ -23,10 +24,11 @@ const screens = {
   game: document.getElementById("gameScreen")
 };
 
-let currentGame = null;
+let currentGame = GAMES[0] || null;
 let currentPeriod = "month";
 
 renderGameList();
+renderRankingGameTabs();
 setupTabs();
 setupGameBackButton();
 setupRankingPeriodButtons();
@@ -63,11 +65,54 @@ function renderGameList() {
 }
 
 /* =========================
+   ranking game tabs
+========================= */
+
+function renderRankingGameTabs() {
+  if (!rankingGameTabs) return;
+
+  rankingGameTabs.innerHTML = "";
+
+  GAMES.forEach((game) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "ranking-game-tab";
+    button.dataset.gameId = game.id;
+    button.textContent = game.title;
+
+    button.addEventListener("click", async () => {
+      currentGame = game;
+      updateRankingGameTabs();
+      updateHeader("ranking");
+      await openRanking();
+    });
+
+    rankingGameTabs.appendChild(button);
+  });
+
+  updateRankingGameTabs();
+}
+
+function updateRankingGameTabs() {
+  if (!rankingGameTabs) return;
+
+  const buttons = rankingGameTabs.querySelectorAll(".ranking-game-tab");
+
+  buttons.forEach((button) => {
+    button.classList.toggle(
+      "active",
+      button.dataset.gameId === currentGame?.id
+    );
+  });
+}
+
+/* =========================
    screens
 ========================= */
 
 async function startGame(game) {
   currentGame = game;
+  updateRankingGameTabs();
 
   if (gameContainer) {
     gameContainer.innerHTML = "";
@@ -206,11 +251,20 @@ function setupTabs() {
   }
 }
 
+function setupGameBackButton() {
+  if (!gameBackBtn) return;
+
+  gameBackBtn.addEventListener("click", () => {
+    showScreen("home");
+  });
+}
+
 async function openRanking() {
   if (!currentGame) {
     currentGame = GAMES[0] || null;
   }
 
+  updateRankingGameTabs();
   showScreen("ranking");
 
   if (currentGame) {
@@ -225,7 +279,7 @@ async function openRanking() {
 function setupRankingPeriodButtons() {
   rankingPeriodButtons.forEach((button) => {
     button.addEventListener("click", async () => {
-      currentPeriod = button.dataset.period || "week";
+      currentPeriod = button.dataset.period || "month";
 
       rankingPeriodButtons.forEach((btn) => {
         btn.classList.remove("active");
@@ -236,6 +290,8 @@ function setupRankingPeriodButtons() {
       if (!currentGame) {
         currentGame = GAMES[0] || null;
       }
+
+      updateRankingGameTabs();
 
       if (currentGame) {
         await showRanking(currentGame.id, currentPeriod);
@@ -261,13 +317,4 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
-}
-
-
-function setupGameBackButton() {
-  if (!gameBackBtn) return;
-
-  gameBackBtn.addEventListener("click", () => {
-    showScreen("home");
-  });
 }
