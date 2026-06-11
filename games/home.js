@@ -6,69 +6,121 @@ import { showRanking } from "./ranking.js";
 const gameList = document.getElementById("gameList");
 const gameContainer = document.getElementById("gameContainer");
 
-const headerBackBtn = document.getElementById("headerBackBtn");
-const headerActionBtn = document.getElementById("headerActionBtn");
 const headerTitle = document.getElementById("headerTitle");
 const headerSubtitle = document.getElementById("headerSubtitle");
+const headerBackBtn = document.getElementById("headerBackBtn");
+const headerActionBtn = document.getElementById("headerActionBtn");
 
 const tabGamesBtn = document.getElementById("tabGamesBtn");
 const tabRankingBtn = document.getElementById("tabRankingBtn");
 
+const rankingPeriodButtons = document.querySelectorAll(".tabs button");
+
 const screens = {
   home: document.getElementById("homeScreen"),
-  game: document.getElementById("gameScreen"),
-  ranking: document.getElementById("rankingScreen")
+  ranking: document.getElementById("rankingScreen"),
+  game: document.getElementById("gameScreen")
 };
 
-let currentGameId = null;
-let currentGameTitle = "";
+let currentGame = null;
 let currentPeriod = "week";
+let loadedGameScript = null;
 
-GAMES.forEach((game) => {
-  const card = document.createElement("button");
-  card.type = "button";
-  card.className = "game-card";
+renderGameList();
+setupTabs();
+setupRankingPeriodButtons();
+showScreen("home");
 
-  card.innerHTML = `
-    <strong>${game.title}</strong>
-    <span>${game.description}</span>
-  `;
+/* =========================
+   game list
+========================= */
 
-  card.addEventListener("click", () => {
-    startGame(game);
+function renderGameList() {
+  if (!gameList) return;
+
+  gameList.innerHTML = "";
+
+  GAMES.forEach((game) => {
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "game-card";
+
+    card.innerHTML = `
+      <strong>${game.title}</strong>
+      <span>${game.description}</span>
+    `;
+
+    card.addEventListener("click", () => {
+      startGame(game);
+    });
+
+    gameList.appendChild(card);
   });
+}
 
-  gameList.appendChild(card);
-});
+/* =========================
+   screens
+========================= */
 
 async function startGame(game) {
-  currentGameId = game.id;
-  currentGameTitle = game.title;
+  currentGame = game;
 
-  gameContainer.innerHTML = "";
+  if (gameContainer) {
+    gameContainer.innerHTML = "";
+  }
 
   showScreen("game");
 
-  await import(game.script);
+  try {
+    loadedGameScript = await import(`${game.script}?v=${Date.now()}`);
+
+    if (loadedGameScript?.initGame) {
+      loadedGameScript.initGame();
+    }
+  } catch (error) {
+    console.error(error);
+
+    if (gameContainer) {
+      gameContainer.innerHTML = `
+        <div class="game-error">
+          <h2>ゲームを読み込めませんでした</h2>
+          <p>${error.message}</p>
+        </div>
+      `;
+    }
+  }
 }
 
-function showScreen(name) {
+function showScreen(screenName) {
   Object.values(screens).forEach((screen) => {
     if (!screen) return;
     screen.classList.remove("active");
   });
 
-  if (screens[name]) {
-    screens[name].classList.add("active");
+  if (screens[screenName]) {
+    screens[screenName].classList.add("active");
   }
 
-  document.body.classList.toggle("is-home-screen", name === "home");
-  document.body.classList.toggle("is-game-screen", name === "game");
-  document.body.classList.toggle("is-ranking-screen", name === "ranking");
+  document.body.classList.toggle("is-home-screen", screenName === "home");
+  document.body.classList.toggle("is-ranking-screen", screenName === "ranking");
+  document.body.classList.toggle("is-game-screen", screenName === "game");
 
-  if (name === "home") {
-    setActiveTab("games");
+  updateTabs(screenName);
+  updateHeader(screenName);
+}
 
+function updateTabs(screenName) {
+  if (tabGamesBtn) {
+    tabGamesBtn.classList.toggle("active", screenName === "home");
+  }
+
+  if (tabRankingBtn) {
+    tabRankingBtn.classList.toggle("active", screenName === "ranking");
+  }
+}
+
+function updateHeader(screenName) {
+  if (screenName === "home") {
     setHeader({
       title: "ランキング系ミニゲーム",
       subtitle: "好きなゲームを選んで、スコアを競え。",
@@ -77,32 +129,29 @@ function showScreen(name) {
     });
   }
 
-  if (name === "game") {
-    setActiveTab("");
-
+  if (screenName === "ranking") {
     setHeader({
-      title: currentGameTitle || "ゲーム",
-      subtitle: "スコアを狙え",
-      showBack: true,
-      actionText: "ランキング",
-      onBack: () => showScreen("home"),
-      onAction: async () => {
-        if (!currentGameId) return;
-
-        showScreen("ranking");
-        await showRanking(currentGameId, currentPeriod);
-      }
+      title: "ランキング",
+      subtitle: currentGame
+        ? `${currentGame.title} のスコアランキング`
+        : "ゲームごとのスコアランキングを確認できます。",
+      showBack: false,
+      actionText: ""
     });
   }
 
-  if (name === "ranking") {
-    setActiveTab("ranking");
-
+  if (screenName === "game") {
     setHeader({
-      title: "ランキング",
-      subtitle: currentGameTitle || "全体ランキング",
-      showBack: false,
-      actionText: ""
+      title: currentGame?.title || "ゲーム",
+      subtitle: "ベストスコアを狙え。",
+      showBack: true,
+      actionText: "ランキング",
+      onBack: () => {
+        showScreen("home");
+      },
+      onAction: async () => {
+        await openRanking();
+      }
     });
   }
 }
@@ -130,58 +179,69 @@ function setHeader({
 
   if (headerActionBtn) {
     headerActionBtn.classList.toggle("hidden", !actionText);
-    headerActionBtn.textContent = actionText || "";
+    headerActionBtn.textContent = actionText;
     headerActionBtn.onclick = onAction;
   }
 }
 
-function setActiveTab(tabName) {
-  tabGamesBtn?.classList.toggle("active", tabName === "games");
-  tabRankingBtn?.classList.toggle("active", tabName === "ranking");
+/* =========================
+   tabs
+========================= */
+
+function setupTabs() {
+  if (tabGamesBtn) {
+    tabGamesBtn.addEventListener("click", () => {
+      showScreen("home");
+    });
+  }
+
+  if (tabRankingBtn) {
+    tabRankingBtn.addEventListener("click", async () => {
+      await openRanking();
+    });
+  }
 }
 
-async function openRankingTab() {
-  const defaultGame = GAMES[0];
-
-  if (!currentGameId && defaultGame) {
-    currentGameId = defaultGame.id;
-    currentGameTitle = defaultGame.title;
+async function openRanking() {
+  if (!currentGame) {
+    currentGame = GAMES[0] || null;
   }
 
   showScreen("ranking");
 
-  if (currentGameId) {
-    await showRanking(currentGameId, currentPeriod);
+  if (currentGame) {
+    await showRanking(currentGame.id, currentPeriod);
   }
 }
 
-if (tabGamesBtn) {
-  tabGamesBtn.addEventListener("click", () => {
-    showScreen("home");
+/* =========================
+   ranking periods
+========================= */
+
+function setupRankingPeriodButtons() {
+  rankingPeriodButtons.forEach((button) => {
+    button.addEventListener("click", async () => {
+      currentPeriod = button.dataset.period || "week";
+
+      rankingPeriodButtons.forEach((btn) => {
+        btn.classList.remove("active");
+      });
+
+      button.classList.add("active");
+
+      if (!currentGame) {
+        currentGame = GAMES[0] || null;
+      }
+
+      if (currentGame) {
+        await showRanking(currentGame.id, currentPeriod);
+      }
+    });
   });
+
+  const defaultButton = document.querySelector(`.tabs button[data-period="${currentPeriod}"]`);
+
+  if (defaultButton) {
+    defaultButton.classList.add("active");
+  }
 }
-
-if (tabRankingBtn) {
-  tabRankingBtn.addEventListener("click", async () => {
-    await openRankingTab();
-  });
-}
-
-document.querySelectorAll(".tabs button").forEach((button) => {
-  button.addEventListener("click", async () => {
-    currentPeriod = button.dataset.period || "week";
-
-    if (!currentGameId) {
-      const defaultGame = GAMES[0];
-
-      if (!defaultGame) return;
-
-      currentGameId = defaultGame.id;
-      currentGameTitle = defaultGame.title;
-    }
-
-    await showRanking(currentGameId, currentPeriod);
-  });
-});
-
-showScreen("home");
