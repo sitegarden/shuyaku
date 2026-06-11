@@ -2,185 +2,126 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Mini Game Arena | shuyaku.me</title>
-<meta name="description" content="好きなミニゲームを選んでスコアを競える、ランキング付きゲームサイト。">
+  <title>games | shuyaku.me</title>
 
-<link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" href="https://shuyaku.me/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="https://shuyaku.me/favicon.png">
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Mini Game Arena | shuyaku.me">
-<meta property="og:description" content="好きなミニゲームを選んでスコアを競え。2048、Tap Rush、sunvaderで上位を目指そう。">
-<meta property="og:url" content="https://shuyaku.me/">
-<meta property="og:site_name" content="Mini Game Arena">
-<meta property="og:image" content="https://shuyaku.me/ogp.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="shuyaku.me">
+  <meta property="og:title" content="games | shuyaku.me">
+  <meta property="og:description" content="ランキングで競えるミニゲーム">
+  <meta property="og:image" content="https://shuyaku.me/ogp.png">
+  <meta property="og:url" content="https://shuyaku.me/games/">
+  <meta property="og:type" content="website">
 
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Mini Game Arena | shuyaku.me">
-<meta name="twitter:description" content="好きなミニゲームを選んでスコアを競え。2048、Tap Rush、sunvaderで上位を目指そう。">
-<meta name="twitter:image" content="https://shuyaku.me/ogp.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="games | shuyaku.me">
+  <meta name="twitter:description" content="ランキングで競えるミニゲーム">
+  <meta name="twitter:image" content="https://shuyaku.me/ogp.png">
 
-<meta name="theme-color" content="#2f2929">
-  
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 
-<header id="appHeader">
-  <div class="top-bar">
-    <button id="headerBackBtn" class="hidden">←</button>
+  <div id="siteHeader"></div>
 
-    <div class="header-title">
-      <h1 id="headerTitle">Mini Game Arena</h1>
-      <p id="headerSubtitle">好きなゲームを選んでスコアを競え</p>
-    </div>
+  <header class="games-hero">
+    <div class="games-hero-window">
+      <div class="window-dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
 
-    <button id="headerActionBtn" class="hidden">ランキング</button>
-  </div>
+      <p class="games-label">score games</p>
 
-  <div id="headerUserArea">
-    <p id="userName">ゲストプレイ中</p>
-  </div>
-</header>
-<main>
+      <h1 id="headerTitle">ランキング系ミニゲーム</h1>
 
-  <section id="homeScreen" class="screen active">
-    <h2>ゲームを選ぶ</h2>
-    <div id="gameList"></div>
-  </section>
+      <p id="headerSubtitle">
+        好きなゲームを選んで、スコアを競え。
+      </p>
 
- <section id="gameScreen" class="screen">
-  <div id="gameContainer"></div>
-</section>
+      <div id="headerUserArea"></div>
 
-<section id="rankingScreen" class="screen">
-  <div class="tabs">
-    <button data-period="week">今週</button>
-    <button data-period="month">今月</button>
-    <button data-period="all">全体</button>
-  </div>
+      <div class="games-header-actions">
+        <button type="button" id="headerBackBtn" class="game-top-btn hidden">
+          戻る
+        </button>
 
-  <div id="rankingArea"></div>
-</section>
-
-  <section id="rankingScreen" class="screen">
-    <div class="screen-header">
-      <button id="backGameBtn">←</button>
-      <h2>ランキング</h2>
-    </div>
-
-    <div class="tabs">
-      <button data-period="week">今週</button>
-      <button data-period="month">今月</button>
-      <button data-period="all">全体</button>
-    </div>
-
-    <div id="rankingArea"></div>
-  </section>
-
-<section id="profileScreen" class="screen">
-  <div id="loginArea" class="profile-box">
-    <h2>ログイン</h2>
-
-    <input id="emailInput" type="email" placeholder="メールアドレス">
-    <input id="passwordInput" type="password" placeholder="パスワード">
-    <input id="displayNameInput" type="text" placeholder="表示名 ※新規登録時">
-
-    <button id="registerBtn">新規登録</button>
-    <button id="emailLoginBtn">メールでログイン</button>
-    <button id="googleLoginBtn">Googleでログイン</button>
-  </div>
-
-  <section id="profileArea" class="hidden profile-box">
-    <h2>プロフィール</h2>
-
-    <input id="nicknameInput" type="text" placeholder="ニックネーム">
-
-    <p class="profile-label">アイコンプレビュー</p>
-
-    <div class="avatar-preview">
-      <div id="avatarPreview" class="avatar cat pink">
-        <span class="ear left"></span>
-        <span class="ear right"></span>
-        <span class="face">
-          <span class="eye left"></span>
-          <span class="eye right"></span>
-          <span class="mouth"></span>
-        </span>
+        <button type="button" id="headerActionBtn" class="game-top-btn">
+          ランキング
+        </button>
       </div>
     </div>
+  </header>
 
-    <p class="profile-label">どうぶつアイコン</p>
+  <main class="games-main">
 
-    <div class="avatar-options">
-      <button class="avatarTypeBtn" data-type="round">まる</button>
-      <button class="avatarTypeBtn" data-type="cat">ねこ</button>
-      <button class="avatarTypeBtn" data-type="rabbit">うさぎ</button>
-      <button class="avatarTypeBtn" data-type="bear">くま</button>
-      <button class="avatarTypeBtn" data-type="mochi">もち</button>
-    </div>
+    <section id="homeScreen" class="screen active">
+      <div class="section-title">
+        <p>select</p>
+        <h2>ゲームを選ぶ</h2>
+      </div>
 
-    <p class="profile-label">カラー</p>
+      <p class="games-lead">
+        すぐ遊べる短時間ゲームをまとめています。
+        ベストスコアを出して、ランキング上位を狙おう。
+      </p>
 
-    <div class="color-options">
-      <button class="colorBtn pink" data-color="pink"></button>
-      <button class="colorBtn cream" data-color="cream"></button>
-      <button class="colorBtn mint" data-color="mint"></button>
-      <button class="colorBtn blue" data-color="blue"></button>
-      <button class="colorBtn purple" data-color="purple"></button>
-      <button class="colorBtn brown" data-color="brown"></button>
-    </div>
+      <div id="gameList"></div>
+    </section>
 
-    <p class="profile-label">MBTIアイコン</p>
+    <section id="gameScreen" class="screen">
+      <div id="gameContainer"></div>
+    </section>
 
-    <div class="mbti-options">
-      <button class="mbtiIconBtn" data-mbti="intj">INTJ</button>
-      <button class="mbtiIconBtn" data-mbti="intp">INTP</button>
-      <button class="mbtiIconBtn" data-mbti="entj">ENTJ</button>
-      <button class="mbtiIconBtn" data-mbti="entp">ENTP</button>
+    <section id="rankingScreen" class="screen">
+      <div class="section-title">
+        <p>ranking</p>
+        <h2>ランキング</h2>
+      </div>
 
-      <button class="mbtiIconBtn" data-mbti="infj">INFJ</button>
-      <button class="mbtiIconBtn" data-mbti="infp">INFP</button>
-      <button class="mbtiIconBtn" data-mbti="enfj">ENFJ</button>
-      <button class="mbtiIconBtn" data-mbti="enfp">ENFP</button>
+      <div class="ranking-tabs">
+        <button type="button" data-period="weekly">週間</button>
+        <button type="button" data-period="monthly">月間</button>
+        <button type="button" data-period="all">全期間</button>
+      </div>
 
-      <button class="mbtiIconBtn" data-mbti="istj">ISTJ</button>
-      <button class="mbtiIconBtn" data-mbti="isfj">ISFJ</button>
-      <button class="mbtiIconBtn" data-mbti="estj">ESTJ</button>
-      <button class="mbtiIconBtn" data-mbti="esfj">ESFJ</button>
+      <div id="rankingArea"></div>
+    </section>
 
-      <button class="mbtiIconBtn" data-mbti="istp">ISTP</button>
-      <button class="mbtiIconBtn" data-mbti="isfp">ISFP</button>
-      <button class="mbtiIconBtn" data-mbti="estp">ESTP</button>
-      <button class="mbtiIconBtn" data-mbti="esfp">ESFP</button>
-    </div>
-    
-    <p class="profile-label">称号</p>
+    <section id="profileScreen" class="screen">
+      <div class="section-title">
+        <p>profile</p>
+        <h2>プロフィール</h2>
+      </div>
 
-<select id="titleSelect" class="title-select">
-  <option value="PLAYER">PLAYER</option>
-</select>
+      <div class="profile-box">
+        <p>
+          プロフィール編集はマイページに移動しました。
+        </p>
 
-    <button id="saveProfileBtn">プロフィール保存</button>
-  </section>
+        <a href="/account/" class="primary-btn profile-account-link">
+          マイページへ
+        </a>
+      </div>
+    </section>
 
-  <button id="logoutBtn" class="hidden logout-button">ログアウト</button>
-</section>
+  </main>
 
-</main>
+  <nav class="bottom-nav">
+    <button type="button" id="bottomHomeBtn">games</button>
+    <button type="button" id="bottomRankingBtn">ranking</button>
+    <button type="button" id="bottomProfileBtn">account</button>
+  </nav>
 
-<nav class="bottom-nav">
-  <button id="navHomeBtn">ホーム</button>
-  <button id="navProfileBtn">プロフィール</button>
-</nav>
+  <div id="siteFooter"></div>
 
-  <script type="module" src="auth.js"></script>
-  <script type="module" src="profile.js"></script>
-  <script type="module" src="home.js"></script>
+  <script type="module" src="/js/layout.js"></script>
+  <script type="module" src="/js/auth.js"></script>
+  <script type="module" src="./home.js"></script>
+
 </body>
 </html>
