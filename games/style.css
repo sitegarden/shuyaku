@@ -3241,3 +3241,43 @@ body.is-game-screen .games-hero {
     font-size: 13px;
   }
 }
+
+
+
+.games-tabs {
+  width: min(520px, 100%);
+  margin: 34px auto 0;
+  padding: 10px;
+  border: 3px solid #30283a;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow:
+    6px 6px 0 #30283a,
+    0 12px 28px rgba(70, 55, 120, 0.16);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.games-tab {
+  min-height: 48px;
+  margin: 0;
+  padding: 10px 12px;
+  border: 3px solid #30283a;
+  border-radius: 15px;
+  background: #fff3bf;
+  color: #30283a;
+  font-size: 15px;
+  font-weight: 900;
+  box-shadow: none;
+}
+
+.games-tab.active {
+  background: #ff95b9;
+  color: #ffffff;
+}
+
+.games-tab:hover {
+  background: #ff95b9;
+  color: #ffffff;
+}
