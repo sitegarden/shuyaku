@@ -14,6 +14,10 @@ if (siteHeader) {
         <a href="/battle/">battle</a>
         <a href="/party/">party</a>
       </nav>
+
+      <div class="site-account">
+        <a href="/account/" class="account-link" id="accountLink">login</a>
+      </div>
     </header>
   `;
 }
