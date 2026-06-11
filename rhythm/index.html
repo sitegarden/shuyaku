@@ -1,1 +1,241 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  >
 
+  <title>rhythm | shuyaku</title>
+
+  <link rel="icon" href="https://shuyaku.me/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="https://shuyaku.me/favicon.png">
+
+  <meta property="og:site_name" content="shuyaku.me">
+  <meta property="og:title" content="rhythm | shuyaku.me">
+  <meta property="og:description" content="音楽に合わせてタップするリズムゲーム">
+  <meta property="og:image" content="https://shuyaku.me/ogp.png">
+  <meta property="og:url" content="https://shuyaku.me/rhythm/">
+  <meta property="og:type" content="website">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="rhythm | shuyaku.me">
+  <meta name="twitter:description" content="音楽に合わせてタップするリズムゲーム">
+  <meta name="twitter:image" content="https://shuyaku.me/ogp.png">
+
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <div id="siteHeader"></div>
+
+  <main class="rhythm-page">
+
+    <section class="rhythm-hero">
+      <div class="rhythm-window">
+        <div class="window-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <p class="rhythm-label">rhythm game</p>
+
+        <h1 id="rhythmHeaderTitle">
+          音に合わせて、<br>
+          主役になろう。
+        </h1>
+
+        <p id="rhythmHeaderLead" class="rhythm-lead">
+          曲を選んで、タイミングよくタップ。ハイスコアを狙おう。
+        </p>
+
+        <div class="rhythm-note">
+          スマホで音が出ない場合は、マナーモードを解除してから遊んでください。
+        </div>
+
+        <div class="rhythm-action-row">
+          <button type="button" id="rhythmBackBtn" class="rhythm-action-btn hidden">
+            戻る
+          </button>
+
+          <button type="button" id="rhythmRankingBtn" class="rhythm-action-btn hidden">
+            ランキング
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="rhythm-panel">
+
+      <div class="rhythm-tabs">
+        <button type="button" class="rhythm-tab active" id="tabSongsBtn">
+          曲選択
+        </button>
+
+        <button type="button" class="rhythm-tab" id="tabRankingBtn">
+          ランキング
+        </button>
+      </div>
+
+      <section id="songScreen" class="screen active">
+        <div class="section-title">
+          <p>select music</p>
+          <h2>曲を選ぶ</h2>
+        </div>
+
+        <p class="screen-lead">
+          好きな曲を選んで、難易度を決めよう。
+        </p>
+
+        <div id="songList" class="song-list"></div>
+      </section>
+
+      <section id="difficultyScreen" class="screen">
+        <div class="section-title">
+          <p>difficulty</p>
+          <h2 id="selectedSongTitle">難易度を選ぶ</h2>
+        </div>
+
+        <p id="selectedSongInfo" class="screen-lead">
+          遊ぶ難易度を選んでください。
+        </p>
+
+        <div id="difficultyList" class="difficulty-list"></div>
+      </section>
+
+      <section id="rankingScreen" class="screen">
+        <div class="section-title">
+          <p>ranking</p>
+          <h2>ランキング</h2>
+        </div>
+
+        <p class="screen-lead">
+          曲と難易度ごとのランキングを確認できます。
+        </p>
+
+        <div id="rankingSongTabs" class="ranking-song-tabs"></div>
+        <div id="rankingDifficultyTabs" class="ranking-difficulty-tabs"></div>
+
+        <div class="tabs ranking-period-tabs">
+          <button type="button" data-period="lastMonth">先月</button>
+          <button type="button" data-period="month">今月</button>
+          <button type="button" data-period="all">全期間</button>
+        </div>
+
+        <div id="rankingArea" class="ranking-area"></div>
+      </section>
+
+      <section id="playScreen" class="screen">
+        <button type="button" id="playBackBtn" class="play-back-floating">
+          ← 戻る
+        </button>
+
+        <div class="play-layout">
+          <div class="play-status">
+            <div class="play-status-card">
+              <span>SCORE</span>
+              <strong id="scoreText">0</strong>
+            </div>
+
+            <div class="play-status-card">
+              <span>COMBO</span>
+              <strong id="comboText">0</strong>
+            </div>
+
+            <div class="play-status-card">
+              <span>JUDGE</span>
+              <strong id="judgeText">READY</strong>
+            </div>
+          </div>
+
+          <div id="laneArea" class="lane-area">
+            <div class="hit-line"></div>
+
+            <button type="button" class="lane-button" data-lane="0">D</button>
+            <button type="button" class="lane-button" data-lane="1">F</button>
+            <button type="button" class="lane-button" data-lane="2">J</button>
+            <button type="button" class="lane-button" data-lane="3">K</button>
+          </div>
+
+          <div class="play-controls">
+            <button type="button" id="startPlayBtn" class="rhythm-start-btn">
+              スタート
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section id="resultScreen" class="screen">
+        <div class="section-title">
+          <p>result</p>
+          <h2>リザルト</h2>
+        </div>
+
+        <div class="result-card">
+          <p id="resultSongName" class="result-song-name">---</p>
+
+          <div class="result-score">
+            <span>SCORE</span>
+            <strong id="resultScore">0</strong>
+          </div>
+
+          <div class="result-grid">
+            <div>
+              <span>MAX COMBO</span>
+              <strong id="resultMaxCombo">0</strong>
+            </div>
+
+            <div>
+              <span>PERFECT</span>
+              <strong id="resultPerfect">0</strong>
+            </div>
+
+            <div>
+              <span>GOOD</span>
+              <strong id="resultGood">0</strong>
+            </div>
+
+            <div>
+              <span>MISS</span>
+              <strong id="resultMiss">0</strong>
+            </div>
+          </div>
+
+          <p id="resultMessage" class="result-message">
+            おつかれさま！
+          </p>
+
+          <div class="result-actions">
+            <button type="button" id="retryBtn" class="rhythm-action-btn">
+              もう一度
+            </button>
+
+            <button type="button" id="resultRankingBtn" class="rhythm-action-btn">
+              ランキング
+            </button>
+
+            <button type="button" id="backToSongsBtn" class="rhythm-action-btn">
+              曲選択へ
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </section>
+
+  </main>
+
+  <div id="siteFooter"></div>
+
+  <script type="module" src="/js/layout.js"></script>
+  <script type="module" src="/js/auth.js"></script>
+  <script type="module" src="./songs.js"></script>
+  <script type="module" src="./charts.js"></script>
+  <script type="module" src="./score.js"></script>
+  <script type="module" src="./main.js"></script>
+
+</body>
+</html>
