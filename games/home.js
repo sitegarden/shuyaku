@@ -296,6 +296,14 @@ function setupRankingPeriodButtons() {
       if (currentGame) {
         await showRanking(currentGame.id, currentPeriod);
       }
+
+
+      const defaultButton = document.querySelector(`.tabs button[data-period="${currentPeriod}"]`);
+
+if (defaultButton) {
+  defaultButton.classList.add("active");
+}
+      
     });
   });
 
