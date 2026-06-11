@@ -19,7 +19,7 @@ import {
 ========================= */
 
 export async function submitScore(gameId, score) {
-  const numericScore = Number(score || 0);
+  const numericScore = toSafeScore(score);
 
   if (!gameId || Number.isNaN(numericScore)) {
     return;
@@ -44,8 +44,8 @@ async function saveBestScore(periodKey, player, score) {
   const scoreSnap = await getDoc(scoreRef);
 
   const oldScore = scoreSnap.exists()
-    ? Number(scoreSnap.data().score || 0)
-    : 0;
+  ? toSafeScore(scoreSnap.data().score)
+  : 0;
 
   if (score <= oldScore) {
     return;
@@ -125,7 +125,7 @@ export async function showRanking(gameId, period = "month") {
             </div>
           </div>
 
-          <span class="ranking-score">${Number(data.score || 0)}</span>
+          <span class="ranking-score">${toSafeScore(data.score)}</span>
         </div>
       `);
     });
@@ -290,4 +290,20 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}
+
+
+function toSafeScore(value) {
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return value;
+  }
+
+  const cleaned = String(value ?? "0").replaceAll(",", "");
+  const number = Number(cleaned);
+
+  if (!Number.isFinite(number)) {
+    return 0;
+  }
+
+  return number;
 }
