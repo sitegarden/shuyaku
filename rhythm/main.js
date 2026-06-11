@@ -1070,6 +1070,13 @@ function getHitY() {
 }
 
 function getNoteSpeed() {
+  const song = getSongById(selectedSongId);
+  const difficulty = getDifficulty(song, selectedDifficultyId);
+
+  if (difficulty?.speed) {
+    return difficulty.speed;
+  }
+
   return DIFFICULTY_SPEEDS[selectedDifficultyId] || DIFFICULTY_SPEEDS.normal;
 }
 
