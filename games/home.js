@@ -10,6 +10,7 @@ const headerTitle = document.getElementById("headerTitle");
 const headerSubtitle = document.getElementById("headerSubtitle");
 const headerBackBtn = document.getElementById("headerBackBtn");
 const headerActionBtn = document.getElementById("headerActionBtn");
+const gameBackBtn = document.getElementById("gameBackBtn");
 
 const tabGamesBtn = document.getElementById("tabGamesBtn");
 const tabRankingBtn = document.getElementById("tabRankingBtn");
@@ -27,6 +28,7 @@ let currentPeriod = "month";
 
 renderGameList();
 setupTabs();
+setupGameBackButton();
 setupRankingPeriodButtons();
 showScreen("home");
 
@@ -259,4 +261,13 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}
+
+
+function setupGameBackButton() {
+  if (!gameBackBtn) return;
+
+  gameBackBtn.addEventListener("click", () => {
+    showScreen("home");
+  });
 }
