@@ -1,6 +1,6 @@
 // games/taprush.js
 
-import { submitScore, showRanking } from "../ranking.js";
+import { submitScore } from "./ranking.js";
 
 const gameContainer = document.getElementById("gameContainer");
 
@@ -9,7 +9,7 @@ gameContainer.innerHTML = `
     <div class="taprush-status">
       <div class="taprush-status-card">
         <span class="taprush-label">TIME</span>
-        <strong id="taprushTime">30</strong>
+        <strong id="taprushTime">25</strong>
       </div>
 
       <div class="taprush-status-card">
@@ -44,7 +44,7 @@ const messageEl = document.getElementById("taprushMessage");
 const startBtn = document.getElementById("taprushStartBtn");
 const cells = document.querySelectorAll(".taprush-cell");
 
-let timer = 30;
+let timer = 25;
 let score = 0;
 let values = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 let playing = false;
@@ -104,7 +104,9 @@ function startGame() {
   }, 1000);
 }
 
-function endGame() {
+async function endGame() {
+  if (!playing) return;
+
   playing = false;
 
   if (timerId) {
@@ -118,9 +120,13 @@ function endGame() {
   startBtn.textContent = "もう一度";
   startBtn.disabled = false;
 
-  submitScore("taprush", score).then(() => {
-    showRanking("taprush", "week");
-  });
+  try {
+    await submitScore("taprush", score);
+    messageEl.textContent = `終了！スコアは ${score} / ランキングに保存しました`;
+  } catch (error) {
+    console.error("スコア保存に失敗しました", error);
+    messageEl.textContent = `終了！スコアは ${score} / 保存に失敗しました`;
+  }
 }
 
 function updateBoard() {
@@ -187,8 +193,8 @@ function tapCell(cell) {
   });
 }
 
-cells.forEach(cell => {
-  cell.addEventListener("pointerdown", event => {
+cells.forEach((cell) => {
+  cell.addEventListener("pointerdown", (event) => {
     event.preventDefault();
     tapCell(cell);
   });
