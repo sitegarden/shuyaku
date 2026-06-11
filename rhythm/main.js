@@ -248,7 +248,9 @@ function renderRankingSongTabs() {
         rankingDifficultyId = firstDifficulty.id;
       }
 
-      renderRankingControls();
+      renderRankingSongTabs();
+      renderRankingDifficultyTabs();
+      setupRankingPeriodButtons();
       loadAndRenderRanking();
     });
 
