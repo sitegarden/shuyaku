@@ -72,8 +72,8 @@ const CELL_TYPES = [
   {
     type: "bad",
     text: "❌",
-    value: -1,
-    label: "-1"
+    value: -5,
+    label: "-5"
   }
 ];
 
