@@ -3,7 +3,6 @@
 export const SONGS = [
   {
     id: "kimiToBokuNoMelody",
-    chartId: "kimiToBokuNoMelody",
     title: "君と僕のメロディ",
     artist: "Lane feat. 結月ゆかり 初音ミク",
     audio: "./assets/kimi-to-boku-no-melody.mp3",
@@ -43,7 +42,6 @@ export const SONGS = [
   },
   {
     id: "miracleJumpBeat",
-    chartId: "miracleJumpBeat",
     title: "ミラクル☆ジャンプビート",
     artist: "ZERO",
     audio: "./assets/miracle-jump-beat.mp3",
@@ -83,7 +81,6 @@ export const SONGS = [
   },
   {
     id: "tapHell",
-    chartId: "tapHell",
     title: "あなたはこの曲で地獄を見ることになる",
     artist: "ZERO",
     audio: "./assets/tap-hell.mp3",
@@ -116,7 +113,7 @@ export const SONGS = [
         id: "expert",
         label: "EXPERT",
         level: 10,
-        speed: 760,
+        speed: 780,
         description: "元譜面そのままの地獄"
       }
     ]
