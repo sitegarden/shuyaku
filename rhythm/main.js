@@ -586,6 +586,7 @@ async function startGame() {
 
     showJudge("READY");
 
+    audio.load();
     audio.currentTime = 0;
     await audio.play();
 
