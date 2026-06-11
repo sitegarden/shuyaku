@@ -21,9 +21,7 @@ const ICON_LIST = [
   "/img/icons/icon01.png",
   "/img/icons/icon02.png",
   "/img/icons/icon03.png",
-  "/img/icons/icon04.png",
-  "/img/icons/icon05.png",
-  "/img/icons/icon06.png"
+  "/img/icons/icon04.png"
 ];
 
 const provider = new GoogleAuthProvider();
