@@ -41,7 +41,7 @@ const rankingArea = document.getElementById("rankingArea");
 
 const playBackBtn = document.getElementById("playBackBtn");
 const laneArea = document.getElementById("laneArea");
-const laneButtons = document.querySelectorAll(".lane-button");
+const lanes = document.querySelectorAll(".lane");
 
 const scoreText = document.getElementById("scoreText");
 const comboText = document.getElementById("comboText");
@@ -71,7 +71,6 @@ let rankingSongId = selectedSongId;
 let rankingDifficultyId = selectedDifficultyId;
 let rankingPeriod = "month";
 
-let audio = null;
 let notes = [];
 
 let isPlaying = false;
@@ -80,9 +79,6 @@ let isFinishing = false;
 
 let animationId = null;
 let finishTimerId = null;
-
-let playStartedAt = 0;
-let pausedAt = 0;
 
 let score = 0;
 let combo = 0;
@@ -97,15 +93,27 @@ let missCount = 0;
 let achievedComboBonuses = [];
 
 /* =========================
+   Web Audio
+========================= */
+
+let audioContext = null;
+let audioBufferCache = new Map();
+
+let currentSource = null;
+let musicStartedAt = 0;
+let musicDuration = 0;
+let sourceStoppedByUser = false;
+
+/* =========================
    settings
 ========================= */
 
 const DIFFICULTY_SPEEDS = {
-  easy: 280,
-  normal: 390,
-  hard: 520,
-  expert: 670,
-  hell: 760
+  easy: 300,
+  normal: 420,
+  hard: 560,
+  expert: 760,
+  hell: 820
 };
 
 const JUDGE_WINDOWS = {
@@ -153,7 +161,7 @@ function init() {
 }
 
 /* =========================
-   render
+   render songs
 ========================= */
 
 function renderSongs() {
@@ -217,6 +225,10 @@ function renderDifficulties(song) {
   });
 }
 
+/* =========================
+   ranking
+========================= */
+
 function renderRankingControls() {
   renderRankingSongTabs();
   renderRankingDifficultyTabs();
@@ -248,9 +260,7 @@ function renderRankingSongTabs() {
         rankingDifficultyId = firstDifficulty.id;
       }
 
-      renderRankingSongTabs();
-      renderRankingDifficultyTabs();
-      setupRankingPeriodButtons();
+      renderRankingControls();
       loadAndRenderRanking();
     });
 
@@ -494,16 +504,11 @@ function prepareGame() {
     offset: song.offset || 0
   });
 
-  audio = new Audio(song.audio);
-  audio.preload = "auto";
-
-  audio.addEventListener("ended", () => {
-    finishGame();
-  });
-
   updateStatusTexts();
 
   startPlayBtn.textContent = "スタート";
+  startPlayBtn.disabled = false;
+
   isReady = true;
 }
 
@@ -514,9 +519,6 @@ function resetGameState() {
   isPlaying = false;
   isReady = false;
   isFinishing = false;
-
-  playStartedAt = 0;
-  pausedAt = 0;
 
   score = 0;
   combo = 0;
@@ -531,6 +533,7 @@ function resetGameState() {
   achievedComboBonuses = [];
 
   updateStatusTexts();
+  showJudge("READY");
 }
 
 function parseChartRows({ rows, bpm, offset = 0 }) {
@@ -567,6 +570,96 @@ function getSixteenthTime(bpm) {
 }
 
 /* =========================
+   Web Audio
+========================= */
+
+async function getAudioContext() {
+  if (!audioContext) {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+
+  if (audioContext.state === "suspended") {
+    await audioContext.resume();
+  }
+
+  return audioContext;
+}
+
+async function loadAudioBuffer(url) {
+  if (audioBufferCache.has(url)) {
+    return audioBufferCache.get(url);
+  }
+
+  const context = await getAudioContext();
+
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error(`Audio file not found: ${url}`);
+  }
+
+  const arrayBuffer = await response.arrayBuffer();
+  const audioBuffer = await context.decodeAudioData(arrayBuffer);
+
+  audioBufferCache.set(url, audioBuffer);
+
+  return audioBuffer;
+}
+
+async function playMusic(song) {
+  const context = await getAudioContext();
+  const audioBuffer = await loadAudioBuffer(song.audio);
+
+  stopMusic();
+
+  const source = context.createBufferSource();
+  source.buffer = audioBuffer;
+  source.connect(context.destination);
+
+  currentSource = source;
+  sourceStoppedByUser = false;
+
+  musicStartedAt = context.currentTime;
+  musicDuration = audioBuffer.duration;
+
+  source.onended = () => {
+    if (sourceStoppedByUser) {
+      return;
+    }
+
+    if (isPlaying) {
+      finishGame();
+    }
+  };
+
+  source.start(0);
+}
+
+function stopMusic() {
+  if (!currentSource) {
+    return;
+  }
+
+  try {
+    sourceStoppedByUser = true;
+    currentSource.stop();
+  } catch (error) {
+    // すでに停止済みなら無視
+  }
+
+  currentSource.disconnect();
+  currentSource = null;
+}
+
+function getCurrentTime() {
+  if (!audioContext || !isPlaying) {
+    return 0;
+  }
+
+  return Math.max(0, audioContext.currentTime - musicStartedAt);
+}
+
+/* =========================
    play
 ========================= */
 
@@ -575,37 +668,38 @@ async function startGame() {
 
   const song = getSongById(selectedSongId);
 
-  if (!song || !audio) {
-    showJudge("NO AUDIO");
+  if (!song) {
+    showJudge("NO SONG");
     return;
   }
 
   try {
+    startPlayBtn.disabled = true;
+    startPlayBtn.textContent = "読み込み中...";
+    showJudge("LOADING");
+
+    await playMusic(song);
+
     isPlaying = true;
     isFinishing = false;
 
-    showJudge("READY");
-
-    audio.load();
-    audio.currentTime = 0;
-    await audio.play();
-
-    playStartedAt = performance.now() - audio.currentTime * 1000;
+    showJudge("START");
 
     startPlayBtn.textContent = "プレイ中";
-    startPlayBtn.disabled = true;
 
     startGameLoop();
   } catch (error) {
     console.error(error);
 
     isPlaying = false;
+    isFinishing = false;
+
     startPlayBtn.disabled = false;
     startPlayBtn.textContent = "スタート";
 
     showJudge("音が出せません");
 
-    alert("音が再生できませんでした。スマホの場合はマナーモードを解除して、もう一度スタートしてみてください。");
+    alert("音が再生できませんでした。スマホの場合はマナーモードを解除して、もう一度スタートしてみてください。音源ファイルのパスも確認してください。");
   }
 }
 
@@ -640,66 +734,56 @@ function stopGameLoop() {
   finishTimerId = null;
 }
 
-function stopMusic() {
-  if (!audio) return;
-
-  audio.pause();
-  audio.currentTime = 0;
-}
-
-function getCurrentTime() {
-  if (!isPlaying) {
-    return pausedAt;
-  }
-
-  if (audio && Number.isFinite(audio.currentTime)) {
-    return audio.currentTime;
-  }
-
-  return Math.max(0, (performance.now() - playStartedAt) / 1000);
-}
-
 /* =========================
    notes
 ========================= */
 
 function updateNotes(currentTime) {
   const hitY = getHitY();
+  const gameHeight = getGameHeight();
   const speed = getNoteSpeed();
 
   notes.forEach((note) => {
     if (note.hit || note.missed) return;
 
-    const y = hitY - (note.time - currentTime) * speed;
-
-    if (y < -80) {
-      return;
-    }
-
     if (!note.element) {
       createNoteElement(note);
     }
 
+    const y = hitY - (note.time - currentTime) * speed;
+
     note.element.style.top = `${y}px`;
+
+    if (y > gameHeight + 40) {
+      missNote(note);
+    }
   });
 }
 
 function createNoteElement(note) {
   const noteElement = document.createElement("div");
 
-  noteElement.className = `note lane-${note.lane}`;
+  noteElement.className = "note";
 
   if (note.isChord) {
     noteElement.classList.add("chord-note");
   }
 
-  laneArea.appendChild(noteElement);
+  lanes[note.lane]?.appendChild(noteElement);
   note.element = noteElement;
 }
 
 function clearNotes() {
   document.querySelectorAll(".note").forEach((note) => {
     note.remove();
+  });
+
+  document.querySelectorAll(".lane-judge").forEach((judge) => {
+    judge.remove();
+  });
+
+  document.querySelectorAll(".tap-effect").forEach((effect) => {
+    effect.remove();
   });
 }
 
@@ -714,9 +798,13 @@ function checkMisses(currentTime) {
     }
   });
 
-  const allDone = notes.every((note) => note.hit || note.missed);
+  const allNotesDone = notes.length > 0 && notes.every((note) => {
+    return note.hit || note.missed;
+  });
 
-  if (allDone && isPlaying && !isFinishing) {
+  const musicEnded = musicDuration > 0 && currentTime >= musicDuration - 0.05;
+
+  if ((allNotesDone || musicEnded) && isPlaying && !isFinishing) {
     isFinishing = true;
 
     finishTimerId = setTimeout(() => {
@@ -731,6 +819,7 @@ function missNote(note) {
 
   if (note.element) {
     note.element.classList.add("miss");
+
     setTimeout(() => {
       note.element?.remove();
     }, 120);
@@ -739,6 +828,7 @@ function missNote(note) {
   combo = 0;
 
   showJudge("MISS");
+  showLaneJudge(note.lane, "MISS");
   updateStatusTexts();
 }
 
@@ -752,7 +842,6 @@ function hitLane(lane) {
   flashLane(lane);
 
   const currentTime = getCurrentTime();
-
   const target = findTargetNote(lane, currentTime);
 
   if (!target) {
@@ -771,6 +860,7 @@ function hitLane(lane) {
 
   if (target.element) {
     target.element.classList.add("hit");
+
     setTimeout(() => {
       target.element?.remove();
     }, 100);
@@ -792,6 +882,7 @@ function hitLane(lane) {
   }
 
   showJudge(result);
+  showLaneJudge(lane, result);
   updateStatusTexts();
 }
 
@@ -851,38 +942,48 @@ function checkComboBonus() {
 ========================= */
 
 function flashLane(lane) {
-  const button = document.querySelector(`.lane-button[data-lane="${lane}"]`);
+  const laneElement = lanes[lane];
 
-  if (!button) return;
+  if (!laneElement) return;
 
-  button.classList.add("active");
+  laneElement.classList.add("pressed");
 
   setTimeout(() => {
-    button.classList.remove("active");
-  }, 90);
+    laneElement.classList.remove("pressed");
+  }, 100);
 }
 
 function showTapEffect(lane) {
+  const laneElement = lanes[lane];
+
+  if (!laneElement) return;
+
   const effect = document.createElement("div");
 
   effect.className = "tap-effect";
-  effect.style.position = "absolute";
-  effect.style.left = `${12.5 + lane * 25}%`;
-  effect.style.bottom = "110px";
-  effect.style.width = "34px";
-  effect.style.height = "34px";
-  effect.style.border = "3px solid #30283a";
-  effect.style.borderRadius = "50%";
-  effect.style.background = "rgba(255, 243, 191, 0.75)";
-  effect.style.transform = "translateX(-50%)";
-  effect.style.pointerEvents = "none";
-  effect.style.zIndex = "5";
 
-  laneArea.appendChild(effect);
+  laneElement.appendChild(effect);
 
-  setTimeout(() => {
+  effect.addEventListener("animationend", () => {
     effect.remove();
-  }, 140);
+  });
+}
+
+function showLaneJudge(lane, text) {
+  const laneElement = lanes[lane];
+
+  if (!laneElement) return;
+
+  const judgeElement = document.createElement("div");
+
+  judgeElement.className = "lane-judge";
+  judgeElement.textContent = text;
+
+  laneElement.appendChild(judgeElement);
+
+  judgeElement.addEventListener("animationend", () => {
+    judgeElement.remove();
+  });
 }
 
 function showJudge(text) {
@@ -906,15 +1007,13 @@ async function finishGame() {
   isReady = false;
 
   stopGameLoop();
-
-  if (audio) {
-    audio.pause();
-  }
+  stopMusic();
 
   startPlayBtn.disabled = false;
   startPlayBtn.textContent = "スタート";
 
   clearNotes();
+
   await showResult();
 }
 
@@ -994,10 +1093,10 @@ function setupEvents() {
     startGame();
   });
 
-  laneButtons.forEach((button) => {
-    const lane = Number(button.dataset.lane);
+  lanes.forEach((laneElement) => {
+    const lane = Number(laneElement.dataset.lane);
 
-    button.addEventListener("pointerdown", (event) => {
+    laneElement.addEventListener("pointerdown", (event) => {
       event.preventDefault();
       hitLane(lane);
     });
@@ -1070,6 +1169,10 @@ function confirmBackFromPlay() {
 
 function getHitY() {
   return laneArea.clientHeight - 92;
+}
+
+function getGameHeight() {
+  return laneArea.clientHeight;
 }
 
 function getNoteSpeed() {
