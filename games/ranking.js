@@ -21,7 +21,11 @@ import {
 export async function submitScore(gameId, score) {
   const numericScore = toSafeScore(score);
 
-  if (!gameId || Number.isNaN(numericScore)) {
+  if (!gameId) {
+    return;
+  }
+
+  if (!Number.isFinite(numericScore)) {
     return;
   }
 
@@ -44,8 +48,8 @@ async function saveBestScore(periodKey, player, score) {
   const scoreSnap = await getDoc(scoreRef);
 
   const oldScore = scoreSnap.exists()
-  ? toSafeScore(scoreSnap.data().score)
-  : 0;
+    ? toSafeScore(scoreSnap.data().score)
+    : 0;
 
   if (score <= oldScore) {
     return;
@@ -56,7 +60,7 @@ async function saveBestScore(periodKey, player, score) {
     name: player.name,
     iconPath: player.iconPath,
     title: player.title,
-    score,
+    score: toSafeScore(score),
     updatedAt: serverTimestamp()
   }, { merge: true });
 }
@@ -107,6 +111,7 @@ export async function showRanking(gameId, period = "month") {
 
     rankingSnap.forEach((docSnap, index) => {
       const data = docSnap.data();
+      const safeScore = toSafeScore(data.score);
 
       items.push(`
         <div class="ranking-item">
@@ -125,7 +130,7 @@ export async function showRanking(gameId, period = "month") {
             </div>
           </div>
 
-          <span class="ranking-score">${toSafeScore(data.score)}</span>
+          <span class="ranking-score">${safeScore}</span>
         </div>
       `);
     });
@@ -222,7 +227,6 @@ function createGuestName() {
     "りす",
     "いるか",
     "たぬき",
-    "はむすたー",
     "ことり"
   ];
 
@@ -233,11 +237,8 @@ function createGuestName() {
     "メロディ",
     "ドリーム",
     "ポップ",
-    "スパーク",
-    "キャンディ",
     "ピクセル",
     "リズム",
-    "ミラクル",
     "ダッシュ"
   ];
 
@@ -283,19 +284,9 @@ function getMonthKey(offset = 0) {
    utility
 ========================= */
 
-function escapeHtml(value) {
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
-
 function toSafeScore(value) {
   if (typeof value === "number" && Number.isFinite(value)) {
-    return value;
+    return Math.floor(value);
   }
 
   const cleaned = String(value ?? "0").replaceAll(",", "");
@@ -305,5 +296,14 @@ function toSafeScore(value) {
     return 0;
   }
 
-  return number;
+  return Math.floor(number);
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
