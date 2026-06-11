@@ -60,6 +60,7 @@ async function saveBestScore(periodKey, player, score) {
     name: player.name,
     iconPath: player.iconPath,
     title: player.title,
+    role: player.role,
     score: toSafeScore(score),
     updatedAt: serverTimestamp()
   }, { merge: true });
@@ -108,35 +109,40 @@ export async function showRanking(gameId, period = "month") {
     }
 
     const items = [];
-let rank = 1;
+    let rank = 1;
 
-rankingSnap.forEach((docSnap) => {
-  const data = docSnap.data();
-  const safeScore = toSafeScore(data.score);
+    rankingSnap.forEach((docSnap) => {
+      const data = docSnap.data();
+      const safeScore = toSafeScore(data.score);
+      const title = data.title || "player";
+      const role = data.role || "player";
 
-  items.push(`
-    <div class="ranking-item">
-      <span class="ranking-rank">${rank}</span>
+      items.push(`
+        <div class="ranking-item">
+          <span class="ranking-rank">${rank}</span>
 
-      <div class="ranking-player">
-        <img
-          src="${escapeHtml(data.iconPath || "/favicon.png")}"
-          alt=""
-          class="ranking-icon"
-        >
+          <div class="ranking-player">
+            <img
+              src="${escapeHtml(data.iconPath || "/favicon.png")}"
+              alt=""
+              class="ranking-icon"
+            >
 
-        <div class="ranking-player-text">
-          <strong>${escapeHtml(data.name || "名無しのプレイヤー")}</strong>
-          <small>${escapeHtml(data.title || "player")}</small>
+            <div class="ranking-player-text">
+              <strong>${escapeHtml(data.name || "名無しのプレイヤー")}</strong>
+              <small>
+                ${escapeHtml(title)}
+                ${role ? ` / ${escapeHtml(getRoleLabel(role))}` : ""}
+              </small>
+            </div>
+          </div>
+
+          <span class="ranking-score">${safeScore}</span>
         </div>
-      </div>
+      `);
 
-      <span class="ranking-score">${safeScore}</span>
-    </div>
-  `);
-
-  rank += 1;
-});
+      rank += 1;
+    });
 
     rankingArea.innerHTML = items.join("");
   } catch (error) {
@@ -182,7 +188,8 @@ async function getPlayerData() {
       uid: user.uid,
       name: user.displayName || "プレイヤー",
       iconPath: user.photoURL || "/favicon.png",
-      title: "player"
+      title: "player",
+      role: "player"
     };
   }
 
@@ -192,7 +199,8 @@ async function getPlayerData() {
     uid: user.uid,
     name: data.displayName || user.displayName || "プレイヤー",
     iconPath: data.iconPath || user.photoURL || "/favicon.png",
-    title: data.title || "player"
+    title: data.title || "player",
+    role: data.role || "player"
   };
 }
 
@@ -214,7 +222,8 @@ function getGuestPlayer() {
     uid: guestId,
     name: guestName,
     iconPath: "/favicon.png",
-    title: "guest"
+    title: "guest",
+    role: "guest"
   };
 }
 
@@ -250,6 +259,21 @@ function createGuestName() {
   const number = String(Math.floor(Math.random() * 10000)).padStart(4, "0");
 
   return `${animal}${word}${number}`;
+}
+
+/* =========================
+   role
+========================= */
+
+function getRoleLabel(role) {
+  const labels = {
+    developer: "開発者",
+    admin: "管理者",
+    player: "プレイヤー",
+    guest: "ゲスト"
+  };
+
+  return labels[role] || role;
 }
 
 /* =========================
