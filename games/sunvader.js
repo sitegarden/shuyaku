@@ -1,6 +1,6 @@
 // games/sunvader.js
 
-import { submitScore, showRanking } from "../ranking.js";
+import { submitScore } from "./ranking.js";
 
 const gameContainer = document.getElementById("gameContainer");
 
@@ -104,7 +104,7 @@ function startGame() {
   objects = [];
   invincibleUntil = 0;
 
-  fieldEl.querySelectorAll(".sunvader-object").forEach(object => {
+  fieldEl.querySelectorAll(".sunvader-object").forEach((object) => {
     object.remove();
   });
 
@@ -121,7 +121,7 @@ function startGame() {
   animationId = requestAnimationFrame(gameLoop);
 }
 
-function endGame() {
+async function endGame() {
   if (!playing) {
     return;
   }
@@ -136,9 +136,13 @@ function endGame() {
   playerEl.classList.remove("invincible");
   invincibleText.classList.add("hidden");
 
-  submitScore("sunvader", score).then(() => {
-    showRanking("sunvader", "week");
-  });
+  try {
+    await submitScore("sunvader", score);
+    messageEl.textContent = `ゲーム終了！スコアは ${score} / ランキングに保存しました`;
+  } catch (error) {
+    console.error("スコア保存に失敗しました", error);
+    messageEl.textContent = `ゲーム終了！スコアは ${score} / 保存に失敗しました`;
+  }
 }
 
 function stopLoop() {
@@ -167,6 +171,7 @@ function gameLoop(now) {
 
 function updatePlayer(delta) {
   const moveSpeed = 64;
+
   playerX += moveDirection * moveSpeed * delta;
 
   if (playerX < 7) {
@@ -275,12 +280,12 @@ function spawnObject() {
 function updateObjects(delta) {
   const fallSpeed = 24 + speedLevel * 7;
 
-  objects.forEach(object => {
+  objects.forEach((object) => {
     object.y += fallSpeed * delta;
     object.el.style.top = `${object.y}%`;
   });
 
-  objects = objects.filter(object => {
+  objects = objects.filter((object) => {
     if (object.y > 110) {
       object.el.remove();
       return false;
@@ -293,7 +298,7 @@ function updateObjects(delta) {
 function checkCollisions() {
   const playerRect = playerEl.getBoundingClientRect();
 
-  objects.forEach(object => {
+  objects.forEach((object) => {
     if (object.caught) {
       return;
     }
@@ -333,7 +338,7 @@ function checkCollisions() {
     removeObject(object);
   });
 
-  objects = objects.filter(object => !object.caught);
+  objects = objects.filter((object) => !object.caught);
 }
 
 function removeObject(object) {
@@ -365,22 +370,22 @@ function stopMove(direction) {
   }
 }
 
-leftControl.addEventListener("pointerdown", event => {
+leftControl.addEventListener("pointerdown", (event) => {
   event.preventDefault();
   startMove(-1);
 });
 
-rightControl.addEventListener("pointerdown", event => {
+rightControl.addEventListener("pointerdown", (event) => {
   event.preventDefault();
   startMove(1);
 });
 
-leftControl.addEventListener("pointerup", event => {
+leftControl.addEventListener("pointerup", (event) => {
   event.preventDefault();
   stopMove(-1);
 });
 
-rightControl.addEventListener("pointerup", event => {
+rightControl.addEventListener("pointerup", (event) => {
   event.preventDefault();
   stopMove(1);
 });
@@ -401,7 +406,7 @@ rightControl.addEventListener("pointerleave", () => {
   stopMove(1);
 });
 
-document.addEventListener("keydown", event => {
+document.addEventListener("keydown", (event) => {
   if (!playing) {
     return;
   }
@@ -415,7 +420,7 @@ document.addEventListener("keydown", event => {
   }
 });
 
-document.addEventListener("keyup", event => {
+document.addEventListener("keyup", (event) => {
   if (event.key === "ArrowLeft" && moveDirection === -1) {
     moveDirection = 0;
   }
