@@ -20,7 +20,7 @@
 */
 
 const EXPERT_PATTERNS = {
-  piko: [
+  kimiToBokuNoMelody: [
     "・・・・・・・・・・・・・・・・",
     "○・・・・・・・○・・・・・・・",
     "〇・・・・・○・・・・・○・・・",
@@ -62,7 +62,7 @@ const EXPERT_PATTERNS = {
     "◎・・・・・・・・・・・・・・・"
   ],
 
-  miracle: [
+  miracleJumpBeat: [
     "・・・・・・・・・・・・・・・・",
     "○・・・・・・・○・・・・・・・",
     "・・・・○・・・・・・・○・・・",
