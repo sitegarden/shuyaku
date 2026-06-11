@@ -1158,3 +1158,35 @@ body.is-game-screen .game-back-floating {
   -webkit-user-select: none;
   -webkit-touch-callout: none;
 }
+
+.ranking-game-tabs {
+  width: min(760px, 100%);
+  margin: 0 auto 18px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.ranking-game-tab {
+  min-height: 44px;
+  padding: 9px 8px;
+  border: 3px solid #30283a;
+  border-radius: 16px;
+  background: #ffffff;
+  color: #30283a;
+  font-size: 13px;
+  font-weight: 900;
+  box-shadow: 3px 3px 0 #c7bdf4;
+}
+
+.ranking-game-tab.active,
+.ranking-game-tab:hover {
+  background: #8ee8df;
+  color: #30283a;
+}
+
+@media (max-width: 760px) {
+  .ranking-game-tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
