@@ -2,51 +2,53 @@
 
 export const SONGS = [
   {
-    id: "piko",
-    title: "ぴこぴこスターライン",
-    artist: "ZERO",
-    audio: "./audio/piko-piko-starline.mp3",
-    bpm: 128,
-    duration: 49,
-    description: "かわいく跳ねる、最初に遊びやすいリズム曲。",
+    id: "kimiToBokuNoMelody",
+    chartId: "kimiToBokuNoMelody",
+    title: "君と僕のメロディ",
+    artist: "Lane feat. 結月ゆかり 初音ミク",
+    audio: "./assets/kimi-to-boku-no-melody.mp3",
+    bpm: 150,
+    offset: 0,
+    description: "やさしく明るい、最初に遊びやすいリズム曲。",
     difficulties: [
       {
         id: "easy",
         label: "EASY",
         level: 2,
-        speed: 280,
+        speed: 300,
         description: "ゆっくり確認しながら遊べる"
       },
       {
         id: "normal",
         label: "NORMAL",
         level: 4,
-        speed: 390,
+        speed: 420,
         description: "ほどよくリズムに乗れる"
       },
       {
         id: "hard",
         label: "HARD",
         level: 6,
-        speed: 520,
+        speed: 560,
         description: "連打と左右移動が増える"
       },
       {
         id: "expert",
         label: "EXPERT",
         level: 8,
-        speed: 650,
+        speed: 760,
         description: "元譜面そのままの本気モード"
       }
     ]
   },
   {
-    id: "miracle",
-    title: "Miracle Jump Beat",
+    id: "miracleJumpBeat",
+    chartId: "miracleJumpBeat",
+    title: "ミラクル☆ジャンプビート",
     artist: "ZERO",
-    audio: "./audio/miracle-jump-beat.mp3",
-    bpm: 150,
-    duration: 55,
+    audio: "./assets/miracle-jump-beat.mp3",
+    bpm: 165,
+    offset: 0,
     description: "明るくジャンプする、テンポのいい曲。",
     difficulties: [
       {
@@ -60,7 +62,7 @@ export const SONGS = [
         id: "normal",
         label: "NORMAL",
         level: 5,
-        speed: 430,
+        speed: 420,
         description: "少し忙しいリズム"
       },
       {
@@ -74,39 +76,40 @@ export const SONGS = [
         id: "expert",
         label: "EXPERT",
         level: 9,
-        speed: 700,
+        speed: 760,
         description: "元譜面そのままの本気モード"
       }
     ]
   },
   {
-    id: "taphell",
+    id: "tapHell",
+    chartId: "tapHell",
     title: "あなたはこの曲で地獄を見ることになる",
     artist: "ZERO",
-    audio: "./audio/tap-hell.mp3",
-    bpm: 180,
-    duration: 60,
+    audio: "./assets/tap-hell.mp3",
+    bpm: 170,
+    offset: 0,
     description: "名前の通り、かなり忙しい高難易度曲。",
     difficulties: [
       {
         id: "easy",
         label: "EASY",
         level: 4,
-        speed: 330,
+        speed: 320,
         description: "地獄の入口"
       },
       {
         id: "normal",
         label: "NORMAL",
         level: 6,
-        speed: 470,
+        speed: 440,
         description: "まだ人間向け"
       },
       {
         id: "hard",
         label: "HARD",
         level: 8,
-        speed: 620,
+        speed: 600,
         description: "かなり忙しい"
       },
       {
