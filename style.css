@@ -957,3 +957,109 @@ body {
 .hidden {
   display: none;
 }
+
+/* =========================
+   account
+========================= */
+
+.hidden {
+  display: none !important;
+}
+
+.account-page {
+  width: min(760px, 100%);
+  margin: 72px auto;
+}
+
+.account-card {
+  padding: 30px;
+  border: 3px solid #30283a;
+  border-radius: 22px;
+  background: #fffdf6;
+  box-shadow: 7px 7px 0 #c7bdf4;
+  text-align: center;
+}
+
+.account-card h2 {
+  margin: 0 0 14px;
+  color: #30283a;
+  font-size: 28px;
+  font-weight: 900;
+  text-shadow:
+    2px 2px 0 #ffffff,
+    4px 4px 0 #a8edf0;
+}
+
+.account-card p {
+  max-width: 520px;
+  margin: 0 auto 24px;
+  color: #5f5668;
+  line-height: 1.8;
+  font-weight: 700;
+}
+
+.account-user {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.account-icon {
+  width: 76px;
+  height: 76px;
+  border: 3px solid #30283a;
+  border-radius: 22px;
+  background: #fff3bf;
+  box-shadow: 5px 5px 0 #8ee8df;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6f5ab8;
+  font-size: 32px;
+  font-weight: 900;
+  overflow: hidden;
+}
+
+.account-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.account-status {
+  margin-bottom: 6px !important;
+  font-size: 20px;
+}
+
+.account-email {
+  margin-bottom: 0 !important;
+  font-size: 13px;
+  opacity: 0.75;
+}
+
+.account-menu {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.account-main-btn {
+  min-width: 180px;
+}
+
+@media (max-width: 640px) {
+  .account-card {
+    padding: 26px 20px;
+  }
+
+  .account-user {
+    flex-direction: column;
+  }
+
+  .account-main-btn {
+    width: 100%;
+  }
+}
