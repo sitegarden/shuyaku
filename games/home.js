@@ -24,7 +24,6 @@ const screens = {
 
 let currentGame = null;
 let currentPeriod = "week";
-let loadedGameScript = null;
 
 renderGameList();
 setupTabs();
@@ -72,10 +71,10 @@ async function startGame(game) {
   showScreen("game");
 
   try {
-    loadedGameScript = await import(`${game.script}?v=${Date.now()}`);
+    const gameModule = await import(`${game.script}?v=${Date.now()}`);
 
-    if (loadedGameScript?.initGame) {
-      loadedGameScript.initGame();
+    if (gameModule?.initGame) {
+      gameModule.initGame();
     }
   } catch (error) {
     console.error(error);
