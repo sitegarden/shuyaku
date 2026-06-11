@@ -32,9 +32,12 @@ export async function submitScore(gameId, score) {
   const player = await getPlayerData();
 
   const periods = [
-    getPeriodKey(gameId, "month"),
-    getPeriodKey(gameId, "all")
+    getPeriodKey(gameId, "month")
   ];
+
+  if (player.role !== "guest") {
+    periods.push(getPeriodKey(gameId, "all"));
+  }
 
   await Promise.all(
     periods.map((periodKey) => {
