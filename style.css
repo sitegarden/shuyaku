@@ -910,3 +910,50 @@ body {
     max-height: 320px;
   }
 }
+
+/* =========================
+   account
+========================= */
+
+.account-page {
+  width: min(760px, 100%);
+  margin: 72px auto;
+}
+
+.account-card {
+  padding: 30px;
+  border: 3px solid #30283a;
+  border-radius: 22px;
+  background: #fffdf6;
+  box-shadow: 7px 7px 0 #c7bdf4;
+  text-align: center;
+}
+
+.account-card h2 {
+  margin: 0 0 14px;
+  color: #30283a;
+  font-size: 28px;
+  font-weight: 900;
+  text-shadow:
+    2px 2px 0 #ffffff,
+    4px 4px 0 #a8edf0;
+}
+
+.account-card p {
+  max-width: 520px;
+  margin: 0 auto 24px;
+  color: #5f5668;
+  line-height: 1.8;
+  font-weight: 700;
+}
+
+.account-status {
+  padding: 14px 16px;
+  border: 3px solid #30283a;
+  border-radius: 16px;
+  background: #fff3bf;
+}
+
+.hidden {
+  display: none;
+}
