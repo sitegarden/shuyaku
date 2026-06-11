@@ -3281,3 +3281,7 @@ body.is-game-screen .games-hero {
   background: #ff95b9;
   color: #ffffff;
 }
+
+.games-hero {
+  margin-top: 28px;
+}
