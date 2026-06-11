@@ -22,104 +22,93 @@
   <meta name="twitter:image" content="https://shuyaku.me/ogp.png">
 
   <link rel="stylesheet" href="/css/layout.css">
-<link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 
   <div id="siteHeader"></div>
 
-  <header class="games-hero">
-    <div class="games-hero-window">
-      <div class="window-dots">
-        <span></span>
-        <span></span>
-        <span></span>
+  <main class="games-page">
+
+    <section class="games-hero">
+      <div class="games-window">
+        <div class="window-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <p class="games-label">score games</p>
+
+        <h1 id="headerTitle">
+          ランキング系<br class="sp-only">ミニゲーム
+        </h1>
+
+        <p id="headerSubtitle" class="games-lead">
+          好きなゲームを選んで、スコアを競え。
+        </p>
+
+        <div id="headerUserArea" class="games-user-area"></div>
+
+        <div class="games-action-row">
+          <button type="button" id="headerBackBtn" class="game-action-btn hidden">
+            戻る
+          </button>
+
+          <button type="button" id="headerActionBtn" class="game-action-btn hidden">
+            ランキング
+          </button>
+        </div>
       </div>
+    </section>
 
-      <p class="games-label">score games</p>
-
-      <h1 id="headerTitle">ランキング系ミニゲーム</h1>
-
-      <p id="headerSubtitle">
-        好きなゲームを選んで、スコアを競え。
-      </p>
-
-      <div id="headerUserArea"></div>
-
-      <div class="games-header-actions">
-        <button type="button" id="headerBackBtn" class="game-top-btn hidden">
-          戻る
+    <section class="games-panel">
+      <div class="games-tabs">
+        <button type="button" class="games-tab active" id="tabGamesBtn">
+          ゲーム
         </button>
 
-        <button type="button" id="headerActionBtn" class="game-top-btn">
+        <button type="button" class="games-tab" id="tabRankingBtn">
           ランキング
         </button>
       </div>
-    </div>
-  </header>
 
-  <main class="games-main">
-    
-    
-      <div class="games-tabs">
-  <button type="button" class="games-tab active" id="tabGamesBtn">
-    ゲーム
-  </button>
+      <section id="homeScreen" class="screen active">
+        <div class="section-title">
+          <p>select</p>
+          <h2>ゲームを選ぶ</h2>
+        </div>
 
-  <button type="button" class="games-tab" id="tabRankingBtn">
-    ランキング
-  </button>
-</div>
-    
-
-    <section id="homeScreen" class="screen active">
-      <div class="section-title">
-        <p>select</p>
-        <h2>ゲームを選ぶ</h2>
-      </div>
-
-      <p class="games-lead">
-        すぐ遊べる短時間ゲームをまとめています。
-        ベストスコアを出して、ランキング上位を狙おう。
-      </p>
-
-      <div id="gameList"></div>
-    </section>
-
-    <section id="gameScreen" class="screen">
-      <div id="gameContainer"></div>
-    </section>
-
-    <section id="rankingScreen" class="screen">
-      <div class="section-title">
-        <p>ranking</p>
-        <h2>ランキング</h2>
-      </div>
-
-      <div class="ranking-tabs">
-        <button type="button" data-period="weekly">週間</button>
-        <button type="button" data-period="monthly">月間</button>
-        <button type="button" data-period="all">全期間</button>
-      </div>
-
-      <div id="rankingArea"></div>
-    </section>
-
-    <section id="profileScreen" class="screen">
-      <div class="section-title">
-        <p>profile</p>
-        <h2>プロフィール</h2>
-      </div>
-
-      <div class="profile-box">
-        <p>
-          プロフィール編集はマイページに移動しました。
+        <p class="screen-lead">
+          短時間で遊べるミニゲームをまとめています。
+          ベストスコアを出して、ランキング上位を狙おう。
         </p>
 
-        <a href="/account/" class="primary-btn profile-account-link">
-          マイページへ
-        </a>
-      </div>
+        <div id="gameList" class="game-list"></div>
+      </section>
+
+      <section id="rankingScreen" class="screen">
+        <div class="section-title">
+          <p>ranking</p>
+          <h2>ランキング</h2>
+        </div>
+
+        <p class="screen-lead">
+          ゲームごとのスコアランキングを確認できます。
+        </p>
+
+        <div class="tabs ranking-tabs">
+          <button type="button" data-period="week">週間</button>
+          <button type="button" data-period="month">月間</button>
+          <button type="button" data-period="all">全期間</button>
+        </div>
+
+        <div id="rankingArea" class="ranking-area"></div>
+      </section>
+
+      <section id="gameScreen" class="screen">
+        <div id="gameContainer" class="game-container"></div>
+      </section>
     </section>
 
   </main>
