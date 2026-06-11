@@ -1,452 +1,238 @@
 // ranking.js
 
-import { db, auth } from "./firebase.js";
+import { auth, db } from "../js/firebase.js";
 
 import {
-  collection,
   doc,
   getDoc,
   setDoc,
-  addDoc,
+  serverTimestamp,
+  collection,
   getDocs,
   query,
   orderBy,
-  limit,
-  serverTimestamp
+  limit
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-function getWeekKey(date = new Date()) {
-  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-  const day = d.getUTCDay() || 7;
-
-  d.setUTCDate(d.getUTCDate() + 4 - day);
-
-  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-  const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-
-  return `${d.getUTCFullYear()}-W${String(weekNo).padStart(2, "0")}`;
-}
-
-function getMonthKey(date = new Date()) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-
-  return `${year}-${month}`;
-}
-
-function getGuestId() {
-  let guestId = localStorage.getItem("guestId");
-
-  if (!guestId) {
-    guestId = crypto.randomUUID();
-    localStorage.setItem("guestId", guestId);
-  }
-
-  return guestId;
-}
-
-function getGuestName() {
-  let guestName = localStorage.getItem("guestName");
-
-  if (!guestName) {
-    guestName = prompt("今週ランキングに載せる名前を入力してね");
-
-    if (!guestName) {
-      return null;
-    }
-
-    guestName = guestName.trim();
-
-    if (!guestName) {
-      return null;
-    }
-
-    if (guestName.length > 12) {
-      guestName = guestName.slice(0, 12);
-    }
-
-    localStorage.setItem("guestName", guestName);
-  }
-
-  return guestName;
-}
+/* =========================
+   score submit
+========================= */
 
 export async function submitScore(gameId, score) {
-  const user = auth.currentUser;
+  const numericScore = Number(score || 0);
 
-  console.log("スコア送信チェック", {
-    gameId,
-    score,
-    user
-  });
-
-  try {
-    const weekKey = getWeekKey();
-    const monthKey = getMonthKey();
-
-    if (!user) {
-      const guestName = getGuestName();
-
-      if (!guestName) {
-        alert("ランキング登録をキャンセルしました");
-        return;
-      }
-
-      const guestId = getGuestId();
-
-      const playerId = `guest_${guestId}`;
-      const name = guestName;
-      const iconCategory = "animal";
-      const iconId = "round";
-      const iconType = "round";
-      const iconColor = "cream";
-      const mbtiType = "";
-      const title = "GUEST";
-      const isGuest = true;
-
-      await addDoc(collection(db, "scores"), {
-        playerId,
-        name,
-        iconCategory,
-        iconId,
-        iconType,
-        iconColor,
-        mbtiType,
-        title,
-        isGuest,
-        gameId,
-        score,
-        weekKey,
-        monthKey,
-        createdAt: serverTimestamp()
-      });
-
-      await updateBestScore({
-        gameId,
-        playerId,
-        name,
-        iconCategory,
-        iconId,
-        iconType,
-        iconColor,
-        mbtiType,
-        title,
-        isGuest,
-        score,
-        period: "week",
-        periodKey: weekKey
-      });
-
-      alert("今週ランキングに登録しました");
-      return;
-    }
-
-    const profile = await getUserProfile(user.uid);
-
-    console.log("読み込んだプロフィール:", profile);
-
-    const playerId = user.uid;
-    const name = profile.displayName || user.displayName || "名無し";
-
-    const iconCategory = profile.iconCategory || "animal";
-    const iconId = profile.iconId || profile.iconType || "cat";
-    const iconType = profile.iconType || "cat";
-    const iconColor = profile.iconColor || "pink";
-    const mbtiType = profile.mbtiType || "";
-
-    const title = profile.selectedTitle || "PLAYER";
-    const isGuest = false;
-
-    await addDoc(collection(db, "scores"), {
-      playerId,
-      name,
-      iconCategory,
-      iconId,
-      iconType,
-      iconColor,
-      mbtiType,
-      title,
-      isGuest,
-      gameId,
-      score,
-      weekKey,
-      monthKey,
-      createdAt: serverTimestamp()
-    });
-
-    await updateBestScore({
-      gameId,
-      playerId,
-      name,
-      iconCategory,
-      iconId,
-      iconType,
-      iconColor,
-      mbtiType,
-      title,
-      isGuest,
-      score,
-      period: "week",
-      periodKey: weekKey
-    });
-
-    await updateBestScore({
-      gameId,
-      playerId,
-      name,
-      iconCategory,
-      iconId,
-      iconType,
-      iconColor,
-      mbtiType,
-      title,
-      isGuest,
-      score,
-      period: "month",
-      periodKey: monthKey
-    });
-
-    await updateBestScore({
-      gameId,
-      playerId,
-      name,
-      iconCategory,
-      iconId,
-      iconType,
-      iconColor,
-      mbtiType,
-      title,
-      isGuest,
-      score,
-      period: "all",
-      periodKey: "all"
-    });
-
-    console.log("ランキング保存完了");
-  } catch (error) {
-    console.error("ランキング保存エラー:", error);
-    alert(`ランキング保存エラー: ${error.message}`);
-  }
-}
-
-async function getUserProfile(uid) {
-  const userRef = doc(db, "users", uid);
-  const snap = await getDoc(userRef);
-
-  if (!snap.exists()) {
-    return {};
+  if (!gameId || Number.isNaN(numericScore)) {
+    return;
   }
 
-  return snap.data();
-}
+  const player = await getPlayerData();
 
-async function updateBestScore({
-  gameId,
-  playerId,
-  name,
-  iconCategory,
-  iconId,
-  iconType,
-  iconColor,
-  mbtiType,
-  title,
-  isGuest,
-  score,
-  period,
-  periodKey
-}) {
-  const boardId = `${gameId}_${period}_${periodKey}`;
-  const entryRef = doc(db, "leaderboards", boardId, "entries", playerId);
+  const periods = [
+    getPeriodKey(gameId, "week"),
+    getPeriodKey(gameId, "month"),
+    getPeriodKey(gameId, "all")
+  ];
 
-  console.log("ベスト更新チェック", {
-    boardId,
-    playerId,
-    score,
-    period,
-    periodKey,
-    iconCategory,
-    iconId,
-    title,
-    isGuest
-  });
-
-  const snap = await getDoc(entryRef);
-
-  if (snap.exists()) {
-    const oldData = snap.data();
-    const oldScore = oldData.score || 0;
-
-    if (oldScore >= score) {
-      await setDoc(entryRef, {
-        playerId,
-        name,
-        iconCategory,
-        iconId,
-        iconType,
-        iconColor,
-        mbtiType,
-        title,
-        isGuest,
-        gameId,
-        score: oldScore,
-        period,
-        periodKey,
-        updatedAt: serverTimestamp()
-      }, { merge: true });
-
-      console.log("スコアは更新せず、プロフィール情報だけ更新しました", {
-        oldScore,
-        score
-      });
-
-      return;
-    }
-  }
-
-  await setDoc(entryRef, {
-    playerId,
-    name,
-    iconCategory,
-    iconId,
-    iconType,
-    iconColor,
-    mbtiType,
-    title,
-    isGuest,
-    gameId,
-    score,
-    period,
-    periodKey,
-    updatedAt: serverTimestamp()
-  });
-
-  console.log("ベスト更新完了", {
-    boardId,
-    playerId,
-    score
-  });
-}
-
-export async function getRanking(gameId, period) {
-  let periodKey = "all";
-
-  if (period === "week") {
-    periodKey = getWeekKey();
-  }
-
-  if (period === "month") {
-    periodKey = getMonthKey();
-  }
-
-  const boardId = `${gameId}_${period}_${periodKey}`;
-
-  console.log("ランキング取得", {
-    gameId,
-    period,
-    periodKey,
-    boardId
-  });
-
-  const q = query(
-    collection(db, "leaderboards", boardId, "entries"),
-    orderBy("score", "desc"),
-    limit(20)
+  await Promise.all(
+    periods.map((periodKey) => {
+      return saveBestScore(periodKey, player, numericScore);
+    })
   );
-
-  const snap = await getDocs(q);
-
-  return snap.docs.map((doc, index) => ({
-    rank: index + 1,
-    id: doc.id,
-    ...doc.data()
-  }));
 }
+
+async function saveBestScore(periodKey, player, score) {
+  const scoreRef = doc(db, "rankings", periodKey, "scores", player.uid);
+  const scoreSnap = await getDoc(scoreRef);
+
+  const oldScore = scoreSnap.exists()
+    ? Number(scoreSnap.data().score || 0)
+    : 0;
+
+  if (score <= oldScore) {
+    return;
+  }
+
+  await setDoc(scoreRef, {
+    uid: player.uid,
+    name: player.name,
+    iconPath: player.iconPath,
+    title: player.title,
+    score,
+    updatedAt: serverTimestamp()
+  }, { merge: true });
+}
+
+/* =========================
+   ranking display
+========================= */
 
 export async function showRanking(gameId, period = "week") {
   const rankingArea = document.getElementById("rankingArea");
 
-  const ranking = await getRanking(gameId, period);
-
-  if (ranking.length === 0) {
-    rankingArea.innerHTML = "<p>まだランキングはありません</p>";
+  if (!rankingArea) {
     return;
   }
 
-  rankingArea.innerHTML = ranking.map(item => `
-    <div class="ranking-item">
-      <span>${item.rank}位</span>
+  if (!gameId) {
+    rankingArea.innerHTML = `
+      <div class="ranking-empty">
+        ゲームが選択されていません。
+      </div>
+    `;
+    return;
+  }
 
-      <span class="ranking-user">
-        ${createRankingIconHtml(item)}
-        <span class="ranking-name">${escapeHtml(item.name)}</span>
-        <span class="title-badge ${getTitleClass(item.title || "PLAYER")}">${escapeHtml(item.title || "PLAYER")}</span>
-      </span>
+  const periodKey = getPeriodKey(gameId, period);
 
-      <span>${item.score}</span>
+  rankingArea.innerHTML = `
+    <div class="ranking-loading">
+      ランキング読み込み中...
     </div>
-  `).join("");
-}
+  `;
 
-function createRankingIconHtml(item) {
-  const iconCategory = item.iconCategory || "animal";
+  try {
+    const scoresRef = collection(db, "rankings", periodKey, "scores");
+    const rankingQuery = query(scoresRef, orderBy("score", "desc"), limit(30));
+    const rankingSnap = await getDocs(rankingQuery);
 
-  if (iconCategory === "mbti") {
-    const mbti = item.iconId || item.mbtiType || "estp";
+    if (rankingSnap.empty) {
+      rankingArea.innerHTML = `
+        <div class="ranking-empty">
+          まだランキングがありません。<br>
+          最初の主役になろう。
+        </div>
+      `;
+      return;
+    }
 
-    return `
-      <img
-        class="ranking-mbti-avatar"
-        src="./assets/icons/mbti/${escapeHtml(mbti)}.png"
-        alt="${escapeHtml(mbti.toUpperCase())} icon"
-      >
+    const items = [];
+
+    rankingSnap.forEach((docSnap, index) => {
+      const data = docSnap.data();
+
+      items.push(`
+        <div class="ranking-item">
+          <span class="ranking-rank">${index + 1}</span>
+
+          <div class="ranking-player">
+            <img
+              src="${escapeHtml(data.iconPath || "/favicon.png")}"
+              alt=""
+              class="ranking-icon"
+            >
+
+            <div class="ranking-player-text">
+              <strong>${escapeHtml(data.name || "名無しのプレイヤー")}</strong>
+              <small>${escapeHtml(data.title || "player")}</small>
+            </div>
+          </div>
+
+          <span class="ranking-score">${Number(data.score || 0)}</span>
+        </div>
+      `);
+    });
+
+    rankingArea.innerHTML = items.join("");
+  } catch (error) {
+    console.error(error);
+
+    rankingArea.innerHTML = `
+      <div class="ranking-empty">
+        ランキングを読み込めませんでした。<br>
+        ${escapeHtml(error.message)}
+      </div>
     `;
   }
-
-  const type = item.iconType || item.iconId || "cat";
-  const color = item.iconColor || "pink";
-
-  return `
-    <span class="avatar ranking-avatar ${escapeHtml(type)} ${escapeHtml(color)}">
-      <span class="ear left"></span>
-      <span class="ear right"></span>
-      <span class="face">
-        <span class="eye left"></span>
-        <span class="eye right"></span>
-        <span class="mouth"></span>
-      </span>
-    </span>
-  `;
 }
 
-function getTitleClass(title) {
-  if (title === "GUEST") {
-    return "guest-title";
+/* =========================
+   player
+========================= */
+
+async function getPlayerData() {
+  const user = auth.currentUser;
+
+  if (!user) {
+    return getGuestPlayer();
   }
 
-  if (title === "PLAYER") {
-    return "player-title";
+  const userRef = doc(db, "users", user.uid);
+  const userSnap = await getDoc(userRef);
+
+  if (!userSnap.exists()) {
+    return {
+      uid: user.uid,
+      name: user.displayName || "プレイヤー",
+      iconPath: user.photoURL || "/favicon.png",
+      title: "player"
+    };
   }
 
-  if (title === "DEVELOPER") {
-    return "developer-title";
-  }
+  const data = userSnap.data();
 
-  if (title === "ADMIN") {
-    return "admin-title";
-  }
-
-  if (title === "WEEK TOP 1") {
-    return "top-title";
-  }
-
-  if (title === "WEEK TOP 10") {
-    return "top10-title";
-  }
-
-  return "normal-title";
+  return {
+    uid: user.uid,
+    name: data.displayName || user.displayName || "プレイヤー",
+    iconPath: data.iconPath || user.photoURL || "/favicon.png",
+    title: data.title || "player"
+  };
 }
-function escapeHtml(text) {
-  return String(text)
+
+function getGuestPlayer() {
+  let guestId = localStorage.getItem("shuyakuGuestId");
+
+  if (!guestId) {
+    guestId = `guest_${crypto.randomUUID()}`;
+    localStorage.setItem("shuyakuGuestId", guestId);
+  }
+
+  return {
+    uid: guestId,
+    name: "ゲスト",
+    iconPath: "/favicon.png",
+    title: "guest"
+  };
+}
+
+/* =========================
+   period
+========================= */
+
+function getPeriodKey(gameId, period) {
+  if (period === "all") {
+    return `${gameId}_all`;
+  }
+
+  if (period === "month") {
+    return `${gameId}_${getMonthKey()}`;
+  }
+
+  return `${gameId}_${getWeekKey()}`;
+}
+
+function getMonthKey() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+
+  return `${year}-${month}`;
+}
+
+function getWeekKey() {
+  const now = new Date();
+  const firstDay = new Date(now.getFullYear(), 0, 1);
+  const pastDays = Math.floor((now - firstDay) / 86400000);
+  const week = Math.ceil((pastDays + firstDay.getDay() + 1) / 7);
+
+  return `${now.getFullYear()}-W${String(week).padStart(2, "0")}`;
+}
+
+/* =========================
+   utility
+========================= */
+
+function escapeHtml(value) {
+  return String(value)
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
