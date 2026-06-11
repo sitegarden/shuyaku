@@ -108,32 +108,35 @@ export async function showRanking(gameId, period = "month") {
     }
 
     const items = [];
+let rank = 1;
 
-    rankingSnap.forEach((docSnap, index) => {
-      const data = docSnap.data();
-      const safeScore = toSafeScore(data.score);
+rankingSnap.forEach((docSnap) => {
+  const data = docSnap.data();
+  const safeScore = toSafeScore(data.score);
 
-      items.push(`
-        <div class="ranking-item">
-          <span class="ranking-rank">${index + 1}</span>
+  items.push(`
+    <div class="ranking-item">
+      <span class="ranking-rank">${rank}</span>
 
-          <div class="ranking-player">
-            <img
-              src="${escapeHtml(data.iconPath || "/favicon.png")}"
-              alt=""
-              class="ranking-icon"
-            >
+      <div class="ranking-player">
+        <img
+          src="${escapeHtml(data.iconPath || "/favicon.png")}"
+          alt=""
+          class="ranking-icon"
+        >
 
-            <div class="ranking-player-text">
-              <strong>${escapeHtml(data.name || "名無しのプレイヤー")}</strong>
-              <small>${escapeHtml(data.title || "player")}</small>
-            </div>
-          </div>
-
-          <span class="ranking-score">${safeScore}</span>
+        <div class="ranking-player-text">
+          <strong>${escapeHtml(data.name || "名無しのプレイヤー")}</strong>
+          <small>${escapeHtml(data.title || "player")}</small>
         </div>
-      `);
-    });
+      </div>
+
+      <span class="ranking-score">${safeScore}</span>
+    </div>
+  `);
+
+  rank += 1;
+});
 
     rankingArea.innerHTML = items.join("");
   } catch (error) {
