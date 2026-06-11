@@ -87,22 +87,41 @@
   margin: 0;
 }
 
-/* スマホ用 */
+/* =========================
+   tablet / mobile
+========================= */
+
 @media (max-width: 720px) {
   .site-header {
     width: min(100% - 24px, 1100px);
     margin-top: 14px;
     padding: 14px;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "logo account"
+      "nav nav";
     gap: 12px;
-    text-align: center;
   }
 
   .site-logo {
-    font-size: 26px;
+    grid-area: logo;
+    justify-self: start;
+    font-size: 24px;
+  }
+
+  .site-account {
+    grid-area: account;
+    justify-self: end;
+  }
+
+  .account-link {
+    min-height: 34px;
+    padding: 8px 13px;
+    font-size: 12px;
   }
 
   .site-nav {
+    grid-area: nav;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     width: 100%;
@@ -111,18 +130,9 @@
 
   .site-nav a {
     width: 100%;
-    padding: 9px 6px;
+    min-height: 36px;
+    padding: 8px 4px;
     font-size: 12px;
-  }
-
-  .site-account {
-    width: 100%;
-  }
-
-  .account-link {
-    width: 100%;
-    min-height: 40px;
-    font-size: 13px;
   }
 
   .site-footer {
@@ -131,7 +141,28 @@
 }
 
 @media (max-width: 420px) {
+  .site-header {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .site-logo {
+    font-size: 22px;
+  }
+
+  .account-link {
+    min-height: 32px;
+    padding: 7px 11px;
+    font-size: 12px;
+  }
+
   .site-nav {
-    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+
+  .site-nav a {
+    min-height: 34px;
+    font-size: 11px;
+    padding: 7px 3px;
   }
 }
