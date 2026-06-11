@@ -1,6 +1,6 @@
 // games/memorychain.js
 
-import { submitScore, showRanking } from "../ranking.js";
+import { submitScore } from "./ranking.js";
 
 const gameContainer = document.getElementById("gameContainer");
 
@@ -116,11 +116,13 @@ async function showSequence() {
 function flashCell(index) {
   const cell = cells[index];
 
+  if (!cell) return;
+
   cell.classList.add("active");
 }
 
 function clearCells() {
-  cells.forEach(cell => {
+  cells.forEach((cell) => {
     cell.classList.remove("active");
     cell.classList.remove("correct");
     cell.classList.remove("wrong");
@@ -168,7 +170,7 @@ function missCell(cell) {
   messageEl.textContent = "ミス！ゲーム終了";
 }
 
-function endGame() {
+async function endGame() {
   acceptingInput = false;
   showingSequence = false;
   gameStarted = false;
@@ -187,12 +189,16 @@ function endGame() {
   startBtn.disabled = false;
   startBtn.textContent = "もう一度";
 
-  submitScore("memorychain", finalLevel).then(() => {
-    showRanking("memorychain", "week");
-  });
+  try {
+    await submitScore("memorychain", finalLevel);
+    messageEl.textContent = `ゲーム終了！到達レベル：${finalLevel} / ランキングに保存しました`;
+  } catch (error) {
+    console.error("スコア保存に失敗しました", error);
+    messageEl.textContent = `ゲーム終了！到達レベル：${finalLevel} / 保存に失敗しました`;
+  }
 }
 
-function completeGame() {
+async function completeGame() {
   acceptingInput = false;
   showingSequence = false;
   gameStarted = false;
@@ -211,19 +217,23 @@ function completeGame() {
   startBtn.disabled = false;
   startBtn.textContent = "もう一度";
 
-  submitScore("memorychain", finalLevel).then(() => {
-    showRanking("memorychain", "week");
-  });
+  try {
+    await submitScore("memorychain", finalLevel);
+    messageEl.textContent = `完全クリア！到達レベル：${finalLevel} / ランキングに保存しました`;
+  } catch (error) {
+    console.error("スコア保存に失敗しました", error);
+    messageEl.textContent = `完全クリア！到達レベル：${finalLevel} / 保存に失敗しました`;
+  }
 }
 
 function wait(ms) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
 }
 
-cells.forEach(cell => {
-  cell.addEventListener("pointerdown", event => {
+cells.forEach((cell) => {
+  cell.addEventListener("pointerdown", (event) => {
     event.preventDefault();
     handleCellTap(cell);
   });
