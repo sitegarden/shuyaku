@@ -1,6 +1,7 @@
 // home.js
 
 import { GAMES } from "./games.js";
+import { showRanking } from "./ranking.js";
 
 const gameList = document.getElementById("gameList");
 const gameContainer = document.getElementById("gameContainer");
@@ -13,6 +14,8 @@ const headerActionBtn = document.getElementById("headerActionBtn");
 const tabGamesBtn = document.getElementById("tabGamesBtn");
 const tabRankingBtn = document.getElementById("tabRankingBtn");
 
+const rankingPeriodButtons = document.querySelectorAll(".tabs button");
+
 const screens = {
   home: document.getElementById("homeScreen"),
   ranking: document.getElementById("rankingScreen"),
@@ -20,10 +23,16 @@ const screens = {
 };
 
 let currentGame = null;
+let currentPeriod = "week";
 
 renderGameList();
 setupTabs();
+setupRankingPeriodButtons();
 showScreen("home");
+
+/* =========================
+   game list
+========================= */
 
 function renderGameList() {
   if (!gameList) {
@@ -51,6 +60,10 @@ function renderGameList() {
   });
 }
 
+/* =========================
+   screens
+========================= */
+
 async function startGame(game) {
   currentGame = game;
 
@@ -73,7 +86,7 @@ async function startGame(game) {
       gameContainer.innerHTML = `
         <div class="game-error">
           <h2>ゲームを読み込めませんでした</h2>
-          <p>${error.message}</p>
+          <p>${escapeHtml(error.message)}</p>
         </div>
       `;
     }
@@ -121,7 +134,9 @@ function updateHeader(screenName) {
   if (screenName === "ranking") {
     setHeader({
       title: "ランキング",
-      subtitle: "ランキングは調整中です。",
+      subtitle: currentGame
+        ? `${currentGame.title} のスコアランキング`
+        : "ゲームごとのスコアランキングを確認できます。",
       showBack: false,
       actionText: ""
     });
@@ -132,9 +147,12 @@ function updateHeader(screenName) {
       title: currentGame?.title || "ゲーム",
       subtitle: "ベストスコアを狙え。",
       showBack: true,
-      actionText: "",
+      actionText: "ランキング",
       onBack: () => {
         showScreen("home");
+      },
+      onAction: async () => {
+        await openRanking();
       }
     });
   }
@@ -168,6 +186,10 @@ function setHeader({
   }
 }
 
+/* =========================
+   tabs
+========================= */
+
 function setupTabs() {
   if (tabGamesBtn) {
     tabGamesBtn.addEventListener("click", () => {
@@ -176,17 +198,65 @@ function setupTabs() {
   }
 
   if (tabRankingBtn) {
-    tabRankingBtn.addEventListener("click", () => {
-      showScreen("ranking");
-
-      const rankingArea = document.getElementById("rankingArea");
-      if (rankingArea) {
-        rankingArea.innerHTML = `
-          <div class="ranking-empty">
-            ランキングは調整中です。
-          </div>
-        `;
-      }
+    tabRankingBtn.addEventListener("click", async () => {
+      await openRanking();
     });
   }
+}
+
+async function openRanking() {
+  if (!currentGame) {
+    currentGame = GAMES[0] || null;
+  }
+
+  showScreen("ranking");
+
+  if (currentGame) {
+    await showRanking(currentGame.id, currentPeriod);
+  }
+}
+
+/* =========================
+   ranking periods
+========================= */
+
+function setupRankingPeriodButtons() {
+  rankingPeriodButtons.forEach((button) => {
+    button.addEventListener("click", async () => {
+      currentPeriod = button.dataset.period || "week";
+
+      rankingPeriodButtons.forEach((btn) => {
+        btn.classList.remove("active");
+      });
+
+      button.classList.add("active");
+
+      if (!currentGame) {
+        currentGame = GAMES[0] || null;
+      }
+
+      if (currentGame) {
+        await showRanking(currentGame.id, currentPeriod);
+      }
+    });
+  });
+
+  const defaultButton = document.querySelector(`.tabs button[data-period="${currentPeriod}"]`);
+
+  if (defaultButton) {
+    defaultButton.classList.add("active");
+  }
+}
+
+/* =========================
+   utility
+========================= */
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
