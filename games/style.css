@@ -1043,3 +1043,72 @@ body.is-game-screen #gameScreen {
     font-size: 13px;
   }
 }
+
+
+
+/* =========================
+   game screen lock / mobile app mode
+========================= */
+
+html,
+body {
+  min-height: 100%;
+}
+
+body.is-game-screen {
+  width: 100%;
+  min-height: 100dvh;
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+body.is-game-screen * {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+body.is-game-screen button,
+body.is-game-screen canvas,
+body.is-game-screen #board,
+body.is-game-screen .taprush-board,
+body.is-game-screen .sunvader-field,
+body.is-game-screen .memory-board {
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+body.is-game-screen .games-panel {
+  width: 100%;
+  min-height: 100dvh;
+  padding: 0;
+}
+
+body.is-game-screen .screen {
+  width: 100%;
+  min-height: 100dvh;
+  height: 100dvh;
+  padding: 12px;
+  overflow: hidden;
+}
+
+body.is-game-screen #gameScreen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body.is-game-screen #gameContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
