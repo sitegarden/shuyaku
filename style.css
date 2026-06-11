@@ -142,13 +142,12 @@ body {
 
 .cards {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
 }
-
 .card {
-  min-height: 210px;
-  padding: 22px;
+  min-height: 190px;
+  padding: 26px;
   border: 3px solid #30283a;
   border-radius: 18px;
   background: #ffffff;
@@ -191,4 +190,52 @@ body {
   color: #6c6174;
   line-height: 1.7;
   font-weight: 600;
+}
+
+@media (max-width: 700px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+.section {
+  margin: 80px auto;
+}
+
+.section-title {
+  margin-bottom: 28px;
+}
+
+main {
+  width: min(980px, calc(100% - 32px));
+  margin: 0 auto 80px;
+}
+
+.section {
+  margin: 80px auto;
+}
+
+.section-title {
+  margin-bottom: 28px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.card {
+  min-height: 190px;
+  padding: 26px;
+}
+
+@media (max-width: 700px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .section {
+    margin: 64px auto;
+  }
 }
