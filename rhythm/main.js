@@ -964,15 +964,27 @@ function showTapEffect(lane) {
 
   laneElement.appendChild(effect);
 
-  effect.addEventListener("animationend", () => {
+  const removeEffect = () => {
     effect.remove();
+  };
+
+  effect.addEventListener("animationend", removeEffect, {
+    once: true
   });
+
+  // animationend が動かなかった時の保険
+  setTimeout(removeEffect, 300);
 }
 
 function showLaneJudge(lane, text) {
   const laneElement = lanes[lane];
 
   if (!laneElement) return;
+
+  // 同じレーンに古い判定文字が残ってたら先に消す
+  laneElement.querySelectorAll(".lane-judge").forEach((judge) => {
+    judge.remove();
+  });
 
   const judgeElement = document.createElement("div");
 
@@ -981,9 +993,16 @@ function showLaneJudge(lane, text) {
 
   laneElement.appendChild(judgeElement);
 
-  judgeElement.addEventListener("animationend", () => {
+  const removeJudge = () => {
     judgeElement.remove();
+  };
+
+  judgeElement.addEventListener("animationend", removeJudge, {
+    once: true
   });
+
+  // animationend が動かなかった時の保険
+  setTimeout(removeJudge, 600);
 }
 
 function showJudge(text) {
