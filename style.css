@@ -1395,3 +1395,222 @@ body {
     width: 100%;
   }
 }
+
+/* =========================
+   404 page
+========================= */
+
+.notfound-page {
+  width: min(980px, calc(100% - 32px));
+  margin: 42px auto 90px;
+}
+
+.notfound-window {
+  position: relative;
+  overflow: hidden;
+  padding: 54px 28px 44px;
+  border: 4px solid #30283a;
+  border-radius: 30px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(245, 238, 255, 0.96));
+  box-shadow:
+    8px 8px 0 #c7bdf4,
+    0 18px 40px rgba(70, 55, 120, 0.18);
+  text-align: center;
+}
+
+.notfound-window::before {
+  content: "";
+  position: absolute;
+  right: -70px;
+  top: -80px;
+  width: 210px;
+  height: 210px;
+  border-radius: 50%;
+  background: rgba(142, 232, 223, 0.56);
+}
+
+.notfound-window::after {
+  content: "";
+  position: absolute;
+  left: -70px;
+  bottom: -86px;
+  width: 210px;
+  height: 210px;
+  border-radius: 50%;
+  background: rgba(255, 243, 191, 0.82);
+}
+
+.notfound-window .window-dots {
+  position: absolute;
+  top: 18px;
+  left: 22px;
+  display: flex;
+  gap: 7px;
+  z-index: 2;
+}
+
+.notfound-window .window-dots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ff9fbc;
+  box-shadow:
+    17px 0 0 #ffe08a,
+    34px 0 0 #8ee8df;
+}
+
+.notfound-label {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  margin: 0 0 18px;
+  padding: 7px 16px;
+  border: 3px solid #30283a;
+  border-radius: 999px;
+  background: #fff3bf;
+  color: #6f5ab8;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  box-shadow:
+    3px 3px 0 #c7bdf4,
+    inset 0 -3px 0 rgba(0, 0, 0, 0.08);
+}
+
+.notfound-window h1 {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: #30283a;
+  font-size: clamp(42px, 7vw, 72px);
+  line-height: 1.12;
+  font-weight: 900;
+  letter-spacing: 0.03em;
+  text-shadow:
+    3px 3px 0 #ffffff,
+    6px 6px 0 #c7bdf4;
+}
+
+.notfound-lead {
+  position: relative;
+  z-index: 1;
+  max-width: 620px;
+  margin: 22px auto 0;
+  color: #5f5668;
+  font-size: 16px;
+  line-height: 1.9;
+  font-weight: 800;
+}
+
+.notfound-visual {
+  position: relative;
+  z-index: 1;
+  width: min(420px, 100%);
+  min-height: 180px;
+  margin: 34px auto 30px;
+  border: 4px solid #30283a;
+  border-radius: 28px;
+  background:
+    radial-gradient(circle, rgba(217, 205, 250, 0.8) 2px, transparent 2px),
+    #fff7e8;
+  background-size: 18px 18px;
+  box-shadow: 7px 7px 0 #8ee8df;
+  display: grid;
+  place-items: center;
+}
+
+.notfound-number {
+  color: #ff95b9;
+  font-size: clamp(70px, 16vw, 118px);
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-shadow:
+    3px 3px 0 #ffffff,
+    7px 7px 0 #c7bdf4;
+}
+
+.notfound-face {
+  position: absolute;
+  right: 24px;
+  bottom: 18px;
+  width: 54px;
+  height: 54px;
+  border: 3px solid #30283a;
+  border-radius: 18px;
+  background: #fff3bf;
+  color: #30283a;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  font-weight: 900;
+  box-shadow: 4px 4px 0 #c7bdf4;
+  transform: rotate(8deg);
+}
+
+.notfound-actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.notfound-btn {
+  min-width: 160px;
+  min-height: 48px;
+  padding: 12px 18px;
+  border: 3px solid #30283a;
+  border-radius: 999px;
+  background: #fff3bf;
+  color: #30283a;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 900;
+  text-decoration: none;
+  box-shadow: 4px 4px 0 #30283a;
+}
+
+.notfound-btn.primary {
+  background: #ff95b9;
+  color: #ffffff;
+}
+
+.notfound-btn:hover {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0 #30283a;
+}
+
+@media (max-width: 760px) {
+  .notfound-page {
+    width: min(100% - 24px, 980px);
+    margin: 28px auto 70px;
+  }
+
+  .notfound-window {
+    padding: 48px 18px 36px;
+    border-radius: 26px;
+  }
+
+  .notfound-lead {
+    font-size: 15px;
+  }
+
+  .notfound-visual {
+    min-height: 150px;
+  }
+
+  .notfound-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .notfound-btn {
+    width: 100%;
+  }
+}
