@@ -14,19 +14,29 @@ export const SONGS = [
         id: "easy",
         label: "EASY",
         level: 2,
+        speed: 280,
         description: "ゆっくり確認しながら遊べる"
       },
       {
         id: "normal",
         label: "NORMAL",
         level: 4,
+        speed: 390,
         description: "ほどよくリズムに乗れる"
       },
       {
         id: "hard",
         label: "HARD",
         level: 6,
+        speed: 520,
         description: "連打と左右移動が増える"
+      },
+      {
+        id: "expert",
+        label: "EXPERT",
+        level: 8,
+        speed: 650,
+        description: "元譜面そのままの本気モード"
       }
     ]
   },
@@ -43,19 +53,29 @@ export const SONGS = [
         id: "easy",
         label: "EASY",
         level: 3,
+        speed: 300,
         description: "基本のタップ練習向け"
       },
       {
         id: "normal",
         label: "NORMAL",
         level: 5,
+        speed: 430,
         description: "少し忙しいリズム"
       },
       {
         id: "hard",
         label: "HARD",
         level: 7,
+        speed: 560,
         description: "テンポ速めの本番"
+      },
+      {
+        id: "expert",
+        label: "EXPERT",
+        level: 9,
+        speed: 700,
+        description: "元譜面そのままの本気モード"
       }
     ]
   },
@@ -69,22 +89,32 @@ export const SONGS = [
     description: "名前の通り、かなり忙しい高難易度曲。",
     difficulties: [
       {
+        id: "easy",
+        label: "EASY",
+        level: 4,
+        speed: 330,
+        description: "地獄の入口"
+      },
+      {
         id: "normal",
         label: "NORMAL",
         level: 6,
+        speed: 470,
         description: "まだ人間向け"
       },
       {
         id: "hard",
         label: "HARD",
         level: 8,
+        speed: 620,
         description: "かなり忙しい"
       },
       {
-        id: "hell",
-        label: "HELL",
+        id: "expert",
+        label: "EXPERT",
         level: 10,
-        description: "この曲で地獄を見る"
+        speed: 760,
+        description: "元譜面そのままの地獄"
       }
     ]
   }
