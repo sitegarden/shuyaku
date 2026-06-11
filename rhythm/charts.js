@@ -299,11 +299,15 @@ function getLaneExcept(excludeLane, count) {
     2
   ];
 
-  const usableLanes = lanePattern.filter((lane) => {
-    return lane !== excludeLane;
-  });
+  for (let i = 0; i < lanePattern.length; i++) {
+    const lane = lanePattern[(count + i) % lanePattern.length];
 
-  return usableLanes[count % usableLanes.length];
+    if (lane !== excludeLane) {
+      return lane;
+    }
+  }
+
+  return 0;
 }
 
 function isSingleNote(char) {
