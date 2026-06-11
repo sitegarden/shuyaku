@@ -1,6 +1,6 @@
 // games/game2048.js
 
-import { submitScore, showRanking } from "../ranking.js";
+import { submitScore } from "./ranking.js";
 
 const gameContainer = document.getElementById("gameContainer");
 
@@ -12,7 +12,7 @@ gameContainer.innerHTML = `
 
   <div id="board"></div>
 
-  <button id="restartBtn">もう一度</button>
+  <button id="restartBtn" class="game-action-btn">もう一度</button>
 `;
 
 const boardEl = document.getElementById("board");
@@ -89,7 +89,7 @@ function addRandomTile() {
 }
 
 function slide(row) {
-  let arr = row.filter(num => num !== 0);
+  let arr = row.filter((num) => num !== 0);
 
   for (let i = 0; i < arr.length - 1; i++) {
     if (arr[i] === arr[i + 1]) {
@@ -99,7 +99,7 @@ function slide(row) {
     }
   }
 
-  arr = arr.filter(num => num !== 0);
+  arr = arr.filter((num) => num !== 0);
 
   while (arr.length < 4) {
     arr.push(0);
@@ -129,6 +129,7 @@ function moveRight() {
   for (let y = 0; y < 4; y++) {
     const oldRow = [...board[y]];
     const reversed = [...board[y]].reverse();
+
     board[y] = slide(reversed).reverse();
 
     if (oldRow.join() !== board[y].join()) {
@@ -215,8 +216,11 @@ async function endGame() {
 
   gameEnded = true;
 
-  await submitScore("2048", score);
-  await showRanking("2048", "week");
+  try {
+    await submitScore("2048", score);
+  } catch (error) {
+    console.error("スコア保存に失敗しました", error);
+  }
 
   alert(`ゲーム終了！スコア: ${score}`);
 }
@@ -231,17 +235,17 @@ function handleMove(direction) {
   if (direction === "up") moved = moveUp();
   if (direction === "down") moved = moveDown();
 
-if (moved) {
-  addRandomTile();
-  render();
+  if (moved) {
+    addRandomTile();
+    render();
 
-  if (!canMove()) {
-    endGame();
+    if (!canMove()) {
+      endGame();
+    }
   }
 }
-}
 
-document.onkeydown = event => {
+document.onkeydown = (event) => {
   if (event.key === "ArrowLeft") handleMove("left");
   if (event.key === "ArrowRight") handleMove("right");
   if (event.key === "ArrowUp") handleMove("up");
@@ -251,18 +255,18 @@ document.onkeydown = event => {
 let touchStartX = 0;
 let touchStartY = 0;
 
-boardEl.addEventListener("touchstart", event => {
+boardEl.addEventListener("touchstart", (event) => {
   const touch = event.touches[0];
 
   touchStartX = touch.clientX;
   touchStartY = touch.clientY;
 }, { passive: true });
 
-boardEl.addEventListener("touchmove", event => {
+boardEl.addEventListener("touchmove", (event) => {
   event.preventDefault();
 }, { passive: false });
 
-boardEl.addEventListener("touchend", event => {
+boardEl.addEventListener("touchend", (event) => {
   const touch = event.changedTouches[0];
 
   const diffX = touch.clientX - touchStartX;
