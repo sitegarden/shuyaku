@@ -1614,3 +1614,229 @@ body {
     width: 100%;
   }
 }
+
+/* =========================
+   terms page
+========================= */
+
+.terms-page {
+  width: min(960px, calc(100% - 32px));
+  margin: 0 auto 80px;
+}
+
+.terms-hero {
+  margin: 34px auto 34px;
+}
+
+.terms-window {
+  position: relative;
+  overflow: hidden;
+  padding: 42px 28px 34px;
+  border: 4px solid #30283a;
+  border-radius: 26px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(245, 238, 255, 0.95));
+  box-shadow:
+    8px 8px 0 #c7bdf4,
+    0 18px 40px rgba(70, 55, 120, 0.18);
+  text-align: center;
+}
+
+.terms-window::before {
+  content: "";
+  position: absolute;
+  right: -58px;
+  top: -68px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: rgba(142, 232, 223, 0.58);
+}
+
+.terms-window::after {
+  content: "";
+  position: absolute;
+  left: -64px;
+  bottom: -74px;
+  width: 178px;
+  height: 178px;
+  border-radius: 50%;
+  background: rgba(255, 243, 191, 0.82);
+}
+
+.terms-label {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  margin: 0 0 16px;
+  padding: 7px 16px;
+  border: 3px solid #30283a;
+  border-radius: 999px;
+  background: #fff3bf;
+  color: #6f5ab8;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  box-shadow:
+    3px 3px 0 #c7bdf4,
+    inset 0 -3px 0 rgba(0, 0, 0, 0.08);
+}
+
+.terms-window h1 {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: #30283a;
+  font-size: clamp(36px, 6vw, 62px);
+  line-height: 1.15;
+  font-weight: 900;
+  letter-spacing: 0.03em;
+  text-shadow:
+    3px 3px 0 #ffffff,
+    6px 6px 0 #c7bdf4;
+}
+
+.terms-lead {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+  margin: 18px auto 0;
+  color: #5f5668;
+  font-size: 16px;
+  line-height: 1.8;
+  font-weight: 800;
+}
+
+.terms-card {
+  padding: 34px 30px;
+  border: 4px solid #30283a;
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow:
+    8px 8px 0 #c7bdf4,
+    0 18px 40px rgba(70, 55, 120, 0.16);
+}
+
+.terms-date {
+  width: fit-content;
+  margin: 0 0 28px;
+  padding: 8px 14px;
+  border: 3px solid #30283a;
+  border-radius: 999px;
+  background: #fff3bf;
+  color: #6c6174;
+  font-size: 13px;
+  font-weight: 900;
+  box-shadow: 3px 3px 0 #c7bdf4;
+}
+
+.terms-section {
+  padding: 26px 0;
+  border-top: 3px dashed rgba(48, 40, 58, 0.2);
+}
+
+.terms-section:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.terms-section h2 {
+  margin: 0 0 16px;
+  color: #30283a;
+  font-size: clamp(22px, 4vw, 30px);
+  line-height: 1.35;
+  font-weight: 900;
+  text-shadow:
+    2px 2px 0 #ffffff,
+    4px 4px 0 #a8edf0;
+}
+
+.terms-section p {
+  margin: 0 0 14px;
+  color: #4f4659;
+  font-size: 15px;
+  line-height: 2;
+  font-weight: 700;
+}
+
+.terms-section p:last-child {
+  margin-bottom: 0;
+}
+
+.terms-section ul {
+  margin: 14px 0 16px;
+  padding: 18px 20px 18px 34px;
+  border: 3px solid rgba(48, 40, 58, 0.2);
+  border-radius: 18px;
+  background: #fff7e8;
+}
+
+.terms-section li {
+  margin: 8px 0;
+  color: #4f4659;
+  font-size: 15px;
+  line-height: 1.8;
+  font-weight: 800;
+}
+
+.terms-actions {
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.terms-btn {
+  min-width: 150px;
+  min-height: 46px;
+  padding: 11px 18px;
+  border: 3px solid #30283a;
+  border-radius: 15px;
+  background: #fff3bf;
+  color: #30283a;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 900;
+  box-shadow: 4px 4px 0 #30283a;
+}
+
+.terms-btn:hover {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0 #30283a;
+}
+
+@media (max-width: 700px) {
+  .terms-page {
+    width: min(100% - 24px, 960px);
+    margin-bottom: 56px;
+  }
+
+  .terms-hero {
+    margin: 24px auto 28px;
+  }
+
+  .terms-window {
+    padding: 40px 18px 30px;
+  }
+
+  .terms-card {
+    padding: 28px 18px;
+  }
+
+  .terms-section {
+    padding: 24px 0;
+  }
+
+  .terms-section p,
+  .terms-section li {
+    font-size: 14px;
+  }
+
+  .terms-section ul {
+    padding: 16px 16px 16px 30px;
+  }
+}
