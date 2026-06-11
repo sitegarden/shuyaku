@@ -403,3 +403,42 @@ main {
     padding: 26px 22px;
   }
 }
+
+
+.section-title {
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+.section-title p {
+  display: inline-block;
+  margin: 0 0 12px;
+  padding: 6px 14px;
+  border: 3px solid #30283a;
+  border-radius: 999px;
+  background: #fff3bf;
+  color: #6f5ab8;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  box-shadow: 3px 3px 0 #c7bdf4;
+}
+
+.section-title h2 {
+  margin: 0;
+  color: #30283a;
+  font-size: clamp(30px, 5vw, 44px);
+  line-height: 1.2;
+  text-shadow:
+    2px 2px 0 #ffffff,
+    4px 4px 0 #a8edf0;
+}
+
+.section {
+  margin: 80px auto;
+}
+
+.section > .section-title {
+  text-align: center;
+}
