@@ -11,9 +11,15 @@
   background: rgba(255, 255, 255, 0.94);
   box-shadow: 5px 5px 0 #c7bdf4;
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto 1fr;
   align-items: center;
   gap: 18px;
+}
+
+.site-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .site-logo {
@@ -30,6 +36,17 @@
 
 .site-logo span {
   color: #ff95b9;
+}
+
+.menu-toggle {
+  display: none;
+}
+
+.site-menu {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 18px;
 }
 
 .site-nav {
@@ -88,7 +105,7 @@
 }
 
 /* =========================
-   tablet / mobile
+   mobile hamburger
 ========================= */
 
 @media (max-width: 720px) {
@@ -96,43 +113,68 @@
     width: min(100% - 24px, 1100px);
     margin-top: 14px;
     padding: 14px;
-    grid-template-columns: 1fr auto;
-    grid-template-areas:
-      "logo account"
-      "nav nav";
-    gap: 12px;
+    display: block;
+  }
+
+  .site-header-top {
+    width: 100%;
   }
 
   .site-logo {
-    grid-area: logo;
-    justify-self: start;
+    font-size: 25px;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 38px;
+    margin: 0;
+    padding: 0;
+    border: 3px solid #30283a;
+    border-radius: 12px;
+    background: #fff3bf;
+    color: #30283a;
     font-size: 24px;
+    font-weight: 900;
+    line-height: 1;
+    box-shadow: 3px 3px 0 #c7bdf4;
+    cursor: pointer;
   }
 
-  .site-account {
-    grid-area: account;
-    justify-self: end;
+  .site-menu {
+    display: none;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 3px dashed rgba(48, 40, 58, 0.28);
   }
 
-  .account-link {
-    min-height: 34px;
-    padding: 8px 13px;
-    font-size: 12px;
+  .site-menu.open {
+    display: block;
   }
 
   .site-nav {
-    grid-area: nav;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    width: 100%;
-    gap: 8px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
   }
 
   .site-nav a {
     width: 100%;
-    min-height: 36px;
-    padding: 8px 4px;
-    font-size: 12px;
+    min-height: 42px;
+    padding: 10px 8px;
+    font-size: 13px;
+  }
+
+  .site-account {
+    margin-top: 10px;
+  }
+
+  .account-link {
+    width: 100%;
+    min-height: 44px;
+    font-size: 14px;
   }
 
   .site-footer {
@@ -143,26 +185,24 @@
 @media (max-width: 420px) {
   .site-header {
     padding: 12px;
-    gap: 10px;
   }
 
   .site-logo {
+    font-size: 23px;
+  }
+
+  .menu-toggle {
+    width: 42px;
+    height: 36px;
     font-size: 22px;
   }
 
-  .account-link {
-    min-height: 32px;
-    padding: 7px 11px;
-    font-size: 12px;
-  }
-
   .site-nav {
-    gap: 6px;
+    gap: 8px;
   }
 
   .site-nav a {
-    min-height: 34px;
-    font-size: 11px;
-    padding: 7px 3px;
+    min-height: 40px;
+    font-size: 12px;
   }
 }
