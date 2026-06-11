@@ -23,7 +23,7 @@ const screens = {
 };
 
 let currentGame = null;
-let currentPeriod = "week";
+let currentPeriod = "month";
 
 renderGameList();
 setupTabs();
