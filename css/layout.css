@@ -1,0 +1,137 @@
+/* =========================
+   shuyaku common layout
+========================= */
+
+.site-header {
+  width: min(1100px, calc(100% - 32px));
+  margin: 18px auto 0;
+  padding: 14px 18px;
+  border: 3px solid #30283a;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 5px 5px 0 #c7bdf4;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 18px;
+}
+
+.site-logo {
+  color: #7b6ee8;
+  font-size: 24px;
+  font-weight: 900;
+  text-decoration: none;
+  white-space: nowrap;
+  line-height: 1;
+  text-shadow:
+    1px 1px 0 #ffffff,
+    3px 3px 0 #a8edf0;
+}
+
+.site-logo span {
+  color: #ff95b9;
+}
+
+.site-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.site-nav a,
+.account-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 7px 12px;
+  border: 2px solid #30283a;
+  border-radius: 999px;
+  background: #fff3bf;
+  color: #30283a;
+  font-size: 13px;
+  font-weight: 900;
+  text-decoration: none;
+  line-height: 1;
+  box-shadow: 3px 3px 0 #c7bdf4;
+}
+
+.account-link {
+  background: #ff95b9;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.site-nav a:hover,
+.account-link:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 #c7bdf4;
+}
+
+.site-footer {
+  width: min(1100px, calc(100% - 32px));
+  margin: 80px auto 28px;
+  padding: 20px;
+  border: 3px solid #30283a;
+  border-radius: 18px;
+  background: #fffdf6;
+  box-shadow: 5px 5px 0 #8ee8df;
+  text-align: center;
+  color: #6c6174;
+  font-weight: 800;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+/* スマホ用 */
+@media (max-width: 720px) {
+  .site-header {
+    width: min(100% - 24px, 1100px);
+    margin-top: 14px;
+    padding: 14px;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    text-align: center;
+  }
+
+  .site-logo {
+    font-size: 26px;
+  }
+
+  .site-nav {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: 100%;
+    gap: 8px;
+  }
+
+  .site-nav a {
+    width: 100%;
+    padding: 9px 6px;
+    font-size: 12px;
+  }
+
+  .site-account {
+    width: 100%;
+  }
+
+  .account-link {
+    width: 100%;
+    min-height: 40px;
+    font-size: 13px;
+  }
+
+  .site-footer {
+    width: min(100% - 24px, 1100px);
+  }
+}
+
+@media (max-width: 420px) {
+  .site-nav {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
