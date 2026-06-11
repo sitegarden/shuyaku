@@ -11,21 +11,22 @@ const headerActionBtn = document.getElementById("headerActionBtn");
 const headerTitle = document.getElementById("headerTitle");
 const headerSubtitle = document.getElementById("headerSubtitle");
 
-const navHomeBtn = document.getElementById("navHomeBtn");
-const navProfileBtn = document.getElementById("navProfileBtn");
+const tabGamesBtn = document.getElementById("tabGamesBtn");
+const tabRankingBtn = document.getElementById("tabRankingBtn");
 
 const screens = {
   home: document.getElementById("homeScreen"),
   game: document.getElementById("gameScreen"),
-  ranking: document.getElementById("rankingScreen"),
-  profile: document.getElementById("profileScreen")
+  ranking: document.getElementById("rankingScreen")
 };
 
 let currentGameId = null;
 let currentGameTitle = "";
+let currentPeriod = "week";
 
-GAMES.forEach(game => {
+GAMES.forEach((game) => {
   const card = document.createElement("button");
+  card.type = "button";
   card.className = "game-card";
 
   card.innerHTML = `
@@ -33,9 +34,9 @@ GAMES.forEach(game => {
     <span>${game.description}</span>
   `;
 
-  card.onclick = () => {
+  card.addEventListener("click", () => {
     startGame(game);
-  };
+  });
 
   gameList.appendChild(card);
 });
@@ -52,27 +53,33 @@ async function startGame(game) {
 }
 
 function showScreen(name) {
-  Object.values(screens).forEach(screen => {
+  Object.values(screens).forEach((screen) => {
+    if (!screen) return;
     screen.classList.remove("active");
   });
 
-  screens[name].classList.add("active");
+  if (screens[name]) {
+    screens[name].classList.add("active");
+  }
 
+  document.body.classList.toggle("is-home-screen", name === "home");
   document.body.classList.toggle("is-game-screen", name === "game");
   document.body.classList.toggle("is-ranking-screen", name === "ranking");
-  document.body.classList.toggle("is-profile-screen", name === "profile");
-  document.body.classList.toggle("is-home-screen", name === "home");
 
   if (name === "home") {
+    setActiveTab("games");
+
     setHeader({
-      title: "Mini Game Arena",
-      subtitle: "好きなゲームを選んでスコアを競え",
+      title: "ランキング系ミニゲーム",
+      subtitle: "好きなゲームを選んで、スコアを競え。",
       showBack: false,
       actionText: ""
     });
   }
 
   if (name === "game") {
+    setActiveTab("");
+
     setHeader({
       title: currentGameTitle || "ゲーム",
       subtitle: "スコアを狙え",
@@ -83,28 +90,19 @@ function showScreen(name) {
         if (!currentGameId) return;
 
         showScreen("ranking");
-        await showRanking(currentGameId, "week");
+        await showRanking(currentGameId, currentPeriod);
       }
     });
   }
 
   if (name === "ranking") {
+    setActiveTab("ranking");
+
     setHeader({
       title: "ランキング",
-      subtitle: currentGameTitle || "",
-      showBack: true,
-      actionText: "",
-      onBack: () => showScreen("game")
-    });
-  }
-
-  if (name === "profile") {
-    setHeader({
-      title: "プロフィール",
-      subtitle: "名前とアイコンを設定",
-      showBack: true,
-      actionText: "",
-      onBack: () => showScreen("home")
+      subtitle: currentGameTitle || "全体ランキング",
+      showBack: false,
+      actionText: ""
     });
   }
 }
@@ -117,31 +115,73 @@ function setHeader({
   onBack = null,
   onAction = null
 }) {
-  headerTitle.textContent = title;
-  headerSubtitle.textContent = subtitle;
+  if (headerTitle) {
+    headerTitle.textContent = title;
+  }
 
-  headerBackBtn.classList.toggle("hidden", !showBack);
-  headerActionBtn.classList.toggle("hidden", !actionText);
+  if (headerSubtitle) {
+    headerSubtitle.textContent = subtitle;
+  }
 
-  headerActionBtn.textContent = actionText || "";
+  if (headerBackBtn) {
+    headerBackBtn.classList.toggle("hidden", !showBack);
+    headerBackBtn.onclick = onBack;
+  }
 
-  headerBackBtn.onclick = onBack;
-  headerActionBtn.onclick = onAction;
+  if (headerActionBtn) {
+    headerActionBtn.classList.toggle("hidden", !actionText);
+    headerActionBtn.textContent = actionText || "";
+    headerActionBtn.onclick = onAction;
+  }
 }
 
-document.querySelectorAll(".tabs button").forEach(button => {
-  button.onclick = () => {
-    if (!currentGameId) return;
-    showRanking(currentGameId, button.dataset.period);
-  };
+function setActiveTab(tabName) {
+  tabGamesBtn?.classList.toggle("active", tabName === "games");
+  tabRankingBtn?.classList.toggle("active", tabName === "ranking");
+}
+
+async function openRankingTab() {
+  const defaultGame = GAMES[0];
+
+  if (!currentGameId && defaultGame) {
+    currentGameId = defaultGame.id;
+    currentGameTitle = defaultGame.title;
+  }
+
+  showScreen("ranking");
+
+  if (currentGameId) {
+    await showRanking(currentGameId, currentPeriod);
+  }
+}
+
+if (tabGamesBtn) {
+  tabGamesBtn.addEventListener("click", () => {
+    showScreen("home");
+  });
+}
+
+if (tabRankingBtn) {
+  tabRankingBtn.addEventListener("click", async () => {
+    await openRankingTab();
+  });
+}
+
+document.querySelectorAll(".tabs button").forEach((button) => {
+  button.addEventListener("click", async () => {
+    currentPeriod = button.dataset.period || "week";
+
+    if (!currentGameId) {
+      const defaultGame = GAMES[0];
+
+      if (!defaultGame) return;
+
+      currentGameId = defaultGame.id;
+      currentGameTitle = defaultGame.title;
+    }
+
+    await showRanking(currentGameId, currentPeriod);
+  });
 });
-
-navHomeBtn.onclick = () => {
-  showScreen("home");
-};
-
-navProfileBtn.onclick = () => {
-  showScreen("profile");
-};
 
 showScreen("home");
