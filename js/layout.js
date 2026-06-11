@@ -43,7 +43,38 @@ if (siteHeader) {
 if (siteFooter) {
   siteFooter.innerHTML = `
     <footer class="site-footer">
-      <p>© shuyaku.me</p>
+      <div class="site-footer-inner">
+
+        <div class="footer-brand">
+          <a href="/" class="footer-logo">
+            shuyaku<span>.me</span>
+          </a>
+
+          <p>
+            ちょっと主役になれるゲームサイト。
+          </p>
+        </div>
+
+        <nav class="footer-nav" aria-label="フッターナビゲーション">
+          <a href="/">home</a>
+          <a href="/games/">games</a>
+          <a href="/rhythm/">rhythm</a>
+          <a href="/battle/">battle</a>
+          <a href="/party/">party</a>
+          <a href="/terms/">terms</a>
+          <a href="/privacy/">privacy</a>
+        </nav>
+
+        <div class="footer-credit">
+          <p>Created by Lane</p>
+          <p>Presented by ゆるおり</p>
+        </div>
+
+      </div>
+
+      <p class="footer-copy">
+        © 2026 shuyaku.me
+      </p>
     </footer>
   `;
 }
