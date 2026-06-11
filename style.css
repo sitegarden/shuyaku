@@ -539,3 +539,108 @@ main {
     width: 100%;
   }
 }
+
+body {
+  margin: 0;
+  font-family:
+    "Arial Rounded MT Bold",
+    "Hiragino Maru Gothic ProN",
+    "Yu Gothic",
+    system-ui,
+    sans-serif;
+  color: #30283a;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)),
+    radial-gradient(circle, #d9cdfa 1.5px, transparent 1.5px),
+    #fff7e8;
+  background-size: auto, 18px 18px, auto;
+}
+
+.hero-logo {
+  margin-top: 16px;
+  font-size: clamp(42px, 9vw, 82px);
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  color: #7b6ee8;
+  -webkit-text-stroke: 2px #30283a;
+  text-shadow:
+    3px 3px 0 #ffffff,
+    6px 6px 0 #8ee8df,
+    9px 9px 0 #c7bdf4;
+}
+
+.hero-logo span {
+  color: #ff95b9;
+}
+
+.hero h1,
+.section-title h2 {
+  font-family:
+    "Arial Rounded MT Bold",
+    "Hiragino Maru Gothic ProN",
+    "Yu Gothic",
+    system-ui,
+    sans-serif;
+  font-weight: 900;
+  letter-spacing: 0.03em;
+  color: #30283a;
+  -webkit-text-stroke: 1px #30283a;
+  text-shadow:
+    3px 3px 0 #ffffff,
+    6px 6px 0 #c7bdf4;
+}
+
+.section-title p,
+.hero-label,
+.card-label {
+  font-family:
+    "Arial Rounded MT Bold",
+    "Trebuchet MS",
+    system-ui,
+    sans-serif;
+  display: inline-block;
+  padding: 7px 15px;
+  border: 3px solid #30283a;
+  border-radius: 999px;
+  background: #fff3bf;
+  color: #6f5ab8;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  box-shadow:
+    3px 3px 0 #c7bdf4,
+    inset 0 -3px 0 rgba(0, 0, 0, 0.08);
+}
+
+.hero-text,
+.card p,
+.comment-window p,
+.about-item p {
+  color: #5f5668;
+  font-weight: 700;
+  line-height: 1.9;
+  letter-spacing: 0.02em;
+}
+
+.card h3,
+.about-item h3 {
+  color: #30283a;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  text-shadow:
+    2px 2px 0 #ffffff,
+    4px 4px 0 #d9cdfa;
+}
+
+.primary-btn,
+.secondary-btn,
+.site-nav a {
+  font-family:
+    "Arial Rounded MT Bold",
+    "Hiragino Maru Gothic ProN",
+    system-ui,
+    sans-serif;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
