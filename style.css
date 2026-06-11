@@ -869,3 +869,44 @@ body {
     width: 100%;
   }
 }
+
+.hero-main {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 38%);
+  align-items: center;
+  gap: 28px;
+}
+
+.hero-mascot-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.hero-mascot {
+  display: block;
+  width: min(100%, 340px);
+  max-height: 420px;
+  height: auto;
+  object-fit: contain;
+  image-rendering: pixelated;
+  filter: drop-shadow(8px 8px 0 #c7bdf4);
+}
+@media (max-width: 760px) {
+  .hero-main {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .hero-mascot-wrap {
+    order: -1;
+  }
+
+  .hero-mascot {
+    width: min(76vw, 300px);
+    max-height: 320px;
+  }
+}
