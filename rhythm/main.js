@@ -1094,13 +1094,24 @@ function setupEvents() {
   });
 
   lanes.forEach((laneElement) => {
-    const lane = Number(laneElement.dataset.lane);
+  const lane = Number(laneElement.dataset.lane);
 
-    laneElement.addEventListener("pointerdown", (event) => {
+  laneElement.addEventListener(
+    "touchstart",
+    (event) => {
       event.preventDefault();
       hitLane(lane);
-    });
+    },
+    { passive: false }
+  );
+
+  laneElement.addEventListener("pointerdown", (event) => {
+    if (event.pointerType === "touch") return;
+
+    event.preventDefault();
+    hitLane(lane);
   });
+});
 
   document.addEventListener("keydown", (event) => {
     const key = event.key.toLowerCase();
@@ -1111,7 +1122,25 @@ function setupEvents() {
 
     event.preventDefault();
     hitLane(KEY_TO_LANE[key]);
-  });
+  } );
+
+  document.addEventListener(
+  "touchmove",
+  (event) => {
+    if (document.body.classList.contains("is-play-screen")) {
+      event.preventDefault();
+    }
+  },
+  { passive: false }
+);
+
+document.addEventListener(
+  "gesturestart",
+  (event) => {
+    event.preventDefault();
+  },
+  { passive: false }
+);
 
   retryBtn?.addEventListener("click", () => {
     prepareGame();
