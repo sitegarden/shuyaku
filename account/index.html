@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>account | shuyaku.me</title>
+
+  <link rel="icon" href="https://shuyaku.me/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="https://shuyaku.me/favicon.png">
+
+  <meta property="og:site_name" content="shuyaku.me">
+  <meta property="og:title" content="account | shuyaku.me">
+  <meta property="og:description" content="shuyaku.me のアカウントページ">
+  <meta property="og:image" content="https://shuyaku.me/ogp.png">
+  <meta property="og:url" content="https://shuyaku.me/account/">
+  <meta property="og:type" content="website">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="account | shuyaku.me">
+  <meta name="twitter:description" content="shuyaku.me のアカウントページ">
+  <meta name="twitter:image" content="https://shuyaku.me/ogp.png">
+
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+  <div id="siteHeader"></div>
+
+  <main>
+    <section class="account-page">
+      <div class="section-title">
+        <p>account</p>
+        <h1>アカウント</h1>
+      </div>
+
+      <div class="account-card">
+        <div id="guestArea">
+          <h2>ログイン</h2>
+          <p>
+            ログインすると、ランキングやプロフィールを共通アカウントで使えるようになります。
+          </p>
+
+          <button type="button" class="primary-btn" id="googleLoginBtn">
+            Googleでログイン
+          </button>
+        </div>
+
+        <div id="userArea" class="hidden">
+          <h2>マイページ</h2>
+
+          <p class="account-status">
+            ログイン中：<span id="userName">---</span>
+          </p>
+
+          <button type="button" class="secondary-btn" id="logoutBtn">
+            ログアウト
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="siteFooter"></div>
+
+  <script type="module" src="/js/layout.js"></script>
+
+</body>
+</html>
