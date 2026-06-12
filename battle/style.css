@@ -1019,3 +1019,29 @@ button {
     padding: 24px 16px;
   }
 }
+
+.room-code-input {
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.guest-name-help {
+  margin: 8px 0 16px !important;
+  color: #7a6f82 !important;
+  font-size: 12px !important;
+  line-height: 1.7 !important;
+  font-weight: 800 !important;
+}
+
+.join-action-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+@media (max-width: 520px) {
+  .join-action-row {
+    grid-template-columns: 1fr;
+  }
+}
