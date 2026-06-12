@@ -1,1 +1,289 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  >
 
+  <title>battle | shuyaku.me</title>
+
+  <link rel="icon" href="https://shuyaku.me/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="https://shuyaku.me/favicon.png">
+
+  <meta name="description" content="shuyaku.meの通信バトルゲームです。">
+
+  <meta property="og:site_name" content="shuyaku.me">
+  <meta property="og:title" content="battle | shuyaku.me">
+  <meta property="og:description" content="コマンドを選んで戦う、通信バトルゲーム。">
+  <meta property="og:image" content="https://shuyaku.me/ogp.png">
+  <meta property="og:url" content="https://shuyaku.me/battle/">
+  <meta property="og:type" content="website">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="battle | shuyaku.me">
+  <meta name="twitter:description" content="コマンドを選んで戦う、通信バトルゲーム。">
+  <meta name="twitter:image" content="https://shuyaku.me/ogp.png">
+
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <div id="siteHeader"></div>
+
+  <main class="battle-page">
+
+    <section class="battle-hero">
+      <div class="battle-window">
+        <div class="window-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <p class="battle-label">online battle</p>
+
+        <h1 id="battleHeaderTitle">
+          コマンドを選んで、<br>
+          主役になろう。
+        </h1>
+
+        <p id="battleHeaderLead" class="battle-lead">
+          部屋を作って、友達とリアルタイムバトル。攻撃・防御・回復・必殺を使い分けよう。
+        </p>
+
+        <div class="battle-note">
+          通信対戦のため、途中でページを閉じると部屋から抜ける場合があります。
+        </div>
+
+        <div class="battle-action-row">
+          <button type="button" id="battleBackBtn" class="battle-action-btn hidden">
+            戻る
+          </button>
+
+          <button type="button" id="leaveRoomBtn" class="battle-action-btn danger hidden">
+            部屋を出る
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="battle-panel">
+
+      <!-- lobby -->
+      <section id="lobbyScreen" class="screen active">
+        <div class="section-title">
+          <p>lobby</p>
+          <h2>バトルを始める</h2>
+        </div>
+
+        <p class="screen-lead">
+          部屋を作るか、部屋IDを入力して参加できます。観戦もできます。
+        </p>
+
+        <div class="lobby-grid">
+          <div class="lobby-card">
+            <h3>部屋を作る</h3>
+            <p>
+              自分がホストになって、2〜4人でバトルを始めます。
+            </p>
+
+            <button type="button" id="createRoomBtn" class="battle-main-btn">
+              部屋を作成
+            </button>
+          </div>
+
+          <div class="lobby-card">
+            <h3>部屋に参加</h3>
+            <p>
+              共有された部屋IDを入力して参加します。
+            </p>
+
+            <label class="battle-input-label" for="joinRoomInput">
+              部屋ID
+            </label>
+
+            <div class="room-input-row">
+              <input
+                type="text"
+                id="joinRoomInput"
+                class="battle-input"
+                placeholder="例：ABCD12"
+                autocomplete="off"
+              >
+
+              <button type="button" id="joinRoomBtn" class="battle-main-btn">
+                参加
+              </button>
+            </div>
+
+            <button type="button" id="watchRoomBtn" class="battle-sub-btn">
+              観戦する
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- waiting room -->
+      <section id="waitingScreen" class="screen">
+        <div class="section-title">
+          <p>room</p>
+          <h2>待機室</h2>
+        </div>
+
+        <div class="room-info-card">
+          <div>
+            <span>ROOM ID</span>
+            <strong id="roomIdText">------</strong>
+          </div>
+
+          <button type="button" id="copyRoomIdBtn" class="battle-sub-btn">
+            IDをコピー
+          </button>
+        </div>
+
+        <p id="roomStatusText" class="screen-lead">
+          プレイヤーを待っています。
+        </p>
+
+        <div id="waitingPlayers" class="waiting-players">
+          <!-- JSでプレイヤー表示 -->
+        </div>
+
+        <div id="watcherArea" class="watcher-area">
+          <h3>観戦者</h3>
+          <div id="watcherList" class="watcher-list">
+            <!-- JSで観戦者表示 -->
+          </div>
+        </div>
+
+        <div class="waiting-actions">
+          <button type="button" id="startBattleBtn" class="battle-main-btn">
+            バトル開始
+          </button>
+
+          <button type="button" id="waitingLeaveBtn" class="battle-action-btn danger">
+            部屋を出る
+          </button>
+        </div>
+      </section>
+
+      <!-- battle -->
+      <section id="battleScreen" class="screen">
+        <div class="battle-topbar">
+          <div class="battle-room-mini">
+            ROOM <strong id="battleRoomIdText">------</strong>
+          </div>
+
+          <div id="turnText" class="turn-text">
+            TURN 1
+          </div>
+        </div>
+
+        <div id="battleMessage" class="battle-message">
+          コマンドを選んでください。
+        </div>
+
+        <div id="playersArea" class="players-area">
+          <!-- JSでバトル中プレイヤー表示 -->
+        </div>
+
+        <div class="command-panel">
+          <div class="command-title">
+            <span>command</span>
+            <strong id="commandStatusText">行動を選択</strong>
+          </div>
+
+          <div id="commandList" class="command-list">
+            <!-- JSで技ボタン表示 -->
+          </div>
+        </div>
+
+        <div id="battleLog" class="battle-log">
+          <!-- JSでログ表示 -->
+        </div>
+      </section>
+
+      <!-- result -->
+      <section id="resultScreen" class="screen">
+        <div class="section-title">
+          <p>result</p>
+          <h2>バトル結果</h2>
+        </div>
+
+        <div class="battle-result-card">
+          <p id="resultText" class="result-text">
+            勝敗が決まりました。
+          </p>
+
+          <div id="resultPlayers" class="result-players">
+            <!-- JSで結果表示 -->
+          </div>
+
+          <div class="result-actions">
+            <button type="button" id="rematchBtn" class="battle-main-btn">
+              もう一度
+            </button>
+
+            <button type="button" id="resultLeaveBtn" class="battle-action-btn danger">
+              部屋を出る
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </section>
+
+  </main>
+
+  <!-- command modal -->
+  <div id="commandModal" class="battle-modal hidden" aria-hidden="true">
+    <div class="battle-modal-bg" id="commandModalBg"></div>
+
+    <div class="battle-modal-card" role="dialog" aria-modal="true">
+      <button type="button" id="closeCommandModalBtn" class="modal-close-btn">
+        ×
+      </button>
+
+      <div class="modal-skill-icon-wrap">
+        <img id="modalSkillIcon" src="/favicon.png" alt="" class="modal-skill-icon">
+      </div>
+
+      <p id="modalSkillName" class="modal-skill-name">
+        技名
+      </p>
+
+      <p id="modalSkillDescription" class="modal-skill-description">
+        技の説明が入ります。
+      </p>
+
+      <div id="targetSelectArea" class="target-select-area">
+        <!-- JSで対象選択 -->
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" id="confirmCommandBtn" class="battle-main-btn">
+          この技を使う
+        </button>
+
+        <button type="button" id="cancelCommandBtn" class="battle-sub-btn">
+          キャンセル
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="siteFooter"></div>
+
+  <script type="module" src="/js/layout.js"></script>
+  <script type="module" src="/js/auth.js"></script>
+
+  <script type="module" src="./firebase.js"></script>
+  <script type="module" src="./battle.js"></script>
+  <script type="module" src="./room.js"></script>
+  <script type="module" src="./main.js"></script>
+
+</body>
+</html>
