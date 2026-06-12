@@ -84,16 +84,31 @@
         </p>
 
         <div class="lobby-grid">
-          <div class="lobby-card">
-            <h3>部屋を作る</h3>
-            <p>
-              自分がホストになって、2〜4人でバトルを始めます。部屋作成にはログインが必要です。
-            </p>
 
-            <button type="button" id="createRoomBtn" class="battle-main-btn">
-              部屋を作成
-            </button>
-          </div>
+          <div class="lobby-card">
+  <h3>部屋を作る</h3>
+  <p>
+    部屋作成にはログインが必要です。自分が戦うか、観戦者として部屋だけ作るかを選べます。
+  </p>
+
+  <div class="create-mode-box">
+    <p class="create-mode-title">作成モード</p>
+
+    <label class="create-mode-option">
+      <input type="radio" name="createMode" value="player" checked>
+      <span>プレイヤーとして作成</span>
+    </label>
+
+    <label class="create-mode-option">
+      <input type="radio" name="createMode" value="watcher">
+      <span>観戦者として作成</span>
+    </label>
+  </div>
+
+  <button type="button" id="createRoomBtn" class="battle-main-btn">
+    部屋を作成
+  </button>
+</div>
 
           <div class="lobby-card">
             <h3>部屋に参加</h3>
