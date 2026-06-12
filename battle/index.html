@@ -7,7 +7,7 @@
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
   >
 
-  <title>battle | shuyaku.me</title>
+  <title>battle | shuyaku</title>
 
   <link rel="icon" href="https://shuyaku.me/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="https://shuyaku.me/favicon.png">
@@ -55,7 +55,7 @@
         </p>
 
         <div class="battle-note">
-          通信対戦のため、途中でページを閉じると部屋から抜ける場合があります。
+          部屋作成にはログインが必要です。参加・観戦はゲスト名でも遊べます。
         </div>
 
         <div class="battle-action-row">
@@ -80,14 +80,14 @@
         </div>
 
         <p class="screen-lead">
-          部屋を作るか、部屋IDを入力して参加できます。観戦もできます。
+          部屋を作るか、部屋IDを入力して参加できます。ゲスト名での参加・観戦もできます。
         </p>
 
         <div class="lobby-grid">
           <div class="lobby-card">
             <h3>部屋を作る</h3>
             <p>
-              自分がホストになって、2〜4人でバトルを始めます。
+              自分がホストになって、2〜4人でバトルを始めます。部屋作成にはログインが必要です。
             </p>
 
             <button type="button" id="createRoomBtn" class="battle-main-btn">
@@ -98,30 +98,48 @@
           <div class="lobby-card">
             <h3>部屋に参加</h3>
             <p>
-              共有された部屋IDを入力して参加します。
+              共有された部屋IDを入力して参加します。未ログインの場合はゲストとして参加します。
             </p>
 
             <label class="battle-input-label" for="joinRoomInput">
               部屋ID
             </label>
 
-            <div class="room-input-row">
-              <input
-                type="text"
-                id="joinRoomInput"
-                class="battle-input"
-                placeholder="例：ABCD12"
-                autocomplete="off"
-              >
+            <input
+              type="text"
+              id="joinRoomInput"
+              class="battle-input room-code-input"
+              placeholder="例：ABCD12"
+              maxlength="12"
+              autocomplete="off"
+            >
 
+            <label class="battle-input-label" for="guestNameInput">
+              ゲスト名
+            </label>
+
+            <input
+              type="text"
+              id="guestNameInput"
+              class="battle-input"
+              placeholder="例：ゲストねこ"
+              maxlength="16"
+              autocomplete="off"
+            >
+
+            <p class="guest-name-help">
+              ログインしていない場合、この名前で参加・観戦します。空欄なら自動で名前が作られます。
+            </p>
+
+            <div class="join-action-row">
               <button type="button" id="joinRoomBtn" class="battle-main-btn">
                 参加
               </button>
-            </div>
 
-            <button type="button" id="watchRoomBtn" class="battle-sub-btn">
-              観戦する
-            </button>
+              <button type="button" id="watchRoomBtn" class="battle-sub-btn">
+                観戦
+              </button>
+            </div>
           </div>
         </div>
       </section>
