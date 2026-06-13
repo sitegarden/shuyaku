@@ -61,6 +61,13 @@ if (siteFooter) {
           <a href="/rhythm/">rhythm</a>
           <a href="/battle/">battle</a>
           <a href="/party/">party</a>
+          <a
+  href="YOUR_GOOGLE_FORM_URL"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  feedback
+</a>
           <a href="/terms/">terms</a>
           <a href="/privacy/">privacy</a>
         </nav>
