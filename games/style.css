@@ -1406,3 +1406,102 @@ body.is-game-screen .game-back-floating {
     font-size: 12px;
   }
 }
+
+/* 2048 mobile fix */
+.game-play-area,
+.game-area,
+#gameArea,
+#gameContainer {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.game-2048-wrap,
+.game2048-wrap,
+.game-2048-container,
+.game2048-container {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.game-2048-board,
+.game2048-board,
+.board-2048,
+#game2048Board {
+  width: min(88vw, 420px) !important;
+  height: min(88vw, 420px) !important;
+  max-width: 420px;
+  max-height: 420px;
+  margin: 20px auto !important;
+}
+
+.game-2048-grid,
+.game2048-grid,
+.board-grid {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.tile,
+.game-2048-tile,
+.game2048-tile,
+.cell,
+.game-2048-cell,
+.game2048-cell {
+  max-width: 100%;
+}
+
+@media (max-width: 600px) {
+  .game-screen,
+  .game-play,
+  .game-main,
+  .game-content {
+    width: 100%;
+    max-width: 100%;
+    padding-left: 14px;
+    padding-right: 14px;
+    overflow-x: hidden;
+  }
+
+  .game-header,
+  .game-info,
+  .score-area,
+  .score-row {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .game-2048-board,
+  .game2048-board,
+  .board-2048,
+  #game2048Board {
+    width: min(84vw, 340px) !important;
+    height: min(84vw, 340px) !important;
+  }
+
+  .game-over-panel,
+  .result-panel,
+  .game-result,
+  .game-over {
+    width: min(88vw, 320px) !important;
+    max-width: 320px;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .game-2048-layout,
+  .game2048-layout,
+  .game-layout {
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+}
