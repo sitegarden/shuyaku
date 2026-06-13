@@ -62,7 +62,7 @@ if (siteFooter) {
           <a href="/battle/">battle</a>
           <a href="/party/">party</a>
           <a
-  href="YOUR_GOOGLE_FORM_URL"
+  href="https://docs.google.com/forms/d/e/1FAIpQLSesMw6-ymf5_sRUzs_35r_Ml-ztA3Cgh8JAai1XNQH84__SWQ/viewform?usp=header"
   target="_blank"
   rel="noopener noreferrer"
 >
