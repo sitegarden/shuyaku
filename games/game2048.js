@@ -5,20 +5,24 @@ import { submitScore } from "./ranking.js";
 const gameContainer = document.getElementById("gameContainer");
 
 gameContainer.innerHTML = `
-  <div class="score-box">
-    <p>Score: <span id="score">0</span></p>
-    <p>Best: <span id="bestScore">0</span></p>
+  <div class="game-2048-layout">
+    <div class="game-2048-score-box">
+      <p>Score: <span id="score2048">0</span></p>
+      <p>Best: <span id="bestScore2048">0</span></p>
+    </div>
+
+    <div id="board2048" class="game-2048-board"></div>
+
+    <button id="restart2048Btn" class="game-action-btn game-2048-restart">
+      もう一度
+    </button>
   </div>
-
-  <div id="board"></div>
-
-  <button id="restartBtn" class="game-action-btn">もう一度</button>
 `;
 
-const boardEl = document.getElementById("board");
-const scoreEl = document.getElementById("score");
-const bestScoreEl = document.getElementById("bestScore");
-const restartBtn = document.getElementById("restartBtn");
+const boardEl = document.getElementById("board2048");
+const scoreEl = document.getElementById("score2048");
+const bestScoreEl = document.getElementById("bestScore2048");
+const restartBtn = document.getElementById("restart2048Btn");
 
 let board = [];
 let score = 0;
@@ -51,7 +55,7 @@ function render() {
       const value = board[y][x];
 
       const cell = document.createElement("div");
-      cell.className = "cell";
+      cell.className = "game-2048-cell";
 
       if (value) {
         cell.textContent = value;
@@ -255,16 +259,24 @@ document.onkeydown = (event) => {
 let touchStartX = 0;
 let touchStartY = 0;
 
-boardEl.addEventListener("touchstart", (event) => {
-  const touch = event.touches[0];
+boardEl.addEventListener(
+  "touchstart",
+  (event) => {
+    const touch = event.touches[0];
 
-  touchStartX = touch.clientX;
-  touchStartY = touch.clientY;
-}, { passive: true });
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+  },
+  { passive: true }
+);
 
-boardEl.addEventListener("touchmove", (event) => {
-  event.preventDefault();
-}, { passive: false });
+boardEl.addEventListener(
+  "touchmove",
+  (event) => {
+    event.preventDefault();
+  },
+  { passive: false }
+);
 
 boardEl.addEventListener("touchend", (event) => {
   const touch = event.changedTouches[0];
