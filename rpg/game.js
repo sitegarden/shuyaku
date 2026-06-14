@@ -395,6 +395,7 @@ function statusHtml() {
       <div class="status-row"><span>名前</span><strong>${player.name}</strong></div>
       <div class="status-row"><span>Lv</span><strong>${player.level}</strong></div>
       <div class="status-row"><span>HP</span><strong>${player.hp} / ${player.maxHp}</strong></div>
+      <div class="status-row"><span>SP</span><strong>${player.sp} / ${player.maxSp}</strong></div>
       <div class="status-row"><span>EXP</span><strong>${player.exp}</strong></div>
       <div class="status-row"><span>スキル</span><strong>${player.skills.join("、")}</strong></div>
     </div>
