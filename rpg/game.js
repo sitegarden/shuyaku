@@ -109,12 +109,14 @@ let player = loadSave() || {
   y: 7,
   clearedTrial: false,
   seenStories: [],
+  restUsed: false,
   skills: ["ツッコミ"]
 };
 
 player.seenStories ??= [];
 player.sp ??= 12;
 player.maxSp ??= 12;
+player.restUsed ??= false;
 
 let currentEnemy = null;
 let lastLog = "モブ草原に来た。ここから、役なしの物語が始まる。";
@@ -397,6 +399,7 @@ function statusHtml() {
       <div class="status-row"><span>HP</span><strong>${player.hp} / ${player.maxHp}</strong></div>
       <div class="status-row"><span>SP</span><strong>${player.sp} / ${player.maxSp}</strong></div>
       <div class="status-row"><span>EXP</span><strong>${player.exp}</strong></div>
+      <div class="status-row"><span>休憩</span><strong>${player.restUsed ? "使用済み" : "使用可能"}</strong></div>
       <div class="status-row"><span>スキル</span><strong>${player.skills.join("、")}</strong></div>
     </div>
   `;
@@ -591,6 +594,7 @@ function winBattle(beforeText) {
 
   if (currentEnemy.name === "門番ゴーレム") {
     player.clearedTrial = true;
+    player.restUsed = false;
     saveGame();
 
     app.innerHTML = `
@@ -633,10 +637,18 @@ function winBattle(beforeText) {
 }
 
 function rest() {
+  if (player.restUsed) {
+    showMap("もうこのステージでは休めない。甘えすぎるな、主役。");
+    return;
+  }
+
   player.hp = player.maxHp;
   player.sp = player.maxSp;
+  player.restUsed = true;
+
   saveGame();
-  showMap("草原で少し休んだ。HPとSPが全回復した。");
+
+  showMap("草原で少し休んだ。HPとSPが全回復した。<br>休憩はこのステージであと使えない。");
 }
 
 function saveGame() {
