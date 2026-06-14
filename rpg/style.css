@@ -1,0 +1,84 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family:
+    "Hiragino Maru Gothic ProN",
+    "Yu Gothic",
+    system-ui,
+    sans-serif;
+  color: #30273a;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(255, 160, 210, 0.35), transparent 28%),
+    radial-gradient(circle at 85% 20%, rgba(150, 170, 255, 0.38), transparent 30%),
+    linear-gradient(135deg, #fff7ec, #f3edff);
+  min-height: 100vh;
+}
+
+.game-wrap {
+  width: min(920px, calc(100% - 28px));
+  margin: 0 auto;
+  padding: 36px 0;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(80, 60, 100, 0.14);
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 24px 60px rgba(70, 45, 90, 0.16);
+}
+
+h1 {
+  margin: 0 0 12px;
+  font-size: clamp(28px, 6vw, 52px);
+}
+
+p {
+  line-height: 1.8;
+}
+
+button,
+a.button {
+  border: 0;
+  border-radius: 999px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #ff7cab, #8c7bff);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  margin: 6px;
+}
+
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.status {
+  display: grid;
+  gap: 8px;
+  margin: 18px 0;
+  padding: 14px;
+  border-radius: 16px;
+  background: rgba(255, 248, 238, 0.75);
+}
+
+.log {
+  margin-top: 18px;
+  padding: 16px;
+  border-radius: 16px;
+  background: rgba(48, 39, 58, 0.06);
+  min-height: 90px;
+}
+
+.enemy {
+  font-size: 22px;
+  font-weight: 800;
+}
