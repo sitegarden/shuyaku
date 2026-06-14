@@ -468,6 +468,14 @@ player.sp ??= 12;
 player.maxSp ??= 12;
 player.restUsed ??= false;
 
+player.x ??= 1;
+player.y ??= 7;
+
+if (!mapData[player.y] || !mapData[player.y][player.x] || mapData[player.y][player.x] === "W") {
+  player.x = 1;
+  player.y = 7;
+}
+
 let currentEnemy = null;
 let lastLog = "モブ草原に来た。ここから、役なしの物語が始まる。";
 
