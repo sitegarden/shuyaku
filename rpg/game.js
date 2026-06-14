@@ -2,6 +2,42 @@ const app = document.getElementById("app");
 
 const SAVE_KEY = "shuyakuQuestGuestSave";
 
+const stageStories = {
+  1: [
+    {
+      speaker: "???",
+      text: "この世界では、誰もが何かの「役」を持って生きている。"
+    },
+    {
+      speaker: "村人",
+      text: "勇者は北へ。魔法使いは塔へ。商人は市場へ。"
+    },
+    {
+      speaker: "村人",
+      text: "君？ 君は……えっと、誰だっけ。"
+    },
+    {
+      speaker: "主人公",
+      text: "知らねぇよ。俺だってまだ決まってない。"
+    },
+    {
+      speaker: "ナビにゃん",
+      text: "役がない？いいじゃん。逆に自由ってことだろ。"
+    },
+    {
+      speaker: "主人公",
+      text: "選ばれるのを待つくらいなら、こっちから主役になってやる。"
+    },
+    {
+      speaker: "SYSTEM",
+      text: "第1ステージ：モブ草原"
+    }
+  ]
+};
+
+let storyIndex = 0;
+
+
 /*
   タイル説明
 
@@ -70,8 +106,11 @@ let player = loadSave() || {
   x: 1,
   y: 7,
   clearedTrial: false,
+  seenStories: [],
   skills: ["ツッコミ"]
 };
+
+player.seenStories ??= [];
 
 let currentEnemy = null;
 let lastLog = "モブ草原に来た。ここから、役なしの物語が始まる。";
@@ -82,7 +121,11 @@ let touchStartY = 0;
 document.addEventListener("click", (e) => {
   const action = e.target.dataset.action;
 
-  if (action === "start") showMap();
+  if (action === "start") startGame();
+  if (action === "story") startStageStory(1);
+  if (action === "nextStory") nextStory();
+  if (action === "skipStory") skipStory();
+
   if (action === "rest") rest();
   if (action === "attack") playerAttack();
   if (action === "skill") useSkill();
@@ -96,6 +139,79 @@ document.addEventListener("click", (e) => {
     handleTileTap(x, y);
   }
 });
+
+function startGame() {
+  if (!player.seenStories.includes(1)) {
+    startStageStory(1);
+    return;
+  }
+
+  showMap();
+}
+
+function startStageStory(stageNumber) {
+  storyIndex = 0;
+  showStory(stageNumber);
+}
+
+function showStory(stageNumber) {
+  const story = stageStories[stageNumber];
+  const scene = story[storyIndex];
+
+  app.innerHTML = `
+    <section class="story-screen">
+      <div class="story-bg">
+        <div class="story-card">
+          <div class="story-label">STORY</div>
+          <h1>SHUYAKU QUEST</h1>
+
+          <div class="story-box">
+            <p class="story-speaker">${scene.speaker}</p>
+            <p class="story-text">${scene.text}</p>
+          </div>
+
+          <div class="story-progress">
+            ${storyIndex + 1} / ${story.length}
+          </div>
+
+          <div class="story-menu">
+            <button data-action="skipStory">スキップ</button>
+            <button data-action="nextStory">
+              ${storyIndex >= story.length - 1 ? "冒険へ" : "次へ"}
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function nextStory() {
+  const stageNumber = 1;
+  const story = stageStories[stageNumber];
+
+  storyIndex++;
+
+  if (storyIndex >= story.length) {
+    finishStory(stageNumber);
+    return;
+  }
+
+  showStory(stageNumber);
+}
+
+function skipStory() {
+  finishStory(1);
+}
+
+function finishStory(stageNumber) {
+  if (!player.seenStories.includes(stageNumber)) {
+    player.seenStories.push(stageNumber);
+  }
+
+  saveGame();
+  showMap("第1ステージ：モブ草原。役なしの物語が、ここから始まる。");
+}
 
 document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowUp") movePlayer("up");
