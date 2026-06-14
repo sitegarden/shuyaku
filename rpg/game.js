@@ -103,6 +103,8 @@ let player = loadSave() || {
   exp: 0,
   hp: 40,
   maxHp: 40,
+  sp: 12,
+  maxSp: 12,
   x: 1,
   y: 7,
   clearedTrial: false,
@@ -111,6 +113,8 @@ let player = loadSave() || {
 };
 
 player.seenStories ??= [];
+player.sp ??= 12;
+player.maxSp ??= 12;
 
 let currentEnemy = null;
 let lastLog = "モブ草原に来た。ここから、役なしの物語が始まる。";
@@ -519,15 +523,29 @@ function playerAttack() {
 }
 
 function useSkill() {
-  let damage = Math.floor(Math.random() * 10) + 12;
-  let text = `${player.name} はツッコミを放った！<br>「うるせぇ、勝手に決めるな！」<br>${damage}ダメージ！`;
+  const isBossFinisher =
+    currentEnemy.name === "門番ゴーレム" && currentEnemy.hp < 35;
 
-  if (currentEnemy.name === "門番ゴーレム" && currentEnemy.hp < 35) {
+  const skillName = isBossFinisher ? "主役宣言" : "ツッコミ";
+  const spCost = isBossFinisher ? 8 : 4;
+
+  if (player.sp < spCost) {
+    showBattle(`SPが足りない！<br>${skillName}にはSPが${spCost}必要だ。`);
+    return;
+  }
+
+  player.sp -= spCost;
+
+  let damage = Math.floor(Math.random() * 10) + 12;
+  let text = `${player.name} はツッコミを放った！<br>「うるせぇ、勝手に決めるな！」<br>SPを${spCost}消費。${damage}ダメージ！`;
+
+  if (isBossFinisher) {
     damage = 30;
-    text = `${player.name} は主役宣言を放った！<br>「選ばれてから動くやつが主役なわけねぇだろ」<br>${damage}ダメージ！`;
+    text = `${player.name} は主役宣言を放った！<br>「選ばれてから動くやつが主役なわけねぇだろ」<br>SPを${spCost}消費。${damage}ダメージ！`;
   }
 
   currentEnemy.hp -= damage;
+  saveGame();
 
   if (currentEnemy.hp <= 0) {
     winBattle(text);
@@ -536,6 +554,8 @@ function useSkill() {
 
   enemyTurn(text);
 }
+
+
 
 function enemyTurn(beforeText) {
   const damage = Math.floor(Math.random() * currentEnemy.attack) + 3;
@@ -560,11 +580,13 @@ function winBattle(beforeText) {
   let log = `${beforeText}<br><br>${currentEnemy.name} を倒した！<br>${currentEnemy.exp}EXPを手に入れた。`;
 
   if (player.exp >= player.level * 30) {
-    player.level++;
-    player.maxHp += 8;
-    player.hp = player.maxHp;
-    log += `<br><br>レベルアップ！ Lv${player.level} になった。`;
-  }
+  player.level++;
+  player.maxHp += 8;
+  player.maxSp += 3;
+  player.hp = player.maxHp;
+  player.sp = player.maxSp;
+  log += `<br><br>レベルアップ！ Lv${player.level} になった。HPとSPが上がった。`;
+}
 
   if (currentEnemy.name === "門番ゴーレム") {
     player.clearedTrial = true;
@@ -611,8 +633,9 @@ function winBattle(beforeText) {
 
 function rest() {
   player.hp = player.maxHp;
+  player.sp = player.maxSp;
   saveGame();
-  showMap("草原で少し休んだ。HPが全回復した。");
+  showMap("草原で少し休んだ。HPとSPが全回復した。");
 }
 
 function saveGame() {
