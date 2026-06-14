@@ -2,49 +2,62 @@ const app = document.getElementById("app");
 
 const SAVE_KEY = "shuyakuQuestGuestSave";
 
+/*
+  タイル説明
+
+  G = 草原
+  R = 道
+  W = 森・壁
+  E = 敵
+  N = NPC
+  A = 門
+*/
+
 const mapData = [
-  ["🌳", "🌳", "🌳", "🌳", "🌳", "🌳", "🌳", "🌳", "🌳"],
-  ["🌳", "🌱", "🌱", "🌱", "👾", "🌱", "🌱", "🚪", "🌳"],
-  ["🌳", "🌱", "🌳", "🌱", "🌳", "🌱", "🌳", "🌱", "🌳"],
-  ["🌳", "🐱", "🌱", "🌱", "🌱", "🌱", "👾", "🌱", "🌳"],
-  ["🌳", "🌱", "🌳", "🌱", "🌳", "🌱", "🌳", "🌱", "🌳"],
-  ["🌳", "🌱", "🌱", "👾", "🌱", "🌱", "🌱", "🌱", "🌳"],
-  ["🌳", "🌳", "🌳", "🌳", "🌳", "🌳", "🌳", "🌳", "🌳"]
+  ["W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"],
+  ["W", "G", "G", "R", "R", "R", "G", "E", "R", "A", "W"],
+  ["W", "G", "W", "R", "W", "R", "W", "G", "W", "R", "W"],
+  ["W", "N", "R", "R", "G", "R", "G", "G", "W", "R", "W"],
+  ["W", "G", "W", "G", "W", "R", "W", "E", "W", "R", "W"],
+  ["W", "R", "R", "E", "R", "R", "G", "G", "G", "R", "W"],
+  ["W", "R", "W", "G", "W", "G", "W", "G", "W", "G", "W"],
+  ["W", "R", "G", "G", "G", "G", "R", "R", "R", "G", "W"],
+  ["W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"]
 ];
 
 const enemies = [
   {
-    icon: "🟢",
     name: "スライム・モブ",
     hp: 18,
     attack: 5,
     exp: 8,
+    type: "normal",
     message: "ぷるぷる……モブでも生きてる。"
   },
   {
-    icon: "🦇",
     name: "ため息コウモリ",
     hp: 24,
     attack: 7,
     exp: 12,
+    type: "normal",
     message: "はぁ……やる気あるの？"
   },
   {
-    icon: "🍄",
     name: "決めつけキノコ",
     hp: 28,
     attack: 8,
     exp: 16,
+    type: "normal",
     message: "君、主人公タイプじゃないよね。"
   }
 ];
 
 const boss = {
-  icon: "🗿",
   name: "門番ゴーレム",
   hp: 60,
   attack: 11,
   exp: 50,
+  type: "boss",
   message: "役なしは、この先へ進めない。"
 };
 
@@ -55,7 +68,7 @@ let player = loadSave() || {
   hp: 40,
   maxHp: 40,
   x: 1,
-  y: 5,
+  y: 7,
   clearedTrial: false,
   skills: ["ツッコミ"]
 };
@@ -63,17 +76,25 @@ let player = loadSave() || {
 let currentEnemy = null;
 let lastLog = "モブ草原に来た。ここから、役なしの物語が始まる。";
 
+let touchStartX = 0;
+let touchStartY = 0;
+
 document.addEventListener("click", (e) => {
   const action = e.target.dataset.action;
-  if (!action) return;
 
   if (action === "start") showMap();
-  if (action === "move") movePlayer(e.target.dataset.dir);
   if (action === "rest") rest();
   if (action === "attack") playerAttack();
   if (action === "skill") useSkill();
   if (action === "run") showMap("逃げた。まあ戦略的撤退ってやつ。");
   if (action === "reset") resetSave();
+
+  const tile = e.target.closest("[data-tile-x]");
+  if (tile) {
+    const x = Number(tile.dataset.tileX);
+    const y = Number(tile.dataset.tileY);
+    handleTileTap(x, y);
+  }
 });
 
 document.addEventListener("keydown", (e) => {
@@ -82,6 +103,36 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") movePlayer("left");
   if (e.key === "ArrowRight") movePlayer("right");
 });
+
+document.addEventListener("touchstart", (e) => {
+  const map = e.target.closest(".tile-map");
+  if (!map) return;
+
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+document.addEventListener("touchend", (e) => {
+  const map = e.target.closest(".tile-map");
+  if (!map) return;
+
+  const touchEndX = e.changedTouches[0].clientX;
+  const touchEndY = e.changedTouches[0].clientY;
+
+  const diffX = touchEndX - touchStartX;
+  const diffY = touchEndY - touchStartY;
+
+  const absX = Math.abs(diffX);
+  const absY = Math.abs(diffY);
+
+  if (Math.max(absX, absY) < 34) return;
+
+  if (absX > absY) {
+    movePlayer(diffX > 0 ? "right" : "left");
+  } else {
+    movePlayer(diffY > 0 ? "down" : "up");
+  }
+}, { passive: true });
 
 showTitle();
 
@@ -95,7 +146,9 @@ function showTitle() {
 
       <div class="game-body">
         <section class="map-panel">
-          <div class="enemy-box">✨</div>
+          <div class="enemy-box">
+            <div class="clear-symbol"></div>
+          </div>
         </section>
 
         <aside class="side-panel">
@@ -140,7 +193,7 @@ function showMap(log = lastLog) {
             <span class="badge">体験版</span>
           </div>
 
-          <div class="tile-map">
+          <div class="tile-map" aria-label="モブ草原のマップ">
             ${renderMap()}
           </div>
         </section>
@@ -149,11 +202,17 @@ function showMap(log = lastLog) {
           <h2>ステータス</h2>
           ${statusHtml()}
 
-          <div class="controls">
-            <button data-action="move" data-dir="up">↑</button>
-            <button data-action="move" data-dir="left">←</button>
-            <button data-action="move" data-dir="down">↓</button>
-            <button data-action="move" data-dir="right">→</button>
+          <div class="hint-box">
+            スマホ：隣のマスをタップ、またはマップ上でスワイプ。<br>
+            PC：矢印キーで移動。
+          </div>
+
+          <div class="legend">
+            <div class="legend-row"><span class="legend-chip grass"></span>草原・道：歩ける</div>
+            <div class="legend-row"><span class="legend-chip wall"></span>森：通れない</div>
+            <div class="legend-row"><span class="legend-chip enemy"></span>敵：戦闘</div>
+            <div class="legend-row"><span class="legend-chip npc"></span>NPC：会話</div>
+            <div class="legend-row"><span class="legend-chip gate"></span>門：ボス</div>
           </div>
 
           <div class="menu">
@@ -173,12 +232,18 @@ function renderMap() {
       return row
         .map((tile, x) => {
           const isPlayer = player.x === x && player.y === y;
-          const type = getTileType(tile);
+          const type = getTileClass(tile);
 
           return `
-            <div class="tile ${type} ${isPlayer ? "player" : ""}">
-              ${isPlayer ? "🙂" : tile}
-            </div>
+            <button
+              class="tile ${type}"
+              type="button"
+              data-tile-x="${x}"
+              data-tile-y="${y}"
+              aria-label="${getTileName(tile)}"
+            >
+              ${isPlayer ? `<span class="player-piece"></span>` : ""}
+            </button>
           `;
         })
         .join("");
@@ -186,10 +251,22 @@ function renderMap() {
     .join("");
 }
 
-function getTileType(tile) {
-  if (tile === "🌳") return "wall";
-  if (tile === "🚪") return "gate";
-  return "";
+function getTileClass(tile) {
+  if (tile === "W") return "wall";
+  if (tile === "R") return "road";
+  if (tile === "E") return "enemy";
+  if (tile === "N") return "npc";
+  if (tile === "A") return "gate";
+  return "grass";
+}
+
+function getTileName(tile) {
+  if (tile === "W") return "森";
+  if (tile === "R") return "道";
+  if (tile === "E") return "敵";
+  if (tile === "N") return "NPC";
+  if (tile === "A") return "門";
+  return "草原";
 }
 
 function statusHtml() {
@@ -204,6 +281,21 @@ function statusHtml() {
   `;
 }
 
+function handleTileTap(x, y) {
+  const dx = x - player.x;
+  const dy = y - player.y;
+
+  if (Math.abs(dx) + Math.abs(dy) !== 1) {
+    showMap("隣のマスをタップすると移動できる。焦るな、主役。");
+    return;
+  }
+
+  if (dx === 1) movePlayer("right");
+  if (dx === -1) movePlayer("left");
+  if (dy === 1) movePlayer("down");
+  if (dy === -1) movePlayer("up");
+}
+
 function movePlayer(dir) {
   let nextX = player.x;
   let nextY = player.y;
@@ -215,37 +307,42 @@ function movePlayer(dir) {
 
   const nextTile = mapData[nextY]?.[nextX];
 
-  if (!nextTile || nextTile === "🌳") {
-    showMap("木が邪魔で進めない。森、地味に強い。");
+  if (!nextTile || nextTile === "W") {
+    showMap("森が深くて進めない。木、普通に強い。");
     return;
   }
 
   player.x = nextX;
   player.y = nextY;
 
-  if (nextTile === "🐱") {
+  if (nextTile === "N") {
     showMap("ナビにゃん「役がない？いいじゃん。自由ってことだろ」");
     return;
   }
 
-  if (nextTile === "👾") {
+  if (nextTile === "E") {
     randomEncounter();
     return;
   }
 
-  if (nextTile === "🚪") {
+  if (nextTile === "A") {
     startBoss();
     return;
   }
 
   const random = Math.random();
 
-  if (random < 0.16) {
+  if (random < 0.12) {
     randomEncounter();
     return;
   }
 
-  showMap("草を踏みしめて進んだ。ちょっと冒険者っぽい。");
+  if (nextTile === "R") {
+    showMap("道を進んだ。足取りがちょっと主役っぽい。");
+    return;
+  }
+
+  showMap("草原を進んだ。風が少しだけ背中を押している。");
 }
 
 function randomEncounter() {
@@ -269,7 +366,9 @@ function showBattle(log = "") {
 
       <div class="game-body">
         <section class="map-panel battle-card">
-          <div class="enemy-box">${currentEnemy.icon}</div>
+          <div class="enemy-box">
+            <div class="enemy-symbol ${currentEnemy.type === "boss" ? "boss" : ""}"></div>
+          </div>
           <p class="enemy-name">${currentEnemy.name}</p>
           <p>敵HP：${currentEnemy.hp}</p>
         </section>
@@ -329,8 +428,9 @@ function enemyTurn(beforeText) {
   if (player.hp <= 0) {
     player.hp = 1;
     player.x = 1;
-    player.y = 5;
+    player.y = 7;
     saveGame();
+
     showMap(`${beforeText}<br><br>${currentEnemy.name} の攻撃！ ${damage}ダメージ！<br>倒れかけたので草原の入口まで戻された。`);
     return;
   }
@@ -363,7 +463,9 @@ function winBattle(beforeText) {
 
         <div class="game-body">
           <section class="map-panel battle-card">
-            <div class="enemy-box">🏆</div>
+            <div class="enemy-box">
+              <div class="clear-symbol"></div>
+            </div>
             <h2>門の先へ</h2>
             <p>ナビにゃん「お前、役なしじゃないな。まだ名前のない主役だ」</p>
           </section>
@@ -394,7 +496,7 @@ function winBattle(beforeText) {
 function rest() {
   player.hp = player.maxHp;
   saveGame();
-  showMap("草むらで少し休んだ。HPが全回復した。");
+  showMap("草原で少し休んだ。HPが全回復した。");
 }
 
 function saveGame() {
