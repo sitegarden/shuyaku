@@ -11,6 +11,15 @@
   --panel: rgba(255, 255, 255, 0.9);
   --line: rgba(70, 45, 90, 0.16);
   --shadow: 0 24px 70px rgba(48, 34, 80, 0.22);
+
+  --grass: #8bd46f;
+  --grass-2: #74c55e;
+  --forest: #3f7d45;
+  --road: #d8bd7a;
+  --enemy: #e85f72;
+  --npc: #65a8ff;
+  --gate: #8b6cff;
+  --player: #ffe066;
 }
 
 body {
@@ -23,15 +32,16 @@ body {
     sans-serif;
   color: var(--text);
   background:
-    radial-gradient(circle at 15% 10%, rgba(255, 124, 171, 0.38), transparent 30%),
+    radial-gradient(circle at 15% 10%, rgba(255, 124, 171, 0.35), transparent 30%),
     radial-gradient(circle at 85% 18%, rgba(124, 92, 255, 0.35), transparent 32%),
     linear-gradient(135deg, #fff4df, #f2edff);
+  touch-action: manipulation;
 }
 
 .game-wrap {
-  width: min(980px, calc(100% - 24px));
+  width: min(980px, calc(100% - 20px));
   margin: 0 auto;
-  padding: 24px 0;
+  padding: 22px 0;
 }
 
 .game-shell {
@@ -43,27 +53,27 @@ body {
 }
 
 .game-header {
-  padding: 20px;
+  padding: 18px 20px;
   background:
-    linear-gradient(135deg, rgba(124, 92, 255, 0.92), rgba(255, 124, 171, 0.9));
+    linear-gradient(135deg, rgba(124, 92, 255, 0.94), rgba(255, 124, 171, 0.92));
   color: white;
 }
 
 .game-title {
   margin: 0;
-  font-size: clamp(28px, 7vw, 58px);
+  font-size: clamp(28px, 7vw, 56px);
   letter-spacing: 0.04em;
   text-shadow: 0 4px 0 rgba(0, 0, 0, 0.12);
 }
 
 .game-subtitle {
   margin: 6px 0 0;
-  opacity: 0.92;
+  opacity: 0.94;
 }
 
 .game-body {
   display: grid;
-  grid-template-columns: 1.5fr 0.8fr;
+  grid-template-columns: 1.45fr 0.85fr;
   gap: 18px;
   padding: 18px;
 }
@@ -100,51 +110,170 @@ body {
   padding: 6px 10px;
   background: rgba(124, 92, 255, 0.12);
   color: #5b45c9;
-  font-weight: 800;
+  font-weight: 900;
   font-size: 12px;
 }
 
 .tile-map {
   display: grid;
-  grid-template-columns: repeat(9, 1fr);
-  gap: 6px;
+  grid-template-columns: repeat(11, 1fr);
+  gap: 5px;
   padding: 10px;
-  border-radius: 20px;
+  border-radius: 22px;
   background:
-    linear-gradient(135deg, rgba(120, 205, 120, 0.22), rgba(255, 255, 255, 0.25)),
+    linear-gradient(135deg, rgba(73, 143, 78, 0.2), rgba(255, 255, 255, 0.25)),
     #dff6c9;
-  border: 2px solid rgba(79, 135, 68, 0.2);
+  border: 2px solid rgba(79, 135, 68, 0.22);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
 }
 
 .tile {
+  position: relative;
   aspect-ratio: 1 / 1;
   border: 0;
-  border-radius: 14px;
-  display: grid;
-  place-items: center;
-  font-size: clamp(22px, 5vw, 36px);
-  background: rgba(255, 255, 255, 0.42);
+  border-radius: 12px;
+  background: var(--grass);
   box-shadow:
-    inset 0 -4px 0 rgba(0, 0, 0, 0.06),
+    inset 0 -4px 0 rgba(0, 0, 0, 0.08),
     0 5px 12px rgba(45, 80, 40, 0.08);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.tile::after {
+  content: "";
+  position: absolute;
+  inset: 18%;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.tile.grass {
+  background:
+    linear-gradient(135deg, var(--grass), var(--grass-2));
+}
+
+.tile.road {
+  background:
+    linear-gradient(135deg, #e5ca85, var(--road));
 }
 
 .tile.wall {
-  background: rgba(55, 98, 62, 0.18);
+  background:
+    linear-gradient(135deg, #4f9655, var(--forest));
+  cursor: not-allowed;
+}
+
+.tile.wall::before {
+  content: "";
+  position: absolute;
+  inset: 18% 24%;
+  border-radius: 50% 50% 36% 36%;
+  background: rgba(20, 66, 30, 0.42);
+}
+
+.tile.enemy {
+  background:
+    radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.34), transparent 28%),
+    linear-gradient(135deg, #ff7b8f, var(--enemy));
+}
+
+.tile.enemy::before {
+  content: "!";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: white;
+  font-size: clamp(18px, 4vw, 32px);
+  font-weight: 1000;
+  text-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+}
+
+.tile.npc {
+  background:
+    radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.36), transparent 30%),
+    linear-gradient(135deg, #8fc5ff, var(--npc));
+}
+
+.tile.npc::before {
+  content: "N";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: white;
+  font-weight: 1000;
+  text-shadow: 0 3px 0 rgba(0, 0, 0, 0.14);
 }
 
 .tile.gate {
-  background: rgba(124, 92, 255, 0.16);
+  background:
+    linear-gradient(135deg, #b69cff, var(--gate));
 }
 
-.tile.player {
-  background: rgba(255, 242, 160, 0.95);
-  outline: 3px solid rgba(255, 124, 171, 0.75);
-  transform: translateY(-2px);
+.tile.gate::before {
+  content: "";
+  position: absolute;
+  left: 24%;
+  right: 24%;
+  top: 18%;
+  bottom: 16%;
+  border-radius: 999px 999px 8px 8px;
+  background: rgba(56, 39, 120, 0.36);
+}
+
+.player-piece {
+  position: absolute;
+  z-index: 5;
+  inset: 13%;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.9), transparent 22%),
+    linear-gradient(135deg, #fff39a, var(--player));
+  border: 3px solid rgba(255, 124, 171, 0.88);
+  box-shadow:
+    0 9px 14px rgba(60, 40, 90, 0.22),
+    inset 0 -5px 0 rgba(0, 0, 0, 0.08);
+  animation: playerPop 0.16s ease-out;
+}
+
+.player-piece::before,
+.player-piece::after {
+  content: "";
+  position: absolute;
+  top: 34%;
+  width: 10%;
+  height: 10%;
+  border-radius: 999px;
+  background: #3b2d4c;
+}
+
+.player-piece::before {
+  left: 33%;
+}
+
+.player-piece::after {
+  right: 33%;
+}
+
+@keyframes playerPop {
+  from {
+    transform: scale(0.82);
+  }
+  to {
+    transform: scale(1);
+  }
 }
 
 .side-panel {
   padding: 16px;
+}
+
+.side-panel h2 {
+  margin-top: 0;
 }
 
 .status {
@@ -165,28 +294,55 @@ body {
   color: #5b45c9;
 }
 
-.controls {
+.hint-box {
+  margin-top: 14px;
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(255, 124, 171, 0.08);
+  color: #7a5365;
+  line-height: 1.7;
+  font-weight: 700;
+}
+
+.legend {
   display: grid;
-  grid-template-columns: repeat(3, 58px);
-  justify-content: center;
   gap: 8px;
-  margin-top: 18px;
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--sub);
 }
 
-.controls button:nth-child(1) {
-  grid-column: 2;
+.legend-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.controls button:nth-child(2) {
-  grid-column: 1;
+.legend-chip {
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.08);
 }
 
-.controls button:nth-child(3) {
-  grid-column: 2;
+.legend-chip.grass {
+  background: var(--grass);
 }
 
-.controls button:nth-child(4) {
-  grid-column: 3;
+.legend-chip.wall {
+  background: var(--forest);
+}
+
+.legend-chip.enemy {
+  background: var(--enemy);
+}
+
+.legend-chip.npc {
+  background: var(--npc);
+}
+
+.legend-chip.gate {
+  background: var(--gate);
 }
 
 button,
@@ -207,13 +363,6 @@ button:hover,
   transform: translateY(-1px);
 }
 
-.controls button {
-  width: 58px;
-  height: 48px;
-  padding: 0;
-  font-size: 20px;
-}
-
 .menu {
   display: flex;
   flex-wrap: wrap;
@@ -228,7 +377,7 @@ button:hover,
   line-height: 1.8;
   background: rgba(47, 39, 64, 0.88);
   color: white;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .battle-card {
@@ -237,32 +386,93 @@ button:hover,
 
 .enemy-name {
   font-size: 28px;
-  font-weight: 900;
+  font-weight: 1000;
   margin: 12px 0;
 }
 
 .enemy-box {
   display: grid;
   place-items: center;
-  min-height: 160px;
+  min-height: 170px;
   border-radius: 22px;
   background:
     radial-gradient(circle, rgba(255, 124, 171, 0.22), transparent 45%),
     rgba(124, 92, 255, 0.08);
-  font-size: 74px;
+}
+
+.enemy-symbol {
+  width: 96px;
+  height: 96px;
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.72), transparent 23%),
+    linear-gradient(135deg, #ff7b8f, #c94a61);
+  box-shadow:
+    0 16px 28px rgba(80, 40, 70, 0.22),
+    inset 0 -8px 0 rgba(0, 0, 0, 0.12);
+}
+
+.enemy-symbol.boss {
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.66), transparent 20%),
+    linear-gradient(135deg, #b69cff, #5c45c8);
+}
+
+.clear-symbol {
+  width: 110px;
+  height: 110px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.82), transparent 24%),
+    linear-gradient(135deg, #ffe066, #ff9f6e);
+  box-shadow:
+    0 18px 32px rgba(80, 40, 70, 0.2),
+    inset 0 -8px 0 rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 760px) {
+  .game-wrap {
+    width: min(100% - 14px, 980px);
+    padding: 10px 0;
+  }
+
   .game-body {
     grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .game-header {
+    padding: 16px;
+  }
+
+  .map-panel,
+  .side-panel {
+    border-radius: 18px;
   }
 
   .tile-map {
     gap: 4px;
     padding: 7px;
+    border-radius: 18px;
   }
 
   .tile {
-    border-radius: 10px;
+    border-radius: 9px;
+  }
+
+  .side-panel {
+    padding: 14px;
+  }
+
+  .hint-box {
+    font-size: 13px;
+  }
+
+  .log-panel {
+    margin: 0 12px 12px;
+    min-height: 92px;
+    font-size: 14px;
   }
 }
