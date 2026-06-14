@@ -32,9 +32,9 @@ body {
     sans-serif;
   color: var(--text);
   background:
-    radial-gradient(circle at 15% 10%, rgba(255, 124, 171, 0.35), transparent 30%),
-    radial-gradient(circle at 85% 18%, rgba(124, 92, 255, 0.35), transparent 32%),
-    linear-gradient(135deg, #fff4df, #f2edff);
+    radial-gradient(circle at 20% 15%, rgba(87, 130, 72, 0.28), transparent 28%),
+    radial-gradient(circle at 80% 20%, rgba(70, 92, 126, 0.24), transparent 30%),
+    linear-gradient(135deg, #243323, #1c2530 48%, #171522);
   touch-action: manipulation;
 }
 
@@ -45,25 +45,35 @@ body {
 }
 
 .game-shell {
-  border: 2px solid rgba(47, 39, 64, 0.14);
-  border-radius: 28px;
-  background: rgba(255, 255, 255, 0.72);
-  box-shadow: var(--shadow);
+  border: 2px solid rgba(255, 238, 190, 0.22);
+  border-radius: 24px;
+  background:
+    linear-gradient(135deg, rgba(255, 248, 222, 0.9), rgba(236, 228, 196, 0.9));
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.34),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.38);
   overflow: hidden;
 }
 
-.game-header {
-  padding: 18px 20px;
+.game-shell {
+  border: 2px solid rgba(255, 238, 190, 0.22);
+  border-radius: 24px;
   background:
-    linear-gradient(135deg, rgba(124, 92, 255, 0.94), rgba(255, 124, 171, 0.92));
-  color: white;
+    linear-gradient(135deg, rgba(255, 248, 222, 0.9), rgba(236, 228, 196, 0.9));
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.34),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.38);
+  overflow: hidden;
 }
 
 .game-title {
   margin: 0;
   font-size: clamp(28px, 7vw, 56px);
   letter-spacing: 0.04em;
-  text-shadow: 0 4px 0 rgba(0, 0, 0, 0.12);
+  color: #ffe9a3;
+  text-shadow:
+    0 3px 0 rgba(0, 0, 0, 0.32),
+    0 0 18px rgba(255, 224, 102, 0.16);
 }
 
 .game-subtitle {
@@ -375,8 +385,10 @@ button:not(.tile):hover,
   padding: 16px;
   min-height: 110px;
   line-height: 1.8;
-  background: rgba(47, 39, 64, 0.88);
-  color: white;
+  background:
+    linear-gradient(135deg, rgba(21, 28, 38, 0.96), rgba(37, 35, 54, 0.96));
+  color: #fff3c7;
+  border: 2px solid rgba(255, 238, 190, 0.2);
   font-weight: 800;
 }
 
