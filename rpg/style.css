@@ -345,7 +345,7 @@ body {
   background: var(--gate);
 }
 
-button,
+button:not(.tile),
 .button {
   border: 0;
   border-radius: 999px;
@@ -358,7 +358,7 @@ button,
   box-shadow: 0 10px 20px rgba(124, 92, 255, 0.22);
 }
 
-button:hover,
+button:not(.tile):hover,
 .button:hover {
   transform: translateY(-1px);
 }
@@ -567,4 +567,47 @@ button:hover,
   background: rgba(47, 39, 64, 0.18);
   color: #30273a;
   box-shadow: none;
+}
+
+.tile.has-player {
+  outline: 3px solid rgba(255, 124, 171, 0.9);
+  z-index: 2;
+}
+
+.player-piece {
+  position: absolute;
+  z-index: 10;
+  left: 50%;
+  top: 50%;
+  width: 68%;
+  height: 68%;
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.95), transparent 22%),
+    linear-gradient(135deg, #fff39a, #ffe066);
+  border: 3px solid rgba(255, 124, 171, 0.95);
+  box-shadow:
+    0 9px 14px rgba(60, 40, 90, 0.26),
+    inset 0 -5px 0 rgba(0, 0, 0, 0.08);
+  pointer-events: none;
+}
+
+.player-piece::before,
+.player-piece::after {
+  content: "";
+  position: absolute;
+  top: 34%;
+  width: 10%;
+  height: 10%;
+  border-radius: 999px;
+  background: #3b2d4c;
+}
+
+.player-piece::before {
+  left: 33%;
+}
+
+.player-piece::after {
+  right: 33%;
 }
