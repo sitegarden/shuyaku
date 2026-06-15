@@ -31,8 +31,9 @@ const missions = [
     title: "教室のバグ端末",
     place: "普通教室",
     enemyName: "バグ端末",
-    enemyMaxHp: 70,
-    enemyAttack: 12,
+    enemyMaxHp: 95,
+    enemyAttack: 16,
+    enemyType: "bug",
     reward: "任務ログ01",
     desc: "放課後の教室で、勝手に起動した端末を停止せよ。",
     intro: [
@@ -53,8 +54,9 @@ const missions = [
     title: "廊下の暴走ドローン",
     place: "西棟廊下",
     enemyName: "暴走ドローン",
-    enemyMaxHp: 90,
-    enemyAttack: 16,
+    enemyMaxHp: 120,
+    enemyAttack: 21,
+    enemyType: "speed",
     reward: "敵データ01",
     desc: "廊下を飛び回るドローンを撃墜、または停止せよ。",
     intro: [
@@ -75,8 +77,9 @@ const missions = [
     title: "資料室の警備ロボ",
     place: "資料室",
     enemyName: "警備ロボ",
-    enemyMaxHp: 120,
-    enemyAttack: 20,
+    enemyMaxHp: 160,
+    enemyAttack: 27,
+    enemyType: "armor",
     reward: "サキログ01",
     desc: "古い資料室で誤作動した警備ロボを無力化せよ。",
     intro: [
@@ -97,31 +100,48 @@ const actions = [
   {
     id: "attack",
     name: "攻撃",
-    desc: "安定したダメージ",
+    desc: "SP+1 / 安定ダメージ",
     run: () => {
-      const damage = state.analyzed ? 38 : 24;
-      state.enemyHp -= damage;
+      const baseDamage = state.analyzed ? 42 : 24;
+      const damage = getDamageByEnemyType(baseDamage);
+
+      state.enemy.hp -= damage;
       state.analyzed = false;
+      state.sakiSp = Math.min(state.sakiMaxSp, state.sakiSp + 1);
+
       animateSaki("attack");
-      return `サキは正確に攻撃した。\n${state.enemy.name}に${damage}ダメージ。`;
+
+      return `サキは正確に攻撃した。\n${state.enemy.name}に${damage}ダメージ。\nSPが1上がった。`;
     }
   },
   {
     id: "guard",
     name: "防御",
-    desc: "次の被ダメージを半減",
+    desc: "SP+1 / 次の被ダメージ半減",
     run: () => {
       state.guarding = true;
-      return "サキは防御姿勢を取った。\n次の攻撃のダメージを軽減する。";
+      state.sakiSp = Math.min(state.sakiMaxSp, state.sakiSp + 1);
+
+      return "サキは防御姿勢を取った。\n次の攻撃のダメージを軽減する。\nSPが1上がった。";
     }
   },
   {
     id: "analyze",
     name: "解析",
-    desc: "次の攻撃ダメージ上昇",
+    desc: "SP+1 / 次の攻撃強化",
     run: () => {
       state.analyzed = true;
-      return `サキは${state.enemy.name}の動作パターンを解析した。\n次の攻撃が強化される。`;
+      state.sakiSp = Math.min(state.sakiMaxSp, state.sakiSp + 1);
+
+      if (state.enemy.type === "bug") {
+        return `サキは${state.enemy.name}のエラー周期を解析した。\n次の攻撃が大きく強化される。\nSPが1上がった。`;
+      }
+
+      if (state.enemy.type === "speed") {
+        return `サキは${state.enemy.name}の飛行パターンを解析した。\n次の攻撃が当たりやすくなる。\nSPが1上がった。`;
+      }
+
+      return `サキは${state.enemy.name}の装甲の薄い箇所を解析した。\n次の攻撃が強化される。\nSPが1上がった。`;
     }
   },
   {
@@ -129,14 +149,55 @@ const actions = [
     name: "回避",
     desc: "成功すると無傷",
     run: () => {
-      const success = Math.random() < 0.65;
+      let rate = 0.48;
+
+      if (state.enemy.type === "speed") {
+        rate = 0.38;
+      }
+
+      if (state.analyzed) {
+        rate += 0.18;
+      }
+
+      const success = Math.random() < rate;
+
       state.evading = success;
+      state.analyzed = false;
 
       if (success) {
         return "サキは敵の攻撃軌道を読んだ。\n次の攻撃を回避できそうだ。";
       }
 
       return "サキは回避を試みた。\nしかし敵の動きが不規則だ。";
+    }
+  },
+  {
+    id: "special",
+    name: "精密射撃",
+    desc: "SP3消費 / 大ダメージ",
+    run: () => {
+      if (state.sakiSp < 3) {
+        return "SPが足りない。\n精密射撃は使えない。";
+      }
+
+      state.sakiSp -= 3;
+
+      let damage = 58;
+
+      if (state.analyzed) {
+        damage = 78;
+      }
+
+      if (state.enemy.type === "armor" && !state.analyzed) {
+        damage = 42;
+      }
+
+      state.enemy.hp -= damage;
+      state.analyzed = false;
+
+      animateSaki("attack");
+
+      return `サキは呼吸を止め、精密射撃を放った。\n${state.enemy.name}に${damage}ダメージ。`;
     }
   }
 ];
@@ -205,6 +266,7 @@ function saveCleared(id) {
 
 function renderMissions() {
   const cleared = getCleared();
+
   missionGrid.innerHTML = "";
 
   missions.forEach((mission) => {
@@ -237,6 +299,7 @@ function renderMissions() {
 
 function renderCollection() {
   const cleared = getCleared();
+
   logGrid.innerHTML = "";
 
   missions.forEach((mission) => {
@@ -263,20 +326,26 @@ function startMission(id) {
     mission,
     sakiHp: 100,
     sakiMaxHp: 100,
+    sakiSp: 0,
+    sakiMaxSp: 5,
     enemy: {
       name: mission.enemyName,
       hp: mission.enemyMaxHp,
       maxHp: mission.enemyMaxHp,
-      attack: mission.enemyAttack
+      attack: mission.enemyAttack,
+      type: mission.enemyType,
+      charge: 0
     },
     guarding: false,
     analyzed: false,
     evading: false,
-    finished: false
+    finished: false,
+    turn: 1
   };
 
   phase = "intro";
   textQueue = [...mission.intro];
+  pendingEnemyTurn = false;
 
   enemyName.textContent = state.enemy.name;
   missionTitle.textContent = mission.title;
@@ -288,6 +357,28 @@ function startMission(id) {
   showNextQueueText();
 }
 
+function getDamageByEnemyType(baseDamage) {
+  let damage = baseDamage;
+
+  if (state.enemy.type === "bug" && state.analyzed) {
+    damage += 10;
+  }
+
+  if (state.enemy.type === "armor" && !state.analyzed) {
+    damage = Math.ceil(damage * 0.7);
+  }
+
+  if (state.enemy.type === "speed" && !state.analyzed) {
+    const hit = Math.random() < 0.78;
+
+    if (!hit) {
+      damage = 0;
+    }
+  }
+
+  return damage;
+}
+
 function updateHp() {
   const enemyRate = Math.max(0, state.enemy.hp) / state.enemy.maxHp;
   const sakiRate = Math.max(0, state.sakiHp) / state.sakiMaxHp;
@@ -296,7 +387,7 @@ function updateHp() {
   sakiHpBar.style.width = `${sakiRate * 100}%`;
 
   enemyHpText.textContent = `HP ${Math.max(0, state.enemy.hp)} / ${state.enemy.maxHp}`;
-  sakiHpText.textContent = `HP ${Math.max(0, state.sakiHp)} / ${state.sakiMaxHp}`;
+  sakiHpText.textContent = `HP ${Math.max(0, state.sakiHp)} / ${state.sakiMaxHp}　SP ${state.sakiSp} / ${state.sakiMaxSp}`;
 }
 
 function setText(text) {
@@ -343,8 +434,10 @@ function showNextQueueText() {
 
   if (phase === "win") {
     saveCleared(state.mission.id);
+
     speakerName.textContent = "MISSION CLEAR";
     setText(`${state.mission.title}をクリアしました。\n${state.mission.reward}を入手。`);
+
     state.finished = true;
     nextBtn.textContent = "任務選択へ";
     return;
@@ -353,18 +446,27 @@ function showNextQueueText() {
   if (phase === "lose") {
     speakerName.textContent = "MISSION FAILED";
     setText("サキは一時撤退した。\n任務は失敗。体勢を立て直して再挑戦しよう。");
+
     state.finished = true;
     nextBtn.textContent = "任務選択へ";
   }
 }
 
 function renderActionChoices() {
+  if (state.finished) return;
+
   battleChoices.innerHTML = "";
 
   actions.forEach((action) => {
     const button = document.createElement("button");
+
     button.className = "choice-btn";
     button.type = "button";
+
+    if (action.id === "special" && state.sakiSp < 3) {
+      button.style.opacity = "0.55";
+    }
+
     button.innerHTML = `${action.name}<br><small>${action.desc}</small>`;
 
     button.addEventListener("click", () => {
@@ -383,8 +485,17 @@ function renderActionChoices() {
 function playerTurn(action) {
   battleChoices.innerHTML = "";
 
+  const beforeEnemyHp = state.enemy.hp;
   const playerText = action.run();
+
   updateHp();
+
+  if (action.id === "special" && state.sakiSp < 3 && beforeEnemyHp === state.enemy.hp) {
+    speakerName.textContent = "SYSTEM";
+    setText(playerText);
+    renderActionChoices();
+    return;
+  }
 
   if (state.enemy.hp <= 0) {
     phase = "win";
@@ -401,62 +512,82 @@ function playerTurn(action) {
   }
 
   pendingEnemyTurn = true;
+
   speakerName.textContent = "サキ";
   setText(playerText);
 }
 
-  textQueue = [playerText];
-  showNextQueueText();
+function enemyTurn() {
+  const enemyText = createEnemyAttackText();
 
-  setTimeout(() => {
-    if (!isTyping && phase === "battle") {
-      enemyTurn();
-    }
-  }, 650);
+  if (state.sakiHp <= 0) {
+    phase = "lose";
+
+    textQueue = [
+      enemyText,
+      "サキの行動継続が困難になった。"
+    ];
+
+    showNextQueueText();
+    return;
+  }
+
+  speakerName.textContent = state.enemy.name;
+  setText(enemyText);
 }
 
-function enemyTurn() {
-  let damage = state.enemy.attack;
-
+function createEnemyAttackText() {
   if (state.evading) {
     state.evading = false;
-    textQueue = [`${state.enemy.name}の攻撃。\nサキは攻撃を回避した。`];
-    showNextQueueText();
-    setTimeout(() => renderActionChoices(), 650);
-    return;
+    state.turn++;
+
+    return `${state.enemy.name}の攻撃。\nサキは攻撃を回避した。`;
+  }
+
+  let damage = state.enemy.attack;
+  let extraText = "";
+
+  if (state.enemy.type === "bug") {
+    if (Math.random() < 0.32) {
+      damage += 10;
+      extraText = "\nエラー電流が暴走し、攻撃が強化された。";
+    }
+  }
+
+  if (state.enemy.type === "speed") {
+    const doubleAttack = Math.random() < 0.35;
+
+    if (doubleAttack) {
+      damage += Math.ceil(state.enemy.attack * 0.55);
+      extraText = "\n高速移動からの連続攻撃。";
+    }
+  }
+
+  if (state.enemy.type === "armor") {
+    state.enemy.charge++;
+
+    if (state.enemy.charge >= 3) {
+      damage += 20;
+      state.enemy.charge = 0;
+      extraText = "\n警備ロボは溜めた出力を一気に放った。";
+    } else {
+      extraText = `\n警備ロボの出力が上がっている。(${state.enemy.charge}/3)`;
+    }
   }
 
   if (state.guarding) {
     damage = Math.ceil(damage / 2);
     state.guarding = false;
+    extraText += "\n防御によりダメージを軽減した。";
   }
 
   state.sakiHp -= damage;
+  state.turn++;
+
   animateSaki("hit");
   updateHp();
 
-  if (state.sakiHp <= 0) {
-    phase = "lose";
-    textQueue = [
-      `${state.enemy.name}の攻撃。\nサキは${damage}ダメージを受けた。`,
-      "サキの行動継続が困難になった。"
-    ];
-    showNextQueueText();
-    return;
-  }
-
-  textQueue = [
-    `${state.enemy.name}の攻撃。\nサキは${damage}ダメージを受けた。`,
-    "サキは体勢を立て直した。\n次の行動を選択してください。"
-  ];
-
-  showNextQueueText();
-
-  setTimeout(() => {
-    if (!isTyping && phase === "battle") {
-      renderActionChoices();
-    }
-  }, 800);
+  return `${state.enemy.name}の攻撃。\nサキは${damage}ダメージを受けた。${extraText}`;
 }
 
 function animateSaki(className) {
@@ -480,6 +611,13 @@ function nextStep() {
   if (pendingEnemyTurn) {
     pendingEnemyTurn = false;
     enemyTurn();
+    return;
+  }
+
+  if (phase === "battle" && battleChoices.innerHTML === "") {
+    speakerName.textContent = "サキ";
+    setText("サキは体勢を立て直した。\n次の行動を選択してください。");
+    renderActionChoices();
     return;
   }
 
