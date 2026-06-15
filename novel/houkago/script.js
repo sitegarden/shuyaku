@@ -30,6 +30,7 @@ const characters = {
   alpha: {
     name: "アルファ",
     img: "./img/alpha.png",
+    bg: "./img/bg/classroom.png",
     desc: "明るく強気なムードメーカー。笑顔で距離を詰めてくるタイプ。",
     tags: ["強気", "距離近い", "王道"],
     routeName: "アルファルート：笑顔の裏側",
@@ -89,6 +90,7 @@ const characters = {
   beta: {
     name: "ベータ",
     img: "./img/beta.png",
+    bg: "./img/bg/library.png",
     desc: "無口で冷静。だけど放っておけない優しさがある。",
     tags: ["クール", "不器用", "静か"],
     routeName: "ベータルート：沈黙の温度",
@@ -149,6 +151,7 @@ const characters = {
   gamma: {
     name: "ガンマ",
     img: "./img/gamma.png",
+    bg: "./img/bg/courtyard.png",
     desc: "小さくて不安げ。でも芯は強い、守りたくなる子。",
     tags: ["ピュア", "内気", "守りたい"],
     routeName: "ガンマルート：小さな勇気",
@@ -205,6 +208,7 @@ const characters = {
   delta: {
     name: "デルタ",
     img: "./img/delta.png",
+    bg: "./img/bg/clubroom.png",
     desc: "癒し系の男の子。猫のぬいぐるみと一緒にいる。",
     tags: ["癒し", "猫", "ほのぼの"],
     routeName: "デルタルート：もちねこと放課後",
@@ -264,6 +268,7 @@ const characters = {
   epsilon: {
     name: "イプシロン",
     img: "./img/epsilon.png",
+    bg: "./img/bg/hallway.png",
     desc: "可愛くてあざとい。自分の見せ方をよく分かっている。",
     tags: ["あざとい", "可愛い", "小悪魔"],
     routeName: "イプシロンルート：かわいいは武器",
@@ -323,6 +328,7 @@ const characters = {
   zeta: {
     name: "ゼータ",
     img: "./img/zeta.png",
+    bg: "./img/bg/archive.png",
     desc: "大人びた雰囲気の謎多き人物。静かに距離を測ってくる。",
     tags: ["謎", "大人びた", "高難度"],
     routeName: "ゼータルート：名もなきページ",
@@ -420,6 +426,7 @@ const characterGrid = document.getElementById("characterGrid");
 
 const routeTitle = document.getElementById("routeTitle");
 const characterImage = document.getElementById("characterImage");
+const stage = document.querySelector(".stage");
 const speakerName = document.getElementById("speakerName");
 const lovePoint = document.getElementById("lovePoint");
 const messageText = document.getElementById("messageText");
@@ -558,6 +565,8 @@ function startRoute(id) {
   characterImage.src = currentCharacter.img;
   characterImage.alt = currentCharacter.name;
   characterImage.style.display = "block";
+
+  stage.style.setProperty("--bg-image", `url("${currentCharacter.bg}")`);
   lovePoint.style.display = "inline";
   nextBtn.textContent = "次へ";
 
@@ -578,6 +587,7 @@ function startTrueEnd() {
   love = 0;
   endingMode = false;
   trueEndMode = true;
+  stage.style.setProperty("--bg-image", `url("./img/bg/classroom.png")`);
 
   routeTitle.textContent = "TRUE END：すべての主役たち";
   characterImage.style.display = "none";
