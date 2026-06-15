@@ -3,16 +3,19 @@
 }
 
 :root {
-  --bg: #10101c;
-  --bg2: #251a3e;
+  --bg: #0f1020;
+  --bg2: #241836;
   --text: #fff8ff;
   --sub: #ddd1ef;
   --purple: #9d78ff;
   --pink: #ff82b7;
   --blue: #75caff;
   --gold: #ffd76d;
+  --green: #83e6b1;
+  --red: #ff6d8f;
   --line: rgba(255, 255, 255, 0.2);
   --box: rgba(18, 15, 31, 0.86);
+  --card: rgba(255, 255, 255, 0.11);
   --shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
 }
 
@@ -34,7 +37,7 @@ body {
     radial-gradient(circle at 18% 14%, rgba(157, 120, 255, 0.42), transparent 32%),
     radial-gradient(circle at 82% 20%, rgba(117, 202, 255, 0.28), transparent 30%),
     linear-gradient(145deg, var(--bg), var(--bg2));
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 button,
@@ -54,10 +57,11 @@ a {
 .screen {
   display: none;
   min-height: 100vh;
-  width: min(1060px, calc(100% - 24px));
+  width: min(1080px, calc(100% - 24px));
   margin: 0 auto;
   position: relative;
   z-index: 1;
+  padding: 44px 0;
 }
 
 .screen.active {
@@ -67,7 +71,6 @@ a {
 .title-screen {
   text-align: center;
   align-content: center;
-  padding: 42px 0;
 }
 
 .label {
@@ -80,19 +83,27 @@ a {
 
 h1 {
   margin: 18px 0 0;
-  font-size: clamp(3rem, 10vw, 7rem);
-  line-height: 0.95;
+  font-size: clamp(3.4rem, 12vw, 8rem);
+  line-height: 0.9;
   letter-spacing: -0.08em;
   text-shadow:
     0 0 22px rgba(157, 120, 255, 0.58),
     0 0 58px rgba(117, 202, 255, 0.34);
 }
 
-.catch {
-  margin: 22px 0 0;
+h2 {
+  margin: 10px 0 0;
+  font-size: clamp(2rem, 6vw, 4rem);
+  letter-spacing: -0.06em;
+}
+
+.catch,
+.screen-head p {
+  margin: 18px auto 0;
+  width: min(720px, 100%);
   color: var(--sub);
-  font-size: clamp(1.05rem, 3vw, 1.55rem);
-  font-weight: 900;
+  font-weight: 800;
+  line-height: 1.8;
 }
 
 .credit-box {
@@ -112,6 +123,15 @@ h1 {
   font-weight: 800;
 }
 
+.title-buttons,
+.bottom-actions,
+.actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 .main-btn,
 .next-btn,
 .sub-btn,
@@ -123,15 +143,22 @@ h1 {
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  transition: transform 0.16s ease, opacity 0.16s ease;
+  transition: transform 0.16s ease, opacity 0.16s ease, background 0.16s ease;
 }
 
 .main-btn,
 .next-btn {
-  min-height: 50px;
-  padding: 0 28px;
+  min-height: 48px;
+  padding: 0 26px;
   background: linear-gradient(135deg, var(--purple), var(--pink));
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
+}
+
+.sub-btn {
+  min-height: 48px;
+  padding: 0 22px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.11);
 }
 
 .main-btn:hover,
@@ -149,17 +176,95 @@ h1 {
   font-weight: 800;
 }
 
-.novel-screen.active {
+.screen-head {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.mission-grid,
+.log-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.mission-card,
+.log-card {
+  min-height: 240px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: linear-gradient(145deg, var(--card), rgba(255, 255, 255, 0.06));
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(14px);
+}
+
+.mission-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+}
+
+.mission-card h3,
+.log-card h3 {
+  margin: 8px 0 10px;
+  font-size: 1.35rem;
+}
+
+.mission-card p,
+.log-card p {
+  margin: 0;
+  color: var(--sub);
+  line-height: 1.75;
+  font-weight: 750;
+}
+
+.mission-no,
+.log-type {
+  color: var(--gold);
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+}
+
+.mission-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.mission-tags span,
+.log-status {
+  display: inline-flex;
+  width: fit-content;
+  padding: 6px 10px;
+  border-radius: 999px;
+  color: rgba(255, 248, 255, 0.88);
+  background: rgba(255, 255, 255, 0.12);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.mission-card button {
+  margin-top: 18px;
+  width: 100%;
+}
+
+.bottom-actions {
+  margin-top: 26px;
+}
+
+.battle-screen.active {
   display: grid;
   align-content: end;
-  padding: 24px 0;
+  padding: 20px 0;
 }
 
 .stage {
   position: fixed;
   inset: 0;
-  display: grid;
-  place-items: end center;
   pointer-events: none;
   overflow: hidden;
 }
@@ -180,55 +285,103 @@ h1 {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 18% 18%, rgba(255, 215, 109, 0.24), transparent 28%),
+    radial-gradient(circle at 18% 18%, rgba(255, 215, 109, 0.2), transparent 28%),
     radial-gradient(circle at 80% 12%, rgba(117, 202, 255, 0.18), transparent 30%);
 }
 
-.character {
-  position: relative;
+.saki-img {
+  position: fixed;
   z-index: 1;
-  max-width: min(520px, 86vw);
-  max-height: 72vh;
+  left: 50%;
+  bottom: 180px;
+  transform: translateX(-50%);
+  max-width: min(430px, 78vw);
+  max-height: 62vh;
   object-fit: contain;
   filter:
     drop-shadow(0 26px 34px rgba(0, 0, 0, 0.45))
     drop-shadow(0 0 18px rgba(157, 120, 255, 0.22));
-  transition: transform 0.22s ease, opacity 0.22s ease;
-  margin-bottom: 180px;
 }
 
-.character.active {
-  transform: translateY(-10px) scale(1.02);
+.saki-img.hit {
+  animation: hit 0.26s ease;
 }
 
-.status-panel {
+.saki-img.attack {
+  animation: attack 0.26s ease;
+}
+
+.enemy-area,
+.saki-area {
   position: fixed;
-  z-index: 3;
-  top: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(680px, calc(100% - 24px));
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  pointer-events: none;
-}
-
-.status-panel span {
-  padding: 9px 14px;
+  z-index: 2;
+  width: min(360px, calc(100% - 32px));
+  padding: 14px;
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: 20px;
   background: rgba(18, 15, 31, 0.62);
   backdrop-filter: blur(12px);
+  box-shadow: var(--shadow);
+}
+
+.enemy-area {
+  top: 18px;
+  right: 18px;
+}
+
+.saki-area {
+  left: 18px;
+  bottom: 245px;
+}
+
+.enemy-name,
+.saki-name,
+.hp-text {
+  margin: 0;
+  font-weight: 900;
+}
+
+.enemy-name {
+  color: var(--red);
+}
+
+.saki-name {
+  color: var(--blue);
+}
+
+.hp-text {
+  margin-top: 6px;
   color: var(--sub);
   font-size: 0.86rem;
-  font-weight: 900;
+}
+
+.hp-wrap {
+  height: 12px;
+  margin-top: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.hp-bar {
+  height: 100%;
+  width: 100%;
+  border-radius: inherit;
+  transition: width 0.25s ease;
+}
+
+.hp-bar.enemy {
+  background: linear-gradient(90deg, var(--red), var(--pink));
+}
+
+.hp-bar.saki {
+  background: linear-gradient(90deg, var(--blue), var(--green));
 }
 
 .message-box {
   position: relative;
   z-index: 4;
-  width: min(920px, 100%);
+  width: min(940px, 100%);
   margin: auto auto 0;
   padding: 22px;
   border: 1px solid var(--line);
@@ -240,8 +393,9 @@ h1 {
 
 .name-row {
   display: flex;
-  align-items: center;
+  justify-content: space-between;
   gap: 12px;
+  align-items: center;
   margin-bottom: 10px;
 }
 
@@ -251,25 +405,31 @@ h1 {
   font-weight: 900;
 }
 
+.mission-title {
+  color: var(--sub);
+  font-size: 0.84rem;
+  font-weight: 900;
+}
+
 .message-text {
-  min-height: 108px;
+  min-height: 94px;
   margin: 0;
-  font-size: 1.06rem;
-  line-height: 1.9;
+  font-size: 1.04rem;
+  line-height: 1.85;
   font-weight: 800;
   white-space: pre-line;
 }
 
-.choices {
+.battle-choices {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
   margin-top: 16px;
 }
 
 .choice-btn {
-  width: 100%;
-  min-height: 48px;
-  padding: 12px 18px;
+  min-height: 52px;
+  padding: 12px 16px;
   color: var(--text);
   text-align: left;
   border: 1px solid var(--line);
@@ -281,63 +441,87 @@ h1 {
 }
 
 .actions {
-  display: flex;
   justify-content: space-between;
-  gap: 12px;
   margin-top: 16px;
 }
 
-.sub-btn {
-  min-height: 44px;
-  padding: 0 20px;
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.11);
+.log-card.locked {
+  opacity: 0.5;
 }
 
-.next-btn {
-  min-width: 120px;
+.log-card.unlocked {
+  border-color: rgba(255, 215, 109, 0.42);
+}
+
+@keyframes hit {
+  0% { transform: translateX(-50%); }
+  30% { transform: translateX(calc(-50% - 14px)); }
+  60% { transform: translateX(calc(-50% + 14px)); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes attack {
+  0% { transform: translateX(-50%); }
+  50% { transform: translateX(calc(-50% + 18px)) scale(1.03); }
+  100% { transform: translateX(-50%); }
+}
+
+@media (max-width: 900px) {
+  .mission-grid,
+  .log-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 760px) {
   html,
   body {
     min-height: 100dvh;
-    overflow: hidden;
   }
 
-  .novel-screen.active {
+  .screen {
+    width: min(100% - 18px, 1080px);
+    padding: 28px 0;
+  }
+
+  .battle-screen.active {
     min-height: 100dvh;
     padding: 12px 0 max(12px, env(safe-area-inset-bottom));
-    align-content: end;
   }
 
-  .character {
-    max-width: 82vw;
-    max-height: 55vh;
-    margin-bottom: 238px;
+  .saki-img {
+    bottom: 255px;
+    max-width: 78vw;
+    max-height: 48vh;
   }
 
-  .status-panel {
+  .enemy-area {
     top: 10px;
-    gap: 8px;
+    right: 9px;
+    width: min(300px, calc(100% - 18px));
   }
 
-  .status-panel span {
-    font-size: 0.78rem;
-    padding: 7px 10px;
+  .saki-area {
+    left: 9px;
+    bottom: 455px;
+    width: min(230px, calc(100% - 18px));
   }
 
   .message-box {
-    max-height: 44dvh;
+    max-height: 46dvh;
     overflow-y: auto;
     padding: 16px;
     border-radius: 22px;
   }
 
   .message-text {
-    min-height: 96px;
-    font-size: 0.96rem;
-    line-height: 1.75;
+    min-height: 90px;
+    font-size: 0.95rem;
+    line-height: 1.72;
+  }
+
+  .battle-choices {
+    grid-template-columns: 1fr;
   }
 
   .actions {
