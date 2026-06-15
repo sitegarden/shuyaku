@@ -4,18 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>無口なサキと放課後ミッション | SHUYAKU NOVEL</title>
-  <meta name="description" content="サイボーグ学校に通う少女・サキが主役の短編ノベルゲーム。" />
+  <title>SAKI MISSION LOG | SHUYAKU NOVEL</title>
+  <meta name="description" content="サイボーグ学校に通う少女・サキが主役の任務バトル＆ログ収集ゲーム。" />
 
   <link rel="stylesheet" href="./style.css" />
 </head>
 
 <body>
   <main class="game">
+    <!-- TITLE -->
     <section id="titleScreen" class="screen title-screen active">
-      <p class="label">SHUYAKU NOVEL / CHARACTER STORY</p>
-      <h1>無口なサキと<br />放課後ミッション</h1>
-      <p class="catch">表情は出さない。でも、心は動いている。</p>
+      <p class="label">SHUYAKU NOVEL / MISSION BATTLE</p>
+      <h1>SAKI<br />MISSION LOG</h1>
+      <p class="catch">無口な少女は、放課後の異常を処理する。</p>
 
       <div class="credit-box">
         <p>キャラクター：サキ</p>
@@ -23,34 +24,84 @@
         <p>SNS：なし</p>
       </div>
 
-      <button id="startBtn" class="main-btn">はじめる</button>
+      <div class="title-buttons">
+        <button id="startBtn" class="main-btn">任務を開始</button>
+        <button id="collectionBtn" class="sub-btn">ログを見る</button>
+      </div>
+
       <a href="../" class="back-link">ノベル一覧へ戻る</a>
     </section>
 
-    <section id="novelScreen" class="screen novel-screen">
-      <div class="stage">
-        <div class="bg-layer"></div>
-        <img id="sakiImg" class="character saki" src="./img/saki.png" alt="サキ" />
+    <!-- MISSION SELECT -->
+    <section id="missionScreen" class="screen mission-screen">
+      <div class="screen-head">
+        <p class="label">MISSION SELECT</p>
+        <h2>放課後任務</h2>
+        <p>任務をクリアして、サキの記録ログを集めよう。</p>
       </div>
 
-      <div class="status-panel">
-        <span id="coolPoint">冷静度 0</span>
-        <span id="trustPoint">信頼度 0</span>
+      <div id="missionGrid" class="mission-grid"></div>
+
+      <div class="bottom-actions">
+        <button id="missionToTitleBtn" class="sub-btn">タイトルへ</button>
+        <button id="missionToCollectionBtn" class="sub-btn">ログを見る</button>
+      </div>
+    </section>
+
+    <!-- BATTLE -->
+    <section id="battleScreen" class="screen battle-screen">
+      <div class="stage">
+        <div class="bg-layer"></div>
+
+        <div class="enemy-area">
+          <p id="enemyName" class="enemy-name">敵</p>
+          <div class="hp-wrap">
+            <div id="enemyHpBar" class="hp-bar enemy"></div>
+          </div>
+          <p id="enemyHpText" class="hp-text">HP 0 / 0</p>
+        </div>
+
+        <img id="sakiImg" class="saki-img" src="./img/saki.png" alt="サキ" />
+
+        <div class="saki-area">
+          <p class="saki-name">サキ</p>
+          <div class="hp-wrap">
+            <div id="sakiHpBar" class="hp-bar saki"></div>
+          </div>
+          <p id="sakiHpText" class="hp-text">HP 100 / 100</p>
+        </div>
       </div>
 
       <div class="message-box">
         <div class="name-row">
-          <span id="speakerName" class="speaker-name">ナレーション</span>
+          <span id="speakerName" class="speaker-name">SYSTEM</span>
+          <span id="missionTitle" class="mission-title">MISSION</span>
         </div>
 
         <p id="messageText" class="message-text"></p>
 
-        <div id="choices" class="choices"></div>
+        <div id="battleChoices" class="battle-choices"></div>
 
         <div class="actions">
-          <button id="restartBtn" class="sub-btn">最初から</button>
+          <button id="giveUpBtn" class="sub-btn">撤退</button>
           <button id="nextBtn" class="next-btn">次へ</button>
         </div>
+      </div>
+    </section>
+
+    <!-- COLLECTION -->
+    <section id="collectionScreen" class="screen collection-screen">
+      <div class="screen-head">
+        <p class="label">COLLECTION</p>
+        <h2>任務ログ</h2>
+        <p>クリアした任務の記録がここに保存されます。</p>
+      </div>
+
+      <div id="logGrid" class="log-grid"></div>
+
+      <div class="bottom-actions">
+        <button id="collectionToTitleBtn" class="sub-btn">タイトルへ</button>
+        <button id="collectionToMissionBtn" class="main-btn">任務選択へ</button>
       </div>
     </section>
   </main>
