@@ -38,6 +38,33 @@ body {
   overflow-x: hidden;
 }
 
+.card-thumb.image-thumb {
+  position: relative;
+  overflow: hidden;
+  height: 220px;
+  min-height: 220px;
+}
+
+.card-thumb.image-thumb img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
+.card-thumb.image-thumb img {
+  object-fit: cover;
+  object-position: center 35%;
+}
+
+@media (max-width: 760px) {
+  .card-thumb.image-thumb {
+    height: 170px;
+    min-height: 170px;
+  }
+}
+
 a {
   color: inherit;
   text-decoration: none;
