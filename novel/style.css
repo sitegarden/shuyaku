@@ -1,4 +1,4 @@
-* {
+ * {
   box-sizing: border-box;
 }
 
@@ -36,33 +36,6 @@ body {
     radial-gradient(circle at 50% 95%, rgba(155, 124, 255, 0.34), transparent 34%),
     linear-gradient(135deg, var(--bg), var(--bg2));
   overflow-x: hidden;
-}
-
-.card-thumb.image-thumb {
-  position: relative;
-  overflow: hidden;
-  height: 220px;
-  min-height: 220px;
-}
-
-.card-thumb.image-thumb img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-  object-position: center;
-}
-
-.card-thumb.image-thumb img {
-  object-fit: cover;
-  object-position: center 35%;
-}
-
-@media (max-width: 760px) {
-  .card-thumb.image-thumb {
-    height: 170px;
-    min-height: 170px;
-  }
 }
 
 a {
@@ -218,12 +191,69 @@ h1 span {
     linear-gradient(135deg, rgba(155, 124, 255, 0.76), rgba(255, 122, 182, 0.58));
 }
 
+.card-thumb.mocchi-card {
+  background:
+    radial-gradient(circle at 28% 28%, rgba(255, 235, 151, 0.72), transparent 25%),
+    radial-gradient(circle at 74% 36%, rgba(255, 183, 119, 0.5), transparent 28%),
+    linear-gradient(135deg, rgba(78, 48, 129, 0.86), rgba(139, 86, 48, 0.78));
+}
+
 .card-thumb span {
   padding: 10px 18px;
   border-radius: 999px;
   background: rgba(16, 11, 31, 0.5);
   font-weight: 900;
   letter-spacing: 0.12em;
+}
+
+.card-thumb.mocchi-card span {
+  background: rgba(54, 32, 46, 0.58);
+}
+
+/* 画像入りカード */
+.card-thumb.image-thumb {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  min-height: 0;
+  height: auto;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.card-thumb.image-thumb img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(1.08) brightness(0.92);
+}
+
+/* 画像の上に暗いグラデーション */
+.card-thumb.image-thumb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, transparent 42%, rgba(16, 11, 31, 0.74)),
+    radial-gradient(circle at 30% 20%, rgba(255, 211, 106, 0.18), transparent 35%);
+}
+
+/* 画像カードのラベル */
+.card-thumb.image-thumb span {
+  position: absolute;
+  z-index: 2;
+  left: 18px;
+  bottom: 18px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(16, 11, 31, 0.58);
+  backdrop-filter: blur(10px);
+  font-weight: 900;
+  letter-spacing: 0.08em;
 }
 
 .card-body {
@@ -300,6 +330,13 @@ h1 span {
   font-weight: 800;
 }
 
+/* タブレット以下は1列にする */
+@media (max-width: 900px) {
+  .game-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 760px) {
   .novel-page {
     width: min(100% - 22px, 1120px);
@@ -314,12 +351,13 @@ h1 span {
     font-size: 0.95rem;
   }
 
-  .game-grid {
-    grid-template-columns: 1fr;
-  }
-
   .card-thumb {
     min-height: 150px;
+  }
+
+  .card-thumb.image-thumb {
+    aspect-ratio: 16 / 9;
+    min-height: 0;
   }
 
   .text-box,
@@ -329,156 +367,5 @@ h1 span {
 
   .note-list {
     padding-left: 34px;
-  }
-}
-
-.card-thumb.mocchi-card {
-  background:
-    radial-gradient(circle at 28% 28%, rgba(255, 235, 151, 0.72), transparent 25%),
-    radial-gradient(circle at 74% 36%, rgba(255, 183, 119, 0.5), transparent 28%),
-    linear-gradient(135deg, rgba(78, 48, 129, 0.86), rgba(139, 86, 48, 0.78));
-}
-
-.card-thumb.mocchi-card span {
-  background: rgba(54, 32, 46, 0.58);
-}
-
-.card-thumb.image-thumb {
-  position: relative;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.card-thumb.image-thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  filter: saturate(1.08) brightness(0.92);
-  transform: scale(1.02);
-}
-
-.card-thumb.image-thumb::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(to bottom, transparent 35%, rgba(16, 11, 31, 0.72)),
-    radial-gradient(circle at 30% 20%, rgba(255, 211, 106, 0.2), transparent 35%);
-}
-
-.card-thumb.image-thumb span {
-  position: absolute;
-  z-index: 2;
-  left: 18px;
-  bottom: 18px;
-  padding: 10px 16px;
-  border-radius: 999px;
-  background: rgba(16, 11, 31, 0.58);
-  backdrop-filter: blur(10px);
-}
-
-/* 画像カードを横長ヒーローとして固定 */
-.card-thumb.image-thumb {
-  position: relative;
-  overflow: hidden;
-  display: block;
-}
-
-.card-thumb.image-thumb img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-  object-position: center;
-}
-
-/* タグを画像の下じゃなく画像上に乗せる */
-.card-thumb.image-thumb span {
-  position: absolute;
-  z-index: 2;
-  left: 18px;
-  bottom: 18px;
-  padding: 10px 16px;
-  border-radius: 999px;
-  background: rgba(16, 11, 31, 0.58);
-  backdrop-filter: blur(10px);
-}
-
-.card-thumb.image-thumb::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(to bottom, transparent 45%, rgba(16, 11, 31, 0.72));
-}
-
-@media (max-width: 900px) {
-  .game-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .card-thumb.image-thumb {
-    height: 240px;
-    min-height: 240px;
-  }
-}
-
-@media (max-width: 520px) {
-  .card-thumb.image-thumb {
-    height: 180px;
-    min-height: 180px;
-  }
-}
-
-
-/* 正方形HERO画像をカード用の横長サムネにする */
-.card-thumb.image-thumb {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  min-height: 0;
-  height: auto;
-  display: block;
-  border-radius: 28px 28px 0 0;
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.card-thumb.image-thumb img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-  object-position: center;
-}
-
-/* 文字ラベルを画像の上に乗せる */
-.card-thumb.image-thumb span {
-  position: absolute;
-  z-index: 2;
-  left: 18px;
-  bottom: 18px;
-  padding: 10px 16px;
-  border-radius: 999px;
-  background: rgba(16, 11, 31, 0.58);
-  backdrop-filter: blur(10px);
-  font-weight: 900;
-  letter-spacing: 0.08em;
-}
-
-/* 下に暗いグラデーションを乗せる */
-.card-thumb.image-thumb::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(to bottom, transparent 45%, rgba(16, 11, 31, 0.72));
-  pointer-events: none;
-}
-
-@media (max-width: 760px) {
-  .card-thumb.image-thumb {
-    aspect-ratio: 16 / 9;
   }
 }
