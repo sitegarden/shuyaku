@@ -579,3 +579,53 @@ h2 {
     padding: 0 14px;
   }
 }
+
+/* ===== サキ立ち絵の表示調整 ===== */
+.saki-img {
+  bottom: 250px;
+  max-width: min(360px, 62vw);
+  max-height: 46vh;
+}
+
+/* スマホ用 */
+@media (max-width: 760px) {
+  .saki-img {
+    left: 50%;
+    bottom: 390px;
+    max-width: 52vw;
+    max-height: 30dvh;
+  }
+
+  .enemy-area {
+    top: 10px;
+  }
+
+  .saki-area {
+    top: 128px;
+  }
+
+  .message-box {
+    max-height: 36dvh;
+  }
+}
+
+@media (max-width: 760px) {
+  .enemy-area,
+  .saki-area {
+    padding: 10px 12px;
+  }
+
+  .hp-wrap {
+    height: 9px;
+    margin-top: 8px;
+  }
+
+  .enemy-name,
+  .saki-name {
+    font-size: 1rem;
+  }
+
+  .hp-text {
+    font-size: 0.82rem;
+  }
+}
