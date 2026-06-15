@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>無口なサキと放課後ミッション | SHUYAKU NOVEL</title>
+  <meta name="description" content="サイボーグ学校に通う少女・サキが主役の短編ノベルゲーム。" />
+
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+  <main class="game">
+    <section id="titleScreen" class="screen title-screen active">
+      <p class="label">SHUYAKU NOVEL / CHARACTER STORY</p>
+      <h1>無口なサキと<br />放課後ミッション</h1>
+      <p class="catch">表情は出さない。でも、心は動いている。</p>
+
+      <div class="credit-box">
+        <p>キャラクター：サキ</p>
+        <p>作者：かの</p>
+        <p>SNS：なし</p>
+      </div>
+
+      <button id="startBtn" class="main-btn">はじめる</button>
+      <a href="../" class="back-link">ノベル一覧へ戻る</a>
+    </section>
+
+    <section id="novelScreen" class="screen novel-screen">
+      <div class="stage">
+        <div class="bg-layer"></div>
+        <img id="sakiImg" class="character saki" src="./img/saki.png" alt="サキ" />
+      </div>
+
+      <div class="status-panel">
+        <span id="coolPoint">冷静度 0</span>
+        <span id="trustPoint">信頼度 0</span>
+      </div>
+
+      <div class="message-box">
+        <div class="name-row">
+          <span id="speakerName" class="speaker-name">ナレーション</span>
+        </div>
+
+        <p id="messageText" class="message-text"></p>
+
+        <div id="choices" class="choices"></div>
+
+        <div class="actions">
+          <button id="restartBtn" class="sub-btn">最初から</button>
+          <button id="nextBtn" class="next-btn">次へ</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="./script.js"></script>
+</body>
+</html>
