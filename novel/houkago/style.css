@@ -324,6 +324,11 @@ h2 {
   place-items: end center;
   padding-bottom: 190px;
   pointer-events: none;
+
+  background-image: var(--bg-image);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .stage::before {
@@ -331,10 +336,12 @@ h2 {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(to bottom, rgba(255, 205, 145, 0.08), rgba(18, 13, 34, 0.88)),
-    radial-gradient(circle at 18% 20%, rgba(255, 230, 150, 0.28), transparent 30%),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 120px),
-    linear-gradient(0deg, rgba(255, 255, 255, 0.07) 0 1px, transparent 1px 120px);
+    linear-gradient(
+      to bottom,
+      rgba(18, 13, 34, 0.08),
+      rgba(18, 13, 34, 0.35) 45%,
+      rgba(18, 13, 34, 0.9) 100%
+    );
 }
 
 .character-image {
