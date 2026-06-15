@@ -147,6 +147,7 @@ let textQueue = [];
 let isTyping = false;
 let typeTimer = null;
 let fullText = "";
+let pendingEnemyTurn = false;
 
 const titleScreen = document.getElementById("titleScreen");
 const missionScreen = document.getElementById("missionScreen");
@@ -387,14 +388,22 @@ function playerTurn(action) {
 
   if (state.enemy.hp <= 0) {
     phase = "win";
+    pendingEnemyTurn = false;
+
     textQueue = [
       playerText,
       `${state.enemy.name}は停止した。`,
       "サキは銃を下ろし、静かに任務完了を記録した。"
     ];
+
     showNextQueueText();
     return;
   }
+
+  pendingEnemyTurn = true;
+  speakerName.textContent = "サキ";
+  setText(playerText);
+}
 
   textQueue = [playerText];
   showNextQueueText();
@@ -465,6 +474,12 @@ function nextStep() {
   if (state?.finished) {
     renderMissions();
     showScreen(missionScreen);
+    return;
+  }
+
+  if (pendingEnemyTurn) {
+    pendingEnemyTurn = false;
+    enemyTurn();
     return;
   }
 
