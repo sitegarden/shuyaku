@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>モッチはそら豆じゃない！ | SHUYAKU NOVEL</title>
+  <meta name="description" content="モッチ、タピオカミルクティー、コーヒーが登場するギャグ短編ノベルゲーム。" />
+
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+  <main class="game">
+    <section id="titleScreen" class="screen title-screen active">
+      <p class="label">SHUYAKU NOVEL / GAG STORY</p>
+      <h1>モッチは<br />そら豆じゃない！</h1>
+      <p class="catch">月です。豆ではありません。</p>
+
+      <div class="credit-box">
+        <p>モッチ：つき</p>
+        <p>タピオカミルクティー＆コーヒー：シェイク</p>
+      </div>
+
+      <button id="startBtn" class="main-btn">はじめる</button>
+      <a href="../../" class="back-link">ノベル一覧へ戻る</a>
+    </section>
+
+    <section id="novelScreen" class="screen novel-screen">
+      <div class="stage">
+        <img id="mocchiImg" class="character mocchi" src="./img/mocchi.png" alt="モッチ" />
+        <img id="coffeeImg" class="character coffee" src="./img/coffee.png" alt="コーヒー" />
+        <img id="tapiocaImg" class="character tapioca" src="./img/tapiオカ.png" alt="タピオカミルクティー" />
+      </div>
+
+      <div class="message-box">
+        <div class="name-row">
+          <span id="speakerName" class="speaker-name">ナレーション</span>
+          <span id="gagPoint" class="gag-point">ツッコミ度 0</span>
+        </div>
+
+        <p id="messageText" class="message-text"></p>
+
+        <div id="choices" class="choices"></div>
+
+        <div class="actions">
+          <button id="restartBtn" class="sub-btn">最初から</button>
+          <button id="nextBtn" class="next-btn">次へ</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="./script.js"></script>
+</body>
+</html>
