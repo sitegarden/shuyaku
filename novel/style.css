@@ -304,3 +304,14 @@ h1 span {
     padding-left: 34px;
   }
 }
+
+.card-thumb.mocchi-card {
+  background:
+    radial-gradient(circle at 28% 28%, rgba(255, 235, 151, 0.72), transparent 25%),
+    radial-gradient(circle at 74% 36%, rgba(255, 183, 119, 0.5), transparent 28%),
+    linear-gradient(135deg, rgba(78, 48, 129, 0.86), rgba(139, 86, 48, 0.78));
+}
+
+.card-thumb.mocchi-card span {
+  background: rgba(54, 32, 46, 0.58);
+}
