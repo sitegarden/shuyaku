@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>放課後の主役たち | SHUYAKU NOVEL</title>
+  <meta name="description" content="6人のキャラクターと放課後を過ごす、プチ攻略ノベルゲームです。" />
+
+  <meta property="og:title" content="放課後の主役たち | SHUYAKU NOVEL" />
+  <meta property="og:description" content="今日、誰と帰る？ 6人のキャラクターと放課後を過ごすプチ攻略ノベルゲーム。" />
+  <meta property="og:type" content="website" />
+
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+  <main class="game">
+    <section id="titleScreen" class="screen title-screen active">
+      <div class="title-inner">
+        <p class="label">SHUYAKU NOVEL</p>
+        <h1>放課後の<br />主役たち</h1>
+        <p class="catch">今日、誰と帰る？</p>
+
+        <p class="lead">
+          放課後、誰もいない教室で見つけた一冊のノート。<br />
+          そこには、まだ物語になっていないキャラクターたちの名前が書かれていた。
+        </p>
+
+        <div class="title-buttons">
+          <button id="startBtn" class="main-btn">はじめる</button>
+          <button id="howToBtn" class="sub-btn">あそびかた</button>
+        </div>
+
+        <a href="../../" class="sub-link">ノベル一覧へ戻る</a>
+      </div>
+    </section>
+
+    <section id="howToScreen" class="screen howto-screen">
+      <p class="label">HOW TO PLAY</p>
+      <h2>あそびかた</h2>
+
+      <div class="panel">
+        <p>
+          気になるキャラクターを選んで会話を進める、プチ攻略ノベルゲームです。
+          選択肢によって好感度が変わり、最後のエンドが変化します。
+        </p>
+        <ul>
+          <li>選択肢で好感度が上がったり下がったりします。</li>
+          <li>エンドは GOOD / NORMAL / DISTANCE の3種類です。</li>
+          <li>まずは気になるキャラから話しかけてみてください。</li>
+        </ul>
+      </div>
+
+      <button class="main-btn" data-back-select>キャラ選択へ</button>
+    </section>
+
+    <section id="selectScreen" class="screen select-screen">
+      <p class="label">CHARACTER SELECT</p>
+      <h2>誰と放課後を過ごす？</h2>
+      <p class="select-lead">
+        選んだキャラクターの短編ルートに入ります。
+      </p>
+
+      <div id="characterGrid" class="character-grid"></div>
+    </section>
+
+    <section id="novelScreen" class="screen novel-screen">
+      <div id="routeTitle" class="route-title"></div>
+
+      <div class="stage">
+        <img id="characterImage" class="character-image" src="" alt="" />
+      </div>
+
+      <div class="message-box">
+        <div class="name-row">
+          <span id="speakerName" class="speaker-name"></span>
+          <span id="lovePoint" class="love-point">好感度 0</span>
+        </div>
+
+        <p id="messageText" class="message-text"></p>
+
+        <div id="choices" class="choices"></div>
+
+        <div class="message-actions">
+          <button id="backSelectBtn" class="mini-btn">選び直す</button>
+          <button id="nextBtn" class="next-btn">次へ</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="./script.js"></script>
+</body>
+</html>
