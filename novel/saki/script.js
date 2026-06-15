@@ -22,246 +22,159 @@ document.addEventListener(
   { passive: false }
 );
 
-const story = [
+const SAVE_KEY = "sakiMissionLogCleared";
+
+const missions = [
   {
-    speaker: "ナレーション",
-    text: "サイボーグ学校。\nそこは、人間と機械の境界に立つ生徒たちが通う、少し変わった学校。"
+    id: "terminal",
+    no: "MISSION 01",
+    title: "教室のバグ端末",
+    place: "普通教室",
+    enemyName: "バグ端末",
+    enemyMaxHp: 70,
+    enemyAttack: 12,
+    reward: "任務ログ01",
+    desc: "放課後の教室で、勝手に起動した端末を停止せよ。",
+    intro: [
+      "放課後の教室。",
+      "誰もいないはずの場所で、端末だけが青白く点滅していた。",
+      "サキは無言で端末へ近づく。",
+      "任務開始。対象、バグ端末。"
+    ],
+    log: {
+      type: "MISSION LOG",
+      title: "任務ログ01：静かな教室",
+      text: "対象は暴走端末。サキは冷静に処理した。報告書の最後に『教室は静かな方がいい』とだけ追記されていた。"
+    }
   },
   {
-    speaker: "ナレーション",
-    text: "その中でもトップクラスの成績を持つ少女がいた。"
+    id: "drone",
+    no: "MISSION 02",
+    title: "廊下の暴走ドローン",
+    place: "西棟廊下",
+    enemyName: "暴走ドローン",
+    enemyMaxHp: 90,
+    enemyAttack: 16,
+    reward: "敵データ01",
+    desc: "廊下を飛び回るドローンを撃墜、または停止せよ。",
+    intro: [
+      "夕日の差し込む廊下。",
+      "小型ドローンが警告音を鳴らしながら、不規則に飛び回っている。",
+      "サキは銃を構える。",
+      "表情に変化はない。けれど、狙いは正確だった。"
+    ],
+    log: {
+      type: "ENEMY DATA",
+      title: "敵データ01：暴走ドローン",
+      text: "高速移動する小型機械。解析後に攻撃すると命中率が上がる。サキ曰く『動きがうるさい』。"
+    }
   },
   {
-    speaker: "ナレーション",
-    text: "名前は、サキ。\n無口で、表情を表に出さない少女。"
-  },
-  {
-    speaker: "サキ",
-    text: "……任務確認。放課後の校内巡回。異常があれば報告。"
-  },
-  {
-    speaker: "ナレーション",
-    text: "今日のサキは、放課後の校内を見回る任務を任されていた。"
-  },
-  {
-    speaker: "サキ",
-    text: "問題なし。廊下、静か。教室、無人。窓、施錠済み。"
-  },
-  {
-    speaker: "ナレーション",
-    text: "その時、誰もいないはずの教室から、小さな物音がした。"
-  },
-  {
-    choice: true,
-    text: "サキは教室の前で足を止めた。どうする？",
-    options: [
-      {
-        text: "静かに中を確認する",
-        cool: 2,
-        trust: 1,
-        nextSpeaker: "サキ",
-        next: "……確認する。大きな音は立てない。"
-      },
-      {
-        text: "すぐ先生に報告する",
-        cool: 1,
-        trust: 2,
-        nextSpeaker: "サキ",
-        next: "単独判断は危険。報告を優先する。"
-      },
-      {
-        text: "堂々と扉を開ける",
-        cool: -1,
-        trust: 0,
-        nextSpeaker: "サキ",
-        next: "……正面突破。効率はいい。たぶん。"
-      }
-    ]
-  },
-  {
-    speaker: "ナレーション",
-    text: "教室の中にいたのは、不審者ではなかった。"
-  },
-  {
-    speaker: "ナレーション",
-    text: "机の下で震えている、迷子の小さな整備ロボだった。"
-  },
-  {
-    speaker: "サキ",
-    text: "対象確認。小型ロボット。損傷あり。敵意なし。"
-  },
-  {
-    speaker: "整備ロボ",
-    text: "ピ……ピピ……。"
-  },
-  {
-    speaker: "サキ",
-    text: "……怖がっている？"
-  },
-  {
-    choice: true,
-    text: "整備ロボはサキを見て、さらに机の奥へ隠れてしまった。",
-    options: [
-      {
-        text: "武器をしまって、目線を合わせる",
-        cool: 2,
-        trust: 3,
-        nextSpeaker: "サキ",
-        next: "……怖がらせた。接近方法を変更する。"
-      },
-      {
-        text: "命令口調で出てくるように言う",
-        cool: 1,
-        trust: -1,
-        nextSpeaker: "サキ",
-        next: "出てきて。危害は加えない。……たぶん伝わっていない。"
-      },
-      {
-        text: "何も言わず、少し離れて待つ",
-        cool: 3,
-        trust: 2,
-        nextSpeaker: "サキ",
-        next: "距離を取る。対象が落ち着くまで待機。"
-      }
-    ]
-  },
-  {
-    speaker: "ナレーション",
-    text: "しばらくすると、整備ロボは少しだけ机の下から顔を出した。"
-  },
-  {
-    speaker: "サキ",
-    text: "大丈夫。私は、敵ではない。"
-  },
-  {
-    speaker: "ナレーション",
-    text: "サキの声は平坦だった。\nでも、その場にいる誰よりも慎重だった。"
-  },
-  {
-    speaker: "整備ロボ",
-    text: "ピ……。"
-  },
-  {
-    speaker: "サキ",
-    text: "……ついてくる？"
-  },
-  {
-    speaker: "ナレーション",
-    text: "整備ロボは、サキの足元までゆっくり近づいてきた。"
-  },
-  {
-    choice: true,
-    text: "整備ロボを保健整備室まで連れていくことになった。",
-    options: [
-      {
-        text: "安全なルートを選んで遠回りする",
-        cool: 3,
-        trust: 2,
-        nextSpeaker: "サキ",
-        next: "遠回りでも安全を優先する。任務成功率が上がる。"
-      },
-      {
-        text: "近道を使って早く向かう",
-        cool: 1,
-        trust: 0,
-        nextSpeaker: "サキ",
-        next: "最短ルートを選択。……対象が転ばないよう注意する。"
-      },
-      {
-        text: "整備ロボの歩幅に合わせる",
-        cool: 2,
-        trust: 3,
-        nextSpeaker: "サキ",
-        next: "速度を落とす。対象の不安を減らす。"
-      }
-    ]
-  },
-  {
-    speaker: "ナレーション",
-    text: "廊下の夕日が、サキの紫色の制服を照らしていた。"
-  },
-  {
-    speaker: "サキ",
-    text: "任務は、対象を運ぶだけではない。"
-  },
-  {
-    speaker: "サキ",
-    text: "対象が安心して到着すること。それも、任務。"
-  },
-  {
-    speaker: "ナレーション",
-    text: "その言葉は、誰に教わったものでもなかった。"
-  },
-  {
-    speaker: "ナレーション",
-    text: "サキ自身が、放課後の静けさの中で見つけた答えだった。"
-  },
-  {
-    choice: true,
-    text: "整備室の前。整備ロボはサキの袖を小さく引いた。",
-    options: [
-      {
-        text: "また困ったら呼んで、と伝える",
-        cool: 1,
-        trust: 3,
-        nextSpeaker: "サキ",
-        next: "……また困ったら呼んで。聞こえたら、行く。"
-      },
-      {
-        text: "任務完了、とだけ言う",
-        cool: 2,
-        trust: 0,
-        nextSpeaker: "サキ",
-        next: "任務完了。……以上。"
-      },
-      {
-        text: "小さく手を振る",
-        cool: 1,
-        trust: 2,
-        nextSpeaker: "サキ",
-        next: "……こういう時は、手を振る。たぶん。"
-      }
-    ]
-  },
-  {
-    speaker: "ナレーション",
-    text: "整備ロボは、嬉しそうに電子音を鳴らした。"
-  },
-  {
-    speaker: "サキ",
-    text: "……表情は、よく分からない。"
-  },
-  {
-    speaker: "サキ",
-    text: "でも、嬉しい音は分かる。"
-  },
-  {
-    speaker: "ナレーション",
-    text: "サキは少しだけ目を伏せた。\nそれは笑顔ではなかったけれど、どこか柔らかかった。"
+    id: "guard",
+    no: "MISSION 03",
+    title: "資料室の警備ロボ",
+    place: "資料室",
+    enemyName: "警備ロボ",
+    enemyMaxHp: 120,
+    enemyAttack: 20,
+    reward: "サキログ01",
+    desc: "古い資料室で誤作動した警備ロボを無力化せよ。",
+    intro: [
+      "資料室の奥。",
+      "古い警備ロボが、侵入者判定を誤っている。",
+      "サキは一歩だけ前に出た。",
+      "任務は単純。けれど、油断はできない。"
+    ],
+    log: {
+      type: "SAKI LOG",
+      title: "サキログ01：表情記録",
+      text: "状態：少し安心。本人コメント：異常なし。備考：任務完了後、サキはほんの少しだけ目を伏せた。"
+    }
   }
 ];
 
-let sceneIndex = 0;
-let cool = 0;
-let trust = 0;
+const actions = [
+  {
+    id: "attack",
+    name: "攻撃",
+    desc: "安定したダメージ",
+    run: () => {
+      const damage = state.analyzed ? 38 : 24;
+      state.enemyHp -= damage;
+      state.analyzed = false;
+      animateSaki("attack");
+      return `サキは正確に攻撃した。\n${state.enemy.name}に${damage}ダメージ。`;
+    }
+  },
+  {
+    id: "guard",
+    name: "防御",
+    desc: "次の被ダメージを半減",
+    run: () => {
+      state.guarding = true;
+      return "サキは防御姿勢を取った。\n次の攻撃のダメージを軽減する。";
+    }
+  },
+  {
+    id: "analyze",
+    name: "解析",
+    desc: "次の攻撃ダメージ上昇",
+    run: () => {
+      state.analyzed = true;
+      return `サキは${state.enemy.name}の動作パターンを解析した。\n次の攻撃が強化される。`;
+    }
+  },
+  {
+    id: "evade",
+    name: "回避",
+    desc: "成功すると無傷",
+    run: () => {
+      const success = Math.random() < 0.65;
+      state.evading = success;
+
+      if (success) {
+        return "サキは敵の攻撃軌道を読んだ。\n次の攻撃を回避できそうだ。";
+      }
+
+      return "サキは回避を試みた。\nしかし敵の動きが不規則だ。";
+    }
+  }
+];
+
+let state = null;
+let phase = "idle";
+let textQueue = [];
 let isTyping = false;
 let typeTimer = null;
 let fullText = "";
-let endingMode = false;
 
 const titleScreen = document.getElementById("titleScreen");
-const novelScreen = document.getElementById("novelScreen");
+const missionScreen = document.getElementById("missionScreen");
+const battleScreen = document.getElementById("battleScreen");
+const collectionScreen = document.getElementById("collectionScreen");
 
 const startBtn = document.getElementById("startBtn");
-const restartBtn = document.getElementById("restartBtn");
-const nextBtn = document.getElementById("nextBtn");
+const collectionBtn = document.getElementById("collectionBtn");
+const missionToTitleBtn = document.getElementById("missionToTitleBtn");
+const missionToCollectionBtn = document.getElementById("missionToCollectionBtn");
+const collectionToTitleBtn = document.getElementById("collectionToTitleBtn");
+const collectionToMissionBtn = document.getElementById("collectionToMissionBtn");
+
+const missionGrid = document.getElementById("missionGrid");
+const logGrid = document.getElementById("logGrid");
+
+const enemyName = document.getElementById("enemyName");
+const enemyHpBar = document.getElementById("enemyHpBar");
+const enemyHpText = document.getElementById("enemyHpText");
+const sakiHpBar = document.getElementById("sakiHpBar");
+const sakiHpText = document.getElementById("sakiHpText");
 
 const speakerName = document.getElementById("speakerName");
+const missionTitle = document.getElementById("missionTitle");
 const messageText = document.getElementById("messageText");
-const choices = document.getElementById("choices");
-
-const coolPoint = document.getElementById("coolPoint");
-const trustPoint = document.getElementById("trustPoint");
+const battleChoices = document.getElementById("battleChoices");
+const giveUpBtn = document.getElementById("giveUpBtn");
+const nextBtn = document.getElementById("nextBtn");
 const sakiImg = document.getElementById("sakiImg");
 
 function showScreen(screen) {
@@ -272,9 +185,117 @@ function showScreen(screen) {
   screen.classList.add("active");
 }
 
-function updateStatus() {
-  coolPoint.textContent = `冷静度 ${cool}`;
-  trustPoint.textContent = `信頼度 ${trust}`;
+function getCleared() {
+  try {
+    return JSON.parse(localStorage.getItem(SAVE_KEY)) || [];
+  } catch {
+    return [];
+  }
+}
+
+function saveCleared(id) {
+  const cleared = getCleared();
+
+  if (!cleared.includes(id)) {
+    cleared.push(id);
+    localStorage.setItem(SAVE_KEY, JSON.stringify(cleared));
+  }
+}
+
+function renderMissions() {
+  const cleared = getCleared();
+  missionGrid.innerHTML = "";
+
+  missions.forEach((mission) => {
+    const done = cleared.includes(mission.id);
+
+    const card = document.createElement("article");
+    card.className = "mission-card";
+
+    card.innerHTML = `
+      <div>
+        <p class="mission-no">${mission.no}</p>
+        <h3>${mission.title}</h3>
+        <p>${mission.desc}</p>
+        <div class="mission-tags">
+          <span>${mission.place}</span>
+          <span>${mission.enemyName}</span>
+          <span>${done ? "CLEAR" : "未クリア"}</span>
+        </div>
+      </div>
+      <button class="main-btn">${done ? "再挑戦" : "開始"}</button>
+    `;
+
+    card.querySelector("button").addEventListener("click", () => {
+      startMission(mission.id);
+    });
+
+    missionGrid.appendChild(card);
+  });
+}
+
+function renderCollection() {
+  const cleared = getCleared();
+  logGrid.innerHTML = "";
+
+  missions.forEach((mission) => {
+    const unlocked = cleared.includes(mission.id);
+
+    const card = document.createElement("article");
+    card.className = `log-card ${unlocked ? "unlocked" : "locked"}`;
+
+    card.innerHTML = `
+      <p class="log-type">${unlocked ? mission.log.type : "LOCKED"}</p>
+      <h3>${unlocked ? mission.log.title : "未解放ログ"}</h3>
+      <p>${unlocked ? mission.log.text : "任務をクリアすると、このログが解放されます。"}</p>
+      <span class="log-status">${unlocked ? "解放済み" : "未解放"}</span>
+    `;
+
+    logGrid.appendChild(card);
+  });
+}
+
+function startMission(id) {
+  const mission = missions.find((item) => item.id === id);
+
+  state = {
+    mission,
+    sakiHp: 100,
+    sakiMaxHp: 100,
+    enemy: {
+      name: mission.enemyName,
+      hp: mission.enemyMaxHp,
+      maxHp: mission.enemyMaxHp,
+      attack: mission.enemyAttack
+    },
+    guarding: false,
+    analyzed: false,
+    evading: false,
+    finished: false
+  };
+
+  phase = "intro";
+  textQueue = [...mission.intro];
+
+  enemyName.textContent = state.enemy.name;
+  missionTitle.textContent = mission.title;
+  battleChoices.innerHTML = "";
+  nextBtn.textContent = "次へ";
+
+  showScreen(battleScreen);
+  updateHp();
+  showNextQueueText();
+}
+
+function updateHp() {
+  const enemyRate = Math.max(0, state.enemy.hp) / state.enemy.maxHp;
+  const sakiRate = Math.max(0, state.sakiHp) / state.sakiMaxHp;
+
+  enemyHpBar.style.width = `${enemyRate * 100}%`;
+  sakiHpBar.style.width = `${sakiRate * 100}%`;
+
+  enemyHpText.textContent = `HP ${Math.max(0, state.enemy.hp)} / ${state.enemy.maxHp}`;
+  sakiHpText.textContent = `HP ${Math.max(0, state.sakiHp)} / ${state.sakiMaxHp}`;
 }
 
 function setText(text) {
@@ -293,7 +314,7 @@ function setText(text) {
     if (index >= fullText.length) {
       finishTyping();
     }
-  }, 28);
+  }, 26);
 }
 
 function finishTyping() {
@@ -302,107 +323,192 @@ function finishTyping() {
   isTyping = false;
 }
 
-function renderScene() {
-  const scene = story[sceneIndex];
+function showNextQueueText() {
+  battleChoices.innerHTML = "";
 
-  choices.innerHTML = "";
-  nextBtn.style.display = "inline-flex";
-  sakiImg.classList.add("active");
-
-  if (!scene) {
-    renderEnding();
+  if (textQueue.length > 0) {
+    speakerName.textContent = phase === "intro" ? "SYSTEM" : "サキ";
+    setText(textQueue.shift());
     return;
   }
 
-  if (scene.choice) {
-    speakerName.textContent = "選択肢";
-    setText(scene.text);
-    nextBtn.style.display = "none";
+  if (phase === "intro") {
+    phase = "battle";
+    speakerName.textContent = "SYSTEM";
+    setText("戦闘開始。\n行動を選択してください。");
+    renderActionChoices();
+    return;
+  }
 
-    scene.options.forEach((option) => {
-      const button = document.createElement("button");
-      button.className = "choice-btn";
-      button.type = "button";
-      button.textContent = option.text;
+  if (phase === "win") {
+    saveCleared(state.mission.id);
+    speakerName.textContent = "MISSION CLEAR";
+    setText(`${state.mission.title}をクリアしました。\n${state.mission.reward}を入手。`);
+    state.finished = true;
+    nextBtn.textContent = "任務選択へ";
+    return;
+  }
 
-      button.addEventListener("click", () => {
-        if (isTyping) {
-          finishTyping();
-          return;
-        }
+  if (phase === "lose") {
+    speakerName.textContent = "MISSION FAILED";
+    setText("サキは一時撤退した。\n任務は失敗。体勢を立て直して再挑戦しよう。");
+    state.finished = true;
+    nextBtn.textContent = "任務選択へ";
+  }
+}
 
-        cool += option.cool;
-        trust += option.trust;
-        updateStatus();
+function renderActionChoices() {
+  battleChoices.innerHTML = "";
 
-        speakerName.textContent = option.nextSpeaker;
-        setText(option.next);
+  actions.forEach((action) => {
+    const button = document.createElement("button");
+    button.className = "choice-btn";
+    button.type = "button";
+    button.innerHTML = `${action.name}<br><small>${action.desc}</small>`;
 
-        choices.innerHTML = "";
-        nextBtn.style.display = "inline-flex";
-        sceneIndex++;
-      });
+    button.addEventListener("click", () => {
+      if (isTyping) {
+        finishTyping();
+        return;
+      }
 
-      choices.appendChild(button);
+      playerTurn(action);
     });
 
+    battleChoices.appendChild(button);
+  });
+}
+
+function playerTurn(action) {
+  battleChoices.innerHTML = "";
+
+  const playerText = action.run();
+  updateHp();
+
+  if (state.enemy.hp <= 0) {
+    phase = "win";
+    textQueue = [
+      playerText,
+      `${state.enemy.name}は停止した。`,
+      "サキは銃を下ろし、静かに任務完了を記録した。"
+    ];
+    showNextQueueText();
     return;
   }
 
-  speakerName.textContent = scene.speaker;
-  setText(scene.text);
+  textQueue = [playerText];
+  showNextQueueText();
+
+  setTimeout(() => {
+    if (!isTyping && phase === "battle") {
+      enemyTurn();
+    }
+  }, 650);
 }
 
-function renderEnding() {
-  endingMode = true;
-  choices.innerHTML = "";
+function enemyTurn() {
+  let damage = state.enemy.attack;
 
-  if (trust >= 9) {
-    speakerName.textContent = "TRUST END";
-    setText(
-      "整備ロボは、サキの姿を見つけると嬉しそうに音を鳴らすようになった。\n\nサキは相変わらず無口で、表情もほとんど変わらない。\nでも、放課後の巡回ルートには、いつの間にか整備室前が追加されていた。\n\n任務ではない。\nたぶん、会いに行っている。"
-    );
-  } else if (cool >= 8) {
-    speakerName.textContent = "COOL END";
-    setText(
-      "サキは任務を完璧に終えた。\n記録、報告、状況判断。すべて問題なし。\n\nけれど報告書の最後に、いつもなら書かない一文が追加されていた。\n\n『対象は安心していた。よかった。』"
-    );
-  } else {
-    speakerName.textContent = "NORMAL END";
-    setText(
-      "任務は無事に終わった。\nサキはいつも通り、静かに廊下を歩いていく。\n\n表情は変わらない。\nでも、夕日の中で少しだけ足取りが軽かった。"
-    );
+  if (state.evading) {
+    state.evading = false;
+    textQueue = [`${state.enemy.name}の攻撃。\nサキは攻撃を回避した。`];
+    showNextQueueText();
+    setTimeout(() => renderActionChoices(), 650);
+    return;
   }
 
-  nextBtn.textContent = "タイトルへ";
+  if (state.guarding) {
+    damage = Math.ceil(damage / 2);
+    state.guarding = false;
+  }
+
+  state.sakiHp -= damage;
+  animateSaki("hit");
+  updateHp();
+
+  if (state.sakiHp <= 0) {
+    phase = "lose";
+    textQueue = [
+      `${state.enemy.name}の攻撃。\nサキは${damage}ダメージを受けた。`,
+      "サキの行動継続が困難になった。"
+    ];
+    showNextQueueText();
+    return;
+  }
+
+  textQueue = [
+    `${state.enemy.name}の攻撃。\nサキは${damage}ダメージを受けた。`,
+    "サキは体勢を立て直した。\n次の行動を選択してください。"
+  ];
+
+  showNextQueueText();
+
+  setTimeout(() => {
+    if (!isTyping && phase === "battle") {
+      renderActionChoices();
+    }
+  }, 800);
 }
 
-function startGame() {
-  sceneIndex = 0;
-  cool = 0;
-  trust = 0;
-  endingMode = false;
-  nextBtn.textContent = "次へ";
-  updateStatus();
-  showScreen(novelScreen);
-  renderScene();
+function animateSaki(className) {
+  sakiImg.classList.remove("hit", "attack");
+  void sakiImg.offsetWidth;
+  sakiImg.classList.add(className);
 }
 
-function nextScene() {
+function nextStep() {
   if (isTyping) {
     finishTyping();
     return;
   }
 
-  if (endingMode) {
-    showScreen(titleScreen);
+  if (state?.finished) {
+    renderMissions();
+    showScreen(missionScreen);
     return;
   }
 
-  sceneIndex++;
-  renderScene();
+  if (textQueue.length > 0 || phase !== "battle") {
+    showNextQueueText();
+    return;
+  }
+
+  if (phase === "battle") {
+    renderActionChoices();
+  }
 }
 
-startBtn.addEventListener("click", startGame);
-restartBtn.addEventListener("click", startGame);
-nextBtn.addEventListener("click", nextScene);
+startBtn.addEventListener("click", () => {
+  renderMissions();
+  showScreen(missionScreen);
+});
+
+collectionBtn.addEventListener("click", () => {
+  renderCollection();
+  showScreen(collectionScreen);
+});
+
+missionToTitleBtn.addEventListener("click", () => {
+  showScreen(titleScreen);
+});
+
+missionToCollectionBtn.addEventListener("click", () => {
+  renderCollection();
+  showScreen(collectionScreen);
+});
+
+collectionToTitleBtn.addEventListener("click", () => {
+  showScreen(titleScreen);
+});
+
+collectionToMissionBtn.addEventListener("click", () => {
+  renderMissions();
+  showScreen(missionScreen);
+});
+
+giveUpBtn.addEventListener("click", () => {
+  renderMissions();
+  showScreen(missionScreen);
+});
+
+nextBtn.addEventListener("click", nextStep);
