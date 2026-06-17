@@ -60,7 +60,7 @@ if (siteFooter) {
           <a href="/games/">games</a>
           <a href="/rhythm/">rhythm</a>
           <a href="/battle/">battle</a>
-          <a href="/party/">party</a>
+          <a href="/novel/">novel</a>
           <a
   href="https://docs.google.com/forms/d/e/1FAIpQLSesMw6-ymf5_sRUzs_35r_Ml-ztA3Cgh8JAai1XNQH84__SWQ/viewform?usp=header"
   target="_blank"
