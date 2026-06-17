@@ -58,6 +58,7 @@ const story = [
     focus: "",
     text: "机の上には、紫色に光る謎のサンプルが置かれていた。"
   },
+
   {
     choice: true,
     text: "サラはサンプルをじっと見た。どうする？",
@@ -88,6 +89,7 @@ const story = [
       }
     ]
   },
+
   {
     speaker: "サク",
     focus: "saku",
@@ -108,6 +110,69 @@ const story = [
     focus: "sara",
     text: "高い。普通に高い。"
   },
+
+  {
+    choice: true,
+    text: "まずは研究室内を調べることになった。",
+    options: [
+      {
+        text: "黒板の怪しい式を見る",
+        research: 2,
+        anxiety: 1,
+        nextSpeaker: "サラ",
+        nextFocus: "sara",
+        next: "式が多すぎる。\nあと、ところどころハート描いてあるの何。"
+      },
+      {
+        text: "机の上の資料を確認する",
+        research: 2,
+        anxiety: 0,
+        nextSpeaker: "サク",
+        nextFocus: "saku",
+        next: "いい着眼点だ、サラ！\nそこには私の徹夜三日分の成果が詰まっている！"
+      },
+      {
+        text: "出口の位置を確認する",
+        research: 0,
+        anxiety: -1,
+        nextSpeaker: "サラ",
+        nextFocus: "sara",
+        next: "最重要確認。\n何かあったら逃げる。サクを引きずってでも。"
+      }
+    ]
+  },
+
+  {
+    speaker: "サク",
+    focus: "saku",
+    text: "ちなみに、その資料の一部はサラ専用に書いてある。"
+  },
+  {
+    speaker: "サラ",
+    focus: "sara",
+    text: "なんで？"
+  },
+  {
+    speaker: "サク",
+    focus: "saku",
+    text: "君が読めるように、専門用語を少し減らした。"
+  },
+  {
+    speaker: "サラ",
+    focus: "sara",
+    text: "……そういうところだけ、ちゃんとしてる。"
+  },
+  {
+    speaker: "サク",
+    focus: "saku",
+    text: "褒めたかい？"
+  },
+  {
+    speaker: "サラ",
+    focus: "sara",
+    text: "褒めてない。"
+  },
+
   {
     choice: true,
     text: "サンプルが急に光り始めた。",
@@ -138,6 +203,7 @@ const story = [
       }
     ]
   },
+
   {
     speaker: "サク",
     focus: "saku",
@@ -158,11 +224,13 @@ const story = [
     focus: "sara",
     text: "都合よく変換しないで。"
   },
+
   {
     speaker: "ナレーション",
     focus: "",
     text: "サンプルはさらに強く光り、机の上で小さく跳ね始めた。"
   },
+
   {
     choice: true,
     text: "実験は明らかに危ない方向へ進んでいる。",
@@ -193,6 +261,7 @@ const story = [
       }
     ]
   },
+
   {
     speaker: "ナレーション",
     focus: "",
@@ -208,6 +277,179 @@ const story = [
     focus: "sara",
     text: "成功の定義、怖すぎ。"
   },
+
+  {
+    choice: true,
+    text: "浮いたサンプルは、サラの方へゆっくり近づいてきた。",
+    options: [
+      {
+        text: "手を伸ばして受け止める",
+        research: 2,
+        anxiety: 1,
+        nextSpeaker: "サラ",
+        nextFocus: "sara",
+        next: "……熱くはない。\nでも、なんか見られてる感じがする。"
+      },
+      {
+        text: "サクの後ろに隠れる",
+        research: 0,
+        anxiety: -1,
+        nextSpeaker: "サク",
+        nextFocus: "saku",
+        next: "サラが私の後ろに……！？\nこれは記録すべき歴史的瞬間では！？"
+      },
+      {
+        text: "サクに捕まえさせる",
+        research: 2,
+        anxiety: 2,
+        nextSpeaker: "サラ",
+        nextFocus: "sara",
+        next: "発案者が責任取って。\n私は後方支援という名の避難をする。"
+      }
+    ]
+  },
+
+  {
+    speaker: "サク",
+    focus: "saku",
+    text: "この反応……面白い。\nサンプルは、サラに一番強く反応している。"
+  },
+  {
+    speaker: "サラ",
+    focus: "sara",
+    text: "やめて。そういう主人公みたいな展開いらない。"
+  },
+  {
+    speaker: "サク",
+    focus: "saku",
+    text: "君は十分、主人公だと思うがね。"
+  },
+  {
+    speaker: "サラ",
+    focus: "sara",
+    text: "……そういうこと急に言わないで。"
+  },
+
+  {
+    choice: true,
+    text: "サンプルの光が、サラの胸元あたりで小さく揺れている。",
+    options: [
+      {
+        text: "怖いけど、もう少し観察する",
+        research: 3,
+        anxiety: 1,
+        nextSpeaker: "サラ",
+        nextFocus: "sara",
+        next: "怖いけど……分からないままの方が、もっと怖いから。"
+      },
+      {
+        text: "サクに理由を聞く",
+        research: 2,
+        anxiety: 0,
+        nextSpeaker: "サク",
+        nextFocus: "saku",
+        next: "仮説だが、サンプルは強い感情を持つ対象に共鳴している。"
+      },
+      {
+        text: "絶対に触らない",
+        research: 0,
+        anxiety: -1,
+        nextSpeaker: "サラ",
+        nextFocus: "sara",
+        next: "無理。こういう時に触る人から変なことになる。"
+      }
+    ]
+  },
+
+  {
+    speaker: "サク",
+    focus: "saku",
+    text: "サラ。無理はしなくていい。"
+  },
+  {
+    speaker: "サラ",
+    focus: "sara",
+    text: "……珍しくまともなこと言った。"
+  },
+  {
+    speaker: "サク",
+    focus: "saku",
+    text: "私はいつでもまともだよ。研究対象が少し非常識なだけで。"
+  },
+  {
+    speaker: "サラ",
+    focus: "sara",
+    text: "その非常識を持ち込むのがあんたなんだよ。"
+  },
+
+  {
+    speaker: "ナレーション",
+    focus: "",
+    text: "サンプルは突然、研究室の中央へ移動した。\n床に光の輪が広がっていく。"
+  },
+  {
+    speaker: "サク",
+    focus: "saku",
+    text: "まずい。\nエネルギーが拡散し始めている。"
+  },
+  {
+    speaker: "サラ",
+    focus: "sara",
+    text: "ほら。やっぱりまずいやつじゃん。"
+  },
+
+  {
+    choice: true,
+    text: "光の輪が研究室全体に広がる前に、何かする必要がある。",
+    options: [
+      {
+        text: "サクの指示で装置を調整する",
+        research: 3,
+        anxiety: 1,
+        nextSpeaker: "サラ",
+        nextFocus: "sara",
+        next: "右のレバー？\n……これ、右が三つあるんだけど。"
+      },
+      {
+        text: "サラの判断で電源を落とす",
+        research: 0,
+        anxiety: -2,
+        nextSpeaker: "サラ",
+        nextFocus: "sara",
+        next: "もう無理。今日は閉店。\n電源、落とす。"
+      },
+      {
+        text: "サクを信じて実験を続ける",
+        research: 4,
+        anxiety: 3,
+        nextSpeaker: "サク",
+        nextFocus: "saku",
+        next: "ありがとうサラ！\nその信頼、必ず結果で返そう！"
+      }
+    ]
+  },
+
+  {
+    speaker: "ナレーション",
+    focus: "",
+    text: "光は一瞬だけ強くなり、研究室の壁に不思議な影を映した。"
+  },
+  {
+    speaker: "サラ",
+    focus: "sara",
+    text: "……今の、なに？"
+  },
+  {
+    speaker: "サク",
+    focus: "saku",
+    text: "怪人化エネルギーの残像……いや、未完成の形だ。"
+  },
+  {
+    speaker: "サラ",
+    focus: "sara",
+    text: "未完成でよかった。完成しないで。"
+  },
+
   {
     choice: true,
     text: "最後の調整をする必要があるらしい。",
@@ -238,6 +480,7 @@ const story = [
       }
     ]
   },
+
   {
     speaker: "ナレーション",
     focus: "",
@@ -382,20 +625,25 @@ function renderEnding() {
   choices.innerHTML = "";
   focusCharacter("");
 
-  if (research >= 8 && anxiety <= 5) {
+  if (research >= 16 && anxiety <= 8) {
     speakerName.textContent = "GOOD END";
     setText(
       "実験は、奇跡的に成功した。\n\nサンプルは小さな光の粒になり、研究ノートの上で静かに消えた。\n\nサクは満足そうに笑い、サラは深いため息をつく。\n\n『……次は、もっと安全な研究にして』\n\nサクはうなずいた。\nたぶん、半分くらいは聞いている。"
     );
-  } else if (anxiety >= 7) {
+  } else if (anxiety >= 10) {
     speakerName.textContent = "CHAOS END";
     setText(
       "次の瞬間、研究室に謎の煙が広がった。\n\nサンプルは小さな怪人のような姿になり、机の上を走り回る。\n\nサラは無言でサクを見た。\nサクは親指を立てた。\n\n『成功だ！』\n\n『失敗だよ』"
     );
-  } else if (research <= 3) {
+  } else if (research <= 5) {
     speakerName.textContent = "SARAH END";
     setText(
       "サラは静かにブレーカーを落とした。\n\n研究室は暗くなり、サンプルの光も消える。\n\nサクは残念そうだったが、サラは少しだけ安心した。\n\n今日はもう帰る。\n命があるうちに。"
+    );
+  } else if (research >= 14 && anxiety >= 9) {
+    speakerName.textContent = "SAKU END";
+    setText(
+      "実験は止まらなかった。\n\nサクは目を輝かせ、サンプルの反応を記録し続ける。\nサラはその横で、消火器を構えていた。\n\n結果は危険。\n成果は大きい。\n\nサクは満足そうに言った。\n\n『素晴らしい一歩だ！』\n\nサラは小さく答えた。\n\n『次は一歩下がって』"
     );
   } else {
     speakerName.textContent = "PARTNER END";
