@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>サラとサクの怪人研究ノート | SHUYAKU NOVEL</title>
+  <meta name="description" content="サラとサクが放課後の謎サンプルを調査する、探索ノベル実験ゲーム。" />
+
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+  <main class="game">
+    <section id="titleScreen" class="screen title-screen active">
+      <p class="label">SHUYAKU NOVEL / EXPERIMENT STORY</p>
+      <h1>サラとサクの<br />怪人研究ノート</h1>
+      <p class="catch">放課後、変な研究に巻き込まれました。</p>
+
+      <div class="credit-box">
+        <p>キャラクター：サラ＆サク</p>
+        <p>作者：ラクトアリス（X @lactoalice）</p>
+        <p>ゲーム制作：Lane</p>
+      </div>
+
+      <button id="startBtn" class="main-btn">研究を始める</button>
+      <a href="../" class="back-link">ノベル一覧へ戻る</a>
+    </section>
+
+    <section id="novelScreen" class="screen novel-screen">
+      <div class="stage">
+        <div class="bg-layer"></div>
+
+        <img id="saraImg" class="character sara" src="./img/sara.png" alt="サラ" />
+        <img id="sakuImg" class="character saku" src="./img/saku.png" alt="サク" />
+      </div>
+
+      <div class="status-panel">
+        <span id="researchPoint">研究度 0</span>
+        <span id="anxietyPoint">不安度 0</span>
+      </div>
+
+      <div class="message-box">
+        <div class="name-row">
+          <span id="speakerName" class="speaker-name">ナレーション</span>
+        </div>
+
+        <p id="messageText" class="message-text"></p>
+
+        <div id="choices" class="choices"></div>
+
+        <div class="actions">
+          <button id="restartBtn" class="sub-btn">最初から</button>
+          <button id="nextBtn" class="next-btn">次へ</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="./script.js"></script>
+</body>
+</html>
