@@ -19,7 +19,7 @@ if (siteHeader) {
           <a href="/games/">games</a>
           <a href="/rhythm/">rhythm</a>
           <a href="/battle/">battle</a>
-          <a href="/novel/">party</a>
+          <a href="/novel/">novel</a>
         </nav>
 
         <div class="site-account">
