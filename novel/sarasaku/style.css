@@ -378,3 +378,24 @@ h1 {
     padding: 0 14px;
   }
 }
+
+.bg-layer {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(18, 15, 34, 0.08), rgba(18, 15, 34, 0.86)),
+    url("./img/bg-lab.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.bg-layer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(120, 216, 255, 0.12), transparent 26%),
+    radial-gradient(circle at 78% 18%, rgba(185, 255, 104, 0.12), transparent 30%);
+  pointer-events: none;
+}
