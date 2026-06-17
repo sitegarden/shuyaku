@@ -2130,3 +2130,27 @@ body {
     width: 100%;
   }
 }
+
+.card::before {
+  display: none;
+}
+
+.card-hero {
+  margin: -10px -10px 18px;
+  border: 3px solid #30283a;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #fff3bf;
+  box-shadow: 4px 4px 0 #a8edf0;
+}
+
+.card-hero img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.card {
+  min-height: auto;
+}
