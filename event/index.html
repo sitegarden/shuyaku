@@ -8,7 +8,7 @@
 
   <meta
     name="description"
-    content="shuyaku.meを使ったイベントページです。個人戦・チーム戦のゲームで楽しく高得点を目指そう。"
+    content="shuyaku.meを使ったイベントページです。スコアゲームや通信ゲームで、個人戦・チーム戦を楽しく行えます。"
   />
 
   <link rel="icon" href="https://shuyaku.me/favicon.png" type="image/png" />
@@ -16,14 +16,14 @@
 
   <meta property="og:site_name" content="shuyaku.me" />
   <meta property="og:title" content="イベント | shuyaku.me" />
-  <meta property="og:description" content="個人戦・チーム戦で楽しく遊べるイベントページ。" />
+  <meta property="og:description" content="スコアゲームや通信ゲームで、楽しくイベントを行おう。" />
   <meta property="og:image" content="https://shuyaku.me/ogp.png" />
   <meta property="og:url" content="https://shuyaku.me/event/" />
   <meta property="og:type" content="website" />
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="イベント | shuyaku.me" />
-  <meta name="twitter:description" content="個人戦・チーム戦で楽しく遊べるイベントページ。" />
+  <meta name="twitter:description" content="スコアゲームや通信ゲームで、楽しくイベントを行おう。" />
   <meta name="twitter:image" content="https://shuyaku.me/ogp.png" />
 
   <link rel="stylesheet" href="/css/layout.css" />
@@ -35,26 +35,21 @@
 
   <main class="event-page">
     <section class="event-hero">
-      <div class="event-window">
-        <div class="window-dots">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
+      <div class="event-hero-bg"></div>
 
-        <p class="event-label">event game</p>
+      <div class="event-hero-content">
+        <p class="event-label">shuyaku.me event</p>
 
         <h1>
-          shuyaku.meで<br class="sp-only" />
           esports大会
         </h1>
 
         <p class="event-lead">
-          個人戦とチーム戦に分かれて、楽しく高得点を目指そう。
-          勝ち負けだけじゃなく、みんなで盛り上がることが目的です。
+          4チームに分かれて高得点を狙ってゲームをしよう！
+          勝ち負けではなく、みんなで楽しく行うことが目的です。
         </p>
 
-        <div class="event-info-row">
+        <div class="event-info-list">
           <div class="event-info-card">
             <span>日時</span>
             <strong>6/29（月）</strong>
@@ -64,11 +59,11 @@
           <div class="event-info-card">
             <span>形式</span>
             <strong>個人戦 / チーム戦</strong>
-            <small>初心者も参加OK</small>
+            <small>どちらも同じゲームから遊べます</small>
           </div>
         </div>
 
-        <div class="event-action-row">
+        <div class="event-hero-actions">
           <a href="#games" class="event-main-btn">ゲームを選ぶ</a>
           <a href="#about" class="event-sub-btn">イベント説明</a>
         </div>
@@ -77,33 +72,44 @@
 
     <section id="games" class="event-section">
       <div class="section-title">
-        <p>select</p>
+        <p>games</p>
         <h2>遊ぶゲームを選ぶ</h2>
       </div>
 
       <p class="section-lead">
-        個人でスコアを競ぐゲームと、チームで協力するバトルゲームを用意しています。
+        個人戦・チーム戦では分けずに、ゲームの種類で選びます。
+        スコアを競ぐならスコアゲーム、同時に遊ぶなら通信ゲームへ。
       </p>
 
-      <div class="event-game-list">
-        <a href="/games/" class="event-game-card score-card">
-          <div class="game-card-icon">🏆</div>
-          <p>individual</p>
-          <h3>個人戦</h3>
-          <span>
-            1人ずつゲームを遊んで、スコアランキング上位を目指そう。
-          </span>
+      <div class="event-game-grid">
+        <a href="./score/" class="event-game-card score-game-card">
+          <div class="game-icon">🏆</div>
+
+          <div class="game-card-text">
+            <p>score game</p>
+            <h3>スコアゲーム</h3>
+            <span>
+              1人ずつ遊んで点数を記録するゲームです。
+              個人戦にも、チーム合計点にも使えます。
+            </span>
+          </div>
+
           <strong>スコアゲームへ</strong>
         </a>
 
-        <a href="./battle/" class="event-game-card battle-card">
-          <div class="game-card-icon">⚡</div>
-          <p>team battle</p>
-          <h3>チーム戦</h3>
-          <span>
-            4チームに分かれて、仲間と協力しながら高得点を狙おう。
-          </span>
-          <strong>バトルゲームへ</strong>
+        <a href="./online/" class="event-game-card online-game-card">
+          <div class="game-icon">🎮</div>
+
+          <div class="game-card-text">
+            <p>online game</p>
+            <h3>通信ゲーム</h3>
+            <span>
+              複数人で同時に遊べるゲームです。
+              対戦・協力・チーム戦に向いています。
+            </span>
+          </div>
+
+          <strong>通信ゲームへ</strong>
         </a>
       </div>
     </section>
@@ -111,43 +117,42 @@
     <section id="about" class="event-section">
       <div class="section-title">
         <p>about</p>
-        <h2>イベントについて</h2>
+        <h2>イベントの流れ</h2>
       </div>
 
-      <div class="about-grid">
-        <article class="about-card">
+      <div class="event-flow">
+        <article class="flow-card">
           <span>01</span>
-          <h3>楽しく参加</h3>
+          <h3>ゲームを選ぶ</h3>
           <p>
-            ゲームが得意な人も、初めての人も大歓迎。
-            まずは気軽に遊んでみよう。
+            スコアゲームか通信ゲームを選んで、遊ぶゲームを決めます。
           </p>
         </article>
 
-        <article class="about-card">
+        <article class="flow-card">
           <span>02</span>
-          <h3>高得点を目指す</h3>
+          <h3>個人戦・チーム戦で遊ぶ</h3>
           <p>
-            個人戦ではスコアを記録して、ランキング上位を目指します。
+            個人の得点を競ったり、チームで協力して高得点を目指します。
           </p>
         </article>
 
-        <article class="about-card">
+        <article class="flow-card">
           <span>03</span>
-          <h3>チームで協力</h3>
+          <h3>みんなで盛り上がる</h3>
           <p>
-            チーム戦では仲間と協力しながら、みんなで盛り上がります。
+            うまくできなくても大丈夫。勝ち負けより楽しむことを大切にします。
           </p>
         </article>
       </div>
     </section>
 
     <section class="event-section">
-      <div class="event-message-box">
+      <div class="event-message">
         <p>message</p>
-        <h2>勝ち負けより、楽しく行うことが目的！</h2>
+        <h2>勝ち負けではなく、楽しく行うことが目的！</h2>
         <span>
-          うまくできなくても大丈夫。みんなで声をかけ合いながら楽しもう。
+          初心者も大歓迎。操作が分からない時は、周りの人やスタッフに聞いてください。
         </span>
       </div>
     </section>
