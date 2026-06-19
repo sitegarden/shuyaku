@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <title>イベント | shuyaku.me</title>
+
+  <meta
+    name="description"
+    content="shuyaku.meを使ったイベントページです。個人戦・チーム戦のゲームで楽しく高得点を目指そう。"
+  />
+
+  <link rel="icon" href="https://shuyaku.me/favicon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="https://shuyaku.me/favicon.png" />
+
+  <meta property="og:site_name" content="shuyaku.me" />
+  <meta property="og:title" content="イベント | shuyaku.me" />
+  <meta property="og:description" content="個人戦・チーム戦で楽しく遊べるイベントページ。" />
+  <meta property="og:image" content="https://shuyaku.me/ogp.png" />
+  <meta property="og:url" content="https://shuyaku.me/event/" />
+  <meta property="og:type" content="website" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="イベント | shuyaku.me" />
+  <meta name="twitter:description" content="個人戦・チーム戦で楽しく遊べるイベントページ。" />
+  <meta name="twitter:image" content="https://shuyaku.me/ogp.png" />
+
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+  <div id="siteHeader"></div>
+
+  <main class="event-page">
+    <section class="event-hero">
+      <div class="event-window">
+        <div class="window-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <p class="event-label">event game</p>
+
+        <h1>
+          shuyaku.meで<br class="sp-only" />
+          esports大会
+        </h1>
+
+        <p class="event-lead">
+          個人戦とチーム戦に分かれて、楽しく高得点を目指そう。
+          勝ち負けだけじゃなく、みんなで盛り上がることが目的です。
+        </p>
+
+        <div class="event-info-row">
+          <div class="event-info-card">
+            <span>日時</span>
+            <strong>6/29（月）</strong>
+            <small>13:30 - 15:00</small>
+          </div>
+
+          <div class="event-info-card">
+            <span>形式</span>
+            <strong>個人戦 / チーム戦</strong>
+            <small>初心者も参加OK</small>
+          </div>
+        </div>
+
+        <div class="event-action-row">
+          <a href="#games" class="event-main-btn">ゲームを選ぶ</a>
+          <a href="#about" class="event-sub-btn">イベント説明</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="games" class="event-section">
+      <div class="section-title">
+        <p>select</p>
+        <h2>遊ぶゲームを選ぶ</h2>
+      </div>
+
+      <p class="section-lead">
+        個人でスコアを競ぐゲームと、チームで協力するバトルゲームを用意しています。
+      </p>
+
+      <div class="event-game-list">
+        <a href="/games/" class="event-game-card score-card">
+          <div class="game-card-icon">🏆</div>
+          <p>individual</p>
+          <h3>個人戦</h3>
+          <span>
+            1人ずつゲームを遊んで、スコアランキング上位を目指そう。
+          </span>
+          <strong>スコアゲームへ</strong>
+        </a>
+
+        <a href="./battle/" class="event-game-card battle-card">
+          <div class="game-card-icon">⚡</div>
+          <p>team battle</p>
+          <h3>チーム戦</h3>
+          <span>
+            4チームに分かれて、仲間と協力しながら高得点を狙おう。
+          </span>
+          <strong>バトルゲームへ</strong>
+        </a>
+      </div>
+    </section>
+
+    <section id="about" class="event-section">
+      <div class="section-title">
+        <p>about</p>
+        <h2>イベントについて</h2>
+      </div>
+
+      <div class="about-grid">
+        <article class="about-card">
+          <span>01</span>
+          <h3>楽しく参加</h3>
+          <p>
+            ゲームが得意な人も、初めての人も大歓迎。
+            まずは気軽に遊んでみよう。
+          </p>
+        </article>
+
+        <article class="about-card">
+          <span>02</span>
+          <h3>高得点を目指す</h3>
+          <p>
+            個人戦ではスコアを記録して、ランキング上位を目指します。
+          </p>
+        </article>
+
+        <article class="about-card">
+          <span>03</span>
+          <h3>チームで協力</h3>
+          <p>
+            チーム戦では仲間と協力しながら、みんなで盛り上がります。
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="event-section">
+      <div class="event-message-box">
+        <p>message</p>
+        <h2>勝ち負けより、楽しく行うことが目的！</h2>
+        <span>
+          うまくできなくても大丈夫。みんなで声をかけ合いながら楽しもう。
+        </span>
+      </div>
+    </section>
+  </main>
+
+  <div id="siteFooter"></div>
+
+  <script type="module" src="/js/layout.js"></script>
+  <script type="module" src="./event.js"></script>
+</body>
+</html>
