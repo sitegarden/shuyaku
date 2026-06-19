@@ -1,17 +1,19 @@
 // event.js
 
-const gameCards = document.querySelectorAll(".event-game-card");
+const touchItems = document.querySelectorAll(
+  ".event-main-btn, .event-sub-btn, .event-game-card"
+);
 
-gameCards.forEach((card) => {
-  card.addEventListener("touchstart", () => {
-    card.classList.add("is-touching");
+touchItems.forEach((item) => {
+  item.addEventListener("touchstart", () => {
+    item.classList.add("is-touching");
   });
 
-  card.addEventListener("touchend", () => {
-    card.classList.remove("is-touching");
+  item.addEventListener("touchend", () => {
+    item.classList.remove("is-touching");
   });
 
-  card.addEventListener("touchcancel", () => {
-    card.classList.remove("is-touching");
+  item.addEventListener("touchcancel", () => {
+    item.classList.remove("is-touching");
   });
 });
