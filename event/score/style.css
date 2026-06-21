@@ -870,3 +870,50 @@ input {
     width: 54px;
   }
 }
+
+
+/* ランキング期間ボタンの上書き */
+
+.score-ranking-periods {
+  display: flex;
+  gap: 12px;
+  margin: 18px 0 16px;
+}
+
+.score-ranking-period {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border: 3px solid #2d3e70;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #40527d;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 #d9ccff;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background 0.12s ease;
+}
+
+.score-ranking-period:hover {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 #d9ccff;
+}
+
+.score-ranking-period:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0 0 0 #d9ccff;
+}
+
+.score-ranking-period.active {
+  background: #ffe760;
+  color: #253257;
+  box-shadow: 3px 3px 0 #2d3e70;
+}
