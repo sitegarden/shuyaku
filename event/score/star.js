@@ -159,11 +159,12 @@ export function initStarGame(container) {
       restartBtn?.addEventListener("click", startGame);
     }
 
-    try {
-      await submitScore(GAME_ID, score);
-    } catch (error) {
-      console.error("スコア保存に失敗しました。", error);
-    }
+   try {
+  const { submitScore } = await import("../../games/ranking.js");
+  await submitScore(GAME_ID, score);
+} catch (error) {
+  console.error("スコア保存に失敗しました。", error);
+}
   };
 
   const update = (timestamp) => {
