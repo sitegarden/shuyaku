@@ -1,6 +1,7 @@
 // auth.js
 
 import { auth, db } from "./firebase.js";
+import { getGuestName, saveGuestName } from "./guest.js";
 
 import {
   GoogleAuthProvider,
