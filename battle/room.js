@@ -3,6 +3,11 @@
 import { auth, db } from "../js/firebase.js";
 
 import {
+  getGuestName,
+  saveGuestName
+} from "../js/guest.js";
+
+import {
   signInAnonymously
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
@@ -34,8 +39,6 @@ import {
 
 const MAX_PLAYERS = 4;
 const MIN_PLAYERS = 2;
-
-const GUEST_NAME_KEY = "shuyaku_battle_guest_name";
 
 let currentRoomId = "";
 let currentRoom = null;
@@ -93,12 +96,11 @@ export function createGuestName(inputName = "") {
   const typedName = String(inputName || "").trim();
 
   if (typedName) {
-    const safeName = typedName.slice(0, 16);
-    localStorage.setItem(GUEST_NAME_KEY, safeName);
-    return safeName;
+    saveGuestName(typedName);
+    return getGuestName();
   }
 
-  const savedName = localStorage.getItem(GUEST_NAME_KEY);
+  const savedName = getGuestName();
 
   if (savedName) {
     return savedName;
@@ -121,9 +123,9 @@ export function createGuestName(inputName = "") {
   const number = Math.floor(1000 + Math.random() * 9000);
   const name = `${word}${number}`;
 
-  localStorage.setItem(GUEST_NAME_KEY, name);
+  saveGuestName(name);
 
-  return name;
+  return getGuestName();
 }
 
 export async function createRoom(createMode = "player") {
