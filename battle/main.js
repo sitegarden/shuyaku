@@ -17,6 +17,8 @@ import {
   normalizeRoomId
 } from "./room.js";
 
+import { getGuestName } from "../js/guest.js";
+
 import {
   MAX_HP,
   getSkillList,
@@ -79,6 +81,7 @@ let selectedSkillId = "";
 let selectedTargetUid = "";
 
 setupEvents();
+restoreGuestName();
 restoreRoomFromUrl();
 
 function setupEvents() {
@@ -684,6 +687,16 @@ function showError(error) {
 
 function showMessage(message) {
   alert(message);
+}
+
+function restoreGuestName() {
+  if (!guestNameInput) return;
+
+  const guestName = getGuestName();
+
+  if (guestName) {
+    guestNameInput.value = guestName;
+  }
 }
 
 function restoreRoomFromUrl() {
