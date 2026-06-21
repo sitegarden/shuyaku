@@ -1,4 +1,5 @@
 import { showRanking } from "../../games/ranking.js";
+import { initStarGame } from "./star.js";
 
 const EVENT_ACCESS_KEY = "shuyakuEventAccess";
 
@@ -45,6 +46,7 @@ const GAMES = {
 let currentGameKey = "star";
 let currentPeriod = "month";
 let previousScreen = "home";
+let cleanupCurrentGame = null;
 
 checkEventAccess();
 setupEvents();
@@ -143,6 +145,34 @@ function openGame(gameKey) {
   renderGamePlaceholder(game);
 }
 
+function openGame(gameKey) {
+  const game = GAMES[gameKey];
+
+  if (!game) {
+    return;
+  }
+
+  currentGameKey = gameKey;
+
+  if (currentGameLabel) {
+    currentGameLabel.textContent = game.label;
+  }
+
+  if (currentGameTitle) {
+    currentGameTitle.textContent = game.title;
+  }
+
+  clearGameContainer();
+  showScreen("game");
+
+  if (gameKey === "star") {
+    cleanupCurrentGame = initStarGame(gameContainer);
+    return;
+  }
+
+  renderGamePlaceholder(game);
+}
+
 function renderGamePlaceholder(game) {
   if (!gameContainer) {
     return;
@@ -198,6 +228,12 @@ function updateRankingPeriodButtons() {
 }
 
 function clearGameContainer() {
+  if (typeof cleanupCurrentGame === "function") {
+    cleanupCurrentGame();
+  }
+
+  cleanupCurrentGame = null;
+
   if (gameContainer) {
     gameContainer.innerHTML = "";
   }
