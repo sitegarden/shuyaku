@@ -9,6 +9,15 @@
     sans-serif;
 }
 
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
 .event-enter-page {
   width: min(100% - 32px, 720px);
   margin: 0 auto;
