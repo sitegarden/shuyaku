@@ -266,6 +266,10 @@ function showLoggedOut() {
     displayNameInput.value = "";
   }
 
+  if (guestNameSettingInput) {
+  guestNameSettingInput.value = getGuestName();
+}
+
   if (iconOptions) {
     iconOptions.innerHTML = "";
   }
