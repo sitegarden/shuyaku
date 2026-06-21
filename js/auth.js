@@ -43,6 +43,10 @@ const displayNameInput = document.getElementById("displayNameInput");
 const iconOptions = document.getElementById("iconOptions");
 const accountMessage = document.getElementById("accountMessage");
 
+const guestNameSettingInput = document.getElementById("guestNameSettingInput");
+const saveGuestNameBtn = document.getElementById("saveGuestNameBtn");
+const guestNameMessage = document.getElementById("guestNameMessage");
+
 let currentUser = null;
 let currentUserData = null;
 let selectedIconPath = ICON_LIST[0];
@@ -73,6 +77,12 @@ if (logoutBtn) {
 if (saveProfileBtn) {
   saveProfileBtn.addEventListener("click", async () => {
     await saveProfile();
+  });
+}
+
+if (saveGuestNameBtn) {
+  saveGuestNameBtn.addEventListener("click", () => {
+    saveGuestNameSetting();
   });
 }
 
@@ -156,6 +166,32 @@ async function saveProfile() {
   } catch (error) {
     console.error(error);
     showAccountMessage(`保存エラー: ${error.message}`, "error");
+  }
+}
+
+function saveGuestNameSetting() {
+  const guestName = guestNameSettingInput?.value || "";
+
+  if (!saveGuestName(guestName)) {
+    showGuestNameMessage("ゲスト名を1文字以上入力してね。", "error");
+    return;
+  }
+
+  if (guestNameSettingInput) {
+    guestNameSettingInput.value = getGuestName();
+  }
+
+  showGuestNameMessage("ゲスト名を保存したよ。", "success");
+}
+
+function showGuestNameMessage(message, type) {
+  if (!guestNameMessage) return;
+
+  guestNameMessage.textContent = message;
+  guestNameMessage.className = "account-message";
+
+  if (type) {
+    guestNameMessage.classList.add(type);
   }
 }
 
