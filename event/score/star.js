@@ -1,4 +1,4 @@
-import { submitScore } from “./ranking.js”;
+import { submitScore } from "./ranking.js";
 
 const GAME_ID = "event_star";
 const GAME_TIME = 30_000;
@@ -97,6 +97,7 @@ export function initStarGame(container) {
 
     const passed = Date.now() - startedAt;
     const remain = Math.max(0, GAME_TIME - passed);
+
     timeText.textContent = String(Math.ceil(remain / 1000));
   };
 
@@ -159,12 +160,11 @@ export function initStarGame(container) {
       restartBtn?.addEventListener("click", startGame);
     }
 
-   try {
-  const { submitScore } = await import("../../games/ranking.js");
-  await submitScore(GAME_ID, score);
-} catch (error) {
-  console.error("スコア保存に失敗しました。", error);
-}
+    try {
+      await submitScore(GAME_ID, score);
+    } catch (error) {
+      console.error("イベントスコアの保存に失敗しました。", error);
+    }
   };
 
   const update = (timestamp) => {
@@ -182,6 +182,7 @@ export function initStarGame(container) {
     }
 
     playerX = Math.max(0, Math.min(100, playerX));
+
     setPlayerPosition();
 
     spawnTimer += delta;
@@ -193,7 +194,10 @@ export function initStarGame(container) {
 
     const fieldHeight = field?.clientHeight || 0;
     const fieldWidth = field?.clientWidth || 0;
-    const playerLeft = ((Math.max(0, fieldWidth - PLAYER_WIDTH) * playerX) / 100);
+
+    const playerLeft =
+      (Math.max(0, fieldWidth - PLAYER_WIDTH) * playerX) / 100;
+
     const playerTop = Math.max(0, fieldHeight - 84);
 
     stars = stars.filter((star) => {
@@ -266,6 +270,7 @@ export function initStarGame(container) {
     const maxX = Math.max(1, rect.width - PLAYER_WIDTH);
 
     playerX = Math.max(0, Math.min(100, (localX / maxX) * 100));
+
     setPlayerPosition();
   };
 
