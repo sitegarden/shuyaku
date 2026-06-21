@@ -1,4 +1,4 @@
-const EVENT_PASSWORD = "YAKINIKU";
+const EVENT_PASSWORD = "UDONTABETAI";
 const EVENT_ACCESS_KEY = "shuyakuEventAccess";
 
 const form = document.getElementById("eventEnterForm");
