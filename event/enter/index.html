@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  />
+
+  <title>イベント入場 | shuyaku.me</title>
+
+  <meta
+    name="description"
+    content="shuyaku.meイベントの参加ページです。合言葉を入力してイベントゲームへ進めます。"
+  />
+
+  <link rel="icon" href="https://shuyaku.me/favicon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="https://shuyaku.me/favicon.png" />
+
+  <meta property="og:site_name" content="shuyaku.me" />
+  <meta property="og:title" content="イベント入場 | shuyaku.me" />
+  <meta property="og:description" content="合言葉を入力してイベントゲームへ進もう。" />
+  <meta property="og:image" content="https://shuyaku.me/ogp.png" />
+  <meta property="og:url" content="https://shuyaku.me/event/enter/" />
+  <meta property="og:type" content="website" />
+
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+  <div id="siteHeader"></div>
+
+  <main class="event-enter-page">
+    <section class="event-enter-card">
+      <p class="event-enter-label">shuyaku.me event</p>
+
+      <div class="event-enter-icon" aria-hidden="true">
+        🎮
+      </div>
+
+      <h1>イベントに参加する</h1>
+
+      <p class="event-enter-lead">
+        スタッフから案内された合言葉を入力して、
+        イベントゲームへ進もう。
+      </p>
+
+      <form id="eventEnterForm" class="event-enter-form">
+        <label for="eventPasswordInput">
+          合言葉
+        </label>
+
+        <input
+          type="password"
+          id="eventPasswordInput"
+          class="event-password-input"
+          placeholder="合言葉を入力"
+          autocomplete="off"
+          maxlength="32"
+          required
+        />
+
+        <p id="eventEnterMessage" class="event-enter-message" aria-live="polite"></p>
+
+        <button type="submit" class="event-enter-btn">
+          イベントに入る
+        </button>
+      </form>
+
+      <a href="../" class="event-back-link">
+        ← イベントトップへ戻る
+      </a>
+    </section>
+  </main>
+
+  <div id="siteFooter"></div>
+
+  <script type="module" src="/js/layout.js"></script>
+  <script type="module" src="./enter.js"></script>
+</body>
+</html>
