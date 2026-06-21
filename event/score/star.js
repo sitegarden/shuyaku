@@ -1,4 +1,4 @@
-import { submitScore } from "../../games/ranking.js";
+import { submitScore } from “./ranking.js”;
 
 const GAME_ID = "event_star";
 const GAME_TIME = 30_000;
