@@ -48,16 +48,20 @@ let currentPeriod = "month";
 let previousScreen = "home";
 let cleanupCurrentGame = null;
 
-checkEventAccess();
-setupEvents();
-showScreen("home");
+if (checkEventAccess()) {
+  setupEvents();
+  showScreen("home");
+}
 
 function checkEventAccess() {
   const hasAccess = sessionStorage.getItem(EVENT_ACCESS_KEY) === "granted";
 
   if (!hasAccess) {
     location.replace("../enter/");
+    return false;
   }
+
+  return true;
 }
 
 function setupEvents() {
