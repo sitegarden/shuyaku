@@ -453,3 +453,36 @@
     border-radius: 22px;
   }
 }
+
+.score-game-placeholder {
+  display: grid;
+  min-height: 440px;
+  place-items: center;
+  align-content: center;
+  gap: 12px;
+  padding: 28px;
+  text-align: center;
+}
+
+.score-game-placeholder-icon {
+  font-size: 56px;
+}
+
+.score-game-placeholder p {
+  margin: 0;
+  color: #6e83b5;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.score-game-placeholder h2 {
+  margin: 0;
+  color: #2b3b5b;
+  font-size: 28px;
+}
+
+.score-game-placeholder span {
+  color: #6a768f;
+}
