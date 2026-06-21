@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  />
+
+  <title>スコアゲーム | イベント | shuyaku.me</title>
+
+  <meta
+    name="description"
+    content="shuyaku.meイベントのスコアゲームページです。好きなゲームを選んで高得点を狙おう。"
+  />
+
+  <link rel="icon" href="https://shuyaku.me/favicon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="https://shuyaku.me/favicon.png" />
+
+  <meta property="og:site_name" content="shuyaku.me" />
+  <meta property="og:title" content="スコアゲーム | イベント | shuyaku.me" />
+  <meta property="og:description" content="好きなゲームを選んで、高得点を狙おう。" />
+  <meta property="og:image" content="https://shuyaku.me/ogp.png" />
+  <meta property="og:url" content="https://shuyaku.me/event/score/" />
+  <meta property="og:type" content="website" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="スコアゲーム | イベント | shuyaku.me" />
+  <meta name="twitter:description" content="好きなゲームを選んで、高得点を狙おう。" />
+  <meta name="twitter:image" content="https://shuyaku.me/ogp.png" />
+
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+  <div id="siteHeader"></div>
+
+  <main class="event-score-page">
+
+    <!-- ゲーム選択 -->
+    <section id="scoreHomeScreen" class="score-screen active">
+      <section class="event-score-hero">
+        <p class="event-score-label">score game</p>
+
+        <h1>
+          好きなゲームで、<br>
+          高得点を狙おう。
+        </h1>
+
+        <p class="event-score-lead">
+          何回挑戦してもOK。
+          自分のベストスコアを目指して遊ぼう。
+        </p>
+
+        <div class="event-score-rule-box">
+          <div class="score-rule-card">
+            <span>個人戦</span>
+            <strong>自分の最高得点で勝負</strong>
+          </div>
+
+          <div class="score-rule-card">
+            <span>チーム戦</span>
+            <strong>メンバーの得点を合計</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="event-score-section">
+        <div class="section-title">
+          <p>games</p>
+          <h2>遊ぶゲームを選ぶ</h2>
+        </div>
+
+        <p class="section-lead">
+          初めてでも大丈夫。遊びたいゲームを選んでスタートしよう。
+        </p>
+
+        <div id="scoreGameList" class="event-score-game-grid">
+
+          <button
+            type="button"
+            class="event-score-game-card"
+            data-game-id="star"
+          >
+            <div class="score-game-icon">⭐</div>
+
+            <div class="score-game-text">
+              <p>star catch</p>
+              <h3>星キャッチ</h3>
+              <span>
+                落ちてくる星を集めて、高得点を狙おう。
+              </span>
+            </div>
+
+            <strong>遊ぶ</strong>
+          </button>
+
+          <button
+            type="button"
+            class="event-score-game-card"
+            data-game-id="reaction"
+          >
+            <div class="score-game-icon">⚡</div>
+
+            <div class="score-game-text">
+              <p>reaction game</p>
+              <h3>反射神経ゲーム</h3>
+              <span>
+                合図が出た瞬間にタップ。速さと正確さで勝負。
+              </span>
+            </div>
+
+            <strong>遊ぶ</strong>
+          </button>
+
+          <button
+            type="button"
+            class="event-score-game-card"
+            data-game-id="dodge"
+          >
+            <div class="score-game-icon">🏃</div>
+
+            <div class="score-game-text">
+              <p>dodge game</p>
+              <h3>障害物よけゲーム</h3>
+              <span>
+                左右に動いて障害物を避け、生き残ろう。
+              </span>
+            </div>
+
+            <strong>遊ぶ</strong>
+          </button>
+
+        </div>
+      </section>
+
+      <section class="event-score-section">
+        <div class="event-score-bottom">
+          <div>
+            <p>ranking</p>
+            <h2>スコアを確認しよう</h2>
+            <span>
+              自分のベストスコアや、みんなの記録をランキングで見られます。
+            </span>
+          </div>
+
+          <button
+            type="button"
+            id="openRankingBtn"
+            class="event-score-ranking-btn"
+          >
+            ランキングを見る
+          </button>
+        </div>
+      </section>
+
+      <a href="../" class="event-score-back-link">
+        ← イベントトップへ戻る
+      </a>
+    </section>
+
+    <!-- ゲーム画面 -->
+    <section id="scoreGameScreen" class="score-screen">
+      <div class="score-game-header">
+        <button
+          type="button"
+          id="backToScoreHomeBtn"
+          class="score-back-btn"
+        >
+          ← ゲーム一覧へ戻る
+        </button>
+
+        <div class="score-game-header-text">
+          <p id="currentGameLabel">score game</p>
+          <h1 id="currentGameTitle">ゲーム</h1>
+        </div>
+
+        <button
+          type="button"
+          id="gameRankingBtn"
+          class="score-ranking-mini-btn"
+        >
+          ランキング
+        </button>
+      </div>
+
+      <div id="gameContainer" class="score-game-container">
+        <!-- score.js がゲーム画面を入れる -->
+      </div>
+    </section>
+
+    <!-- ランキング画面 -->
+    <section id="scoreRankingScreen" class="score-screen">
+      <div class="score-game-header">
+        <button
+          type="button"
+          id="backFromRankingBtn"
+          class="score-back-btn"
+        >
+          ← 戻る
+        </button>
+
+        <div class="score-game-header-text">
+          <p>ranking</p>
+          <h1>ランキング</h1>
+        </div>
+      </div>
+
+      <div class="score-ranking-tabs">
+        <button
+          type="button"
+          class="score-ranking-tab active"
+          data-ranking-game="star"
+        >
+          星キャッチ
+        </button>
+
+        <button
+          type="button"
+          class="score-ranking-tab"
+          data-ranking-game="reaction"
+        >
+          反射神経
+        </button>
+
+        <button
+          type="button"
+          class="score-ranking-tab"
+          data-ranking-game="dodge"
+        >
+          障害物よけ
+        </button>
+      </div>
+
+      <div class="score-ranking-periods">
+        <button
+          type="button"
+          class="score-ranking-period active"
+          data-period="month"
+        >
+          今月
+        </button>
+
+        <button
+          type="button"
+          class="score-ranking-period"
+          data-period="all"
+        >
+          全期間
+        </button>
+      </div>
+
+      <div id="rankingArea" class="score-ranking-area">
+        <!-- ranking.js がランキングを入れる -->
+      </div>
+    </section>
+
+  </main>
+
+  <div id="siteFooter"></div>
+
+  <script type="module" src="/js/layout.js"></script>
+  <script type="module" src="./score.js"></script>
+</body>
+</html>
