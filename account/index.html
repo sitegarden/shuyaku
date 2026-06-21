@@ -41,13 +41,34 @@
           <h2>ログイン</h2>
 
           <p>
-            Googleでログインすると、ランキングやプロフィールを
-            shuyaku.me 共通アカウントで使えるようになります。
-          </p>
+  Googleでログインすると、ランキングやプロフィールを
+  shuyaku.me 共通アカウントで使えるようになります。
+</p>
 
-          <button type="button" class="primary-btn account-main-btn" id="googleLoginBtn">
-            Googleでログイン
-          </button>
+<div class="guest-name-setting">
+  <label class="account-label" for="guestNameSettingInput">
+    ゲスト名
+  </label>
+
+  <input
+    type="text"
+    id="guestNameSettingInput"
+    class="account-input"
+    maxlength="16"
+    placeholder="例：ゲストねこ"
+    autocomplete="off"
+  >
+
+  <p class="account-message" id="guestNameMessage"></p>
+
+  <button type="button" class="secondary-btn account-main-btn" id="saveGuestNameBtn">
+    ゲスト名を保存
+  </button>
+</div>
+
+<button type="button" class="primary-btn account-main-btn" id="googleLoginBtn">
+  Googleでログイン
+</button>
         </div>
 
         <div id="userArea" class="hidden">
