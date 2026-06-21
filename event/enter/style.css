@@ -1,0 +1,135 @@
+.event-enter-page {
+  width: min(100% - 32px, 720px);
+  margin: 0 auto;
+  padding: 56px 0 80px;
+}
+
+.event-enter-card {
+  display: grid;
+  gap: 20px;
+  padding: 32px;
+  border: 1px solid rgba(38, 57, 91, 0.12);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at top right, rgba(255, 230, 110, 0.42), transparent 34%),
+    linear-gradient(135deg, #f7fbff, #eef4ff);
+  box-shadow: 0 18px 48px rgba(49, 72, 118, 0.12);
+}
+
+.event-enter-label {
+  margin: 0;
+  color: #5871a8;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.event-enter-icon {
+  display: grid;
+  width: 72px;
+  height: 72px;
+  place-items: center;
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(64, 85, 129, 0.12);
+  font-size: 34px;
+}
+
+.event-enter-card h1 {
+  margin: 0;
+  font-size: clamp(28px, 6vw, 42px);
+  line-height: 1.2;
+}
+
+.event-enter-lead {
+  margin: 0;
+  color: #56627a;
+  line-height: 1.8;
+}
+
+.event-enter-form {
+  display: grid;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.event-enter-form label {
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.event-password-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #cbd7ec;
+  border-radius: 14px;
+  outline: none;
+  background: #ffffff;
+  color: #1f2b43;
+  font: inherit;
+}
+
+.event-password-input:focus {
+  border-color: #6b8de3;
+  box-shadow: 0 0 0 4px rgba(107, 141, 227, 0.16);
+}
+
+.event-enter-message {
+  min-height: 1.4em;
+  margin: 0;
+  color: #68738a;
+  font-size: 14px;
+}
+
+.event-enter-message.error {
+  color: #c34343;
+}
+
+.event-enter-message.success {
+  color: #2f8a61;
+}
+
+.event-enter-btn {
+  width: 100%;
+  padding: 14px 18px;
+  border: 0;
+  border-radius: 14px;
+  background: #4f73d9;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.16s ease, opacity 0.16s ease;
+}
+
+.event-enter-btn:active {
+  transform: scale(0.98);
+}
+
+.event-enter-btn:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.event-back-link {
+  color: #62739b;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.event-back-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 560px) {
+  .event-enter-page {
+    width: min(100% - 24px, 720px);
+    padding: 28px 0 52px;
+  }
+
+  .event-enter-card {
+    padding: 24px;
+    border-radius: 22px;
+  }
+}
