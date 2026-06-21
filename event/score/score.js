@@ -1,4 +1,4 @@
-import { showRanking } from "../../games/ranking.js";
+import { showRanking } from “./ranking.js”;
 
 const EVENT_ACCESS_KEY = "shuyakuEventAccess";
 
@@ -43,7 +43,7 @@ const GAMES = {
 };
 
 let currentGameKey = "star";
-let currentPeriod = "month";
+let currentPeriod = “eventDay”;
 let previousScreen = "home";
 let cleanupCurrentGame = null;
 
