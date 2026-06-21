@@ -1,6 +1,7 @@
 // ranking.js
 
 import { auth, db } from "../js/firebase.js";
+import { getGuestName, getGuestId } from "../js/guest.js";
 
 import {
   doc,
@@ -208,13 +209,7 @@ async function getPlayerData() {
 }
 
 function getGuestPlayer() {
-  let guestId = localStorage.getItem("shuyakuGuestId");
-  let guestName = localStorage.getItem("shuyakuGuestName");
-
-  if (!guestId) {
-    guestId = `guest_${crypto.randomUUID()}`;
-    localStorage.setItem("shuyakuGuestId", guestId);
-  }
+  let guestName = getGuestName();
 
   if (!guestName) {
     guestName = createGuestName();
@@ -222,7 +217,7 @@ function getGuestPlayer() {
   }
 
   return {
-    uid: guestId,
+    uid: getGuestId(),
     name: guestName,
     iconPath: "/favicon.png",
     title: "guest",
