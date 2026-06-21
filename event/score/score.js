@@ -1,4 +1,4 @@
-import { showRanking } from “./ranking.js”;
+import { showRanking } from "./ranking.js";
 
 const EVENT_ACCESS_KEY = "shuyakuEventAccess";
 
@@ -43,7 +43,7 @@ const GAMES = {
 };
 
 let currentGameKey = "star";
-let currentPeriod = “eventDay”;
+let currentPeriod = "eventDay";
 let previousScreen = "home";
 let cleanupCurrentGame = null;
 
@@ -112,7 +112,7 @@ function setupEvents() {
 
   rankingPeriodButtons.forEach((button) => {
     button.addEventListener("click", async () => {
-      currentPeriod = button.dataset.period || "month";
+      currentPeriod = button.dataset.period || "eventDay";
       updateRankingPeriodButtons();
 
       await renderRanking();
