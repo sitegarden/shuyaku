@@ -1,5 +1,4 @@
 import { showRanking } from "../../games/ranking.js";
-import { initStarGame } from "./star.js";
 
 const EVENT_ACCESS_KEY = "shuyakuEventAccess";
 
@@ -66,14 +65,14 @@ function checkEventAccess() {
 
 function setupEvents() {
   gameCards.forEach((card) => {
-    card.addEventListener("click", () => {
+    card.addEventListener("click", async () => {
       const gameKey = card.dataset.gameId;
 
       if (!GAMES[gameKey]) {
         return;
       }
 
-      openGame(gameKey);
+      await openGame(gameKey);
     });
   });
 
@@ -127,29 +126,7 @@ function showScreen(screenName) {
   });
 }
 
-function openGame(gameKey) {
-  const game = GAMES[gameKey];
-
-  if (!game) {
-    return;
-  }
-
-  currentGameKey = gameKey;
-
-  if (currentGameLabel) {
-    currentGameLabel.textContent = game.label;
-  }
-
-  if (currentGameTitle) {
-    currentGameTitle.textContent = game.title;
-  }
-
-  showScreen("game");
-
-  renderGamePlaceholder(game);
-}
-
-function openGame(gameKey) {
+async function openGame(gameKey) {
   const game = GAMES[gameKey];
 
   if (!game) {
@@ -170,11 +147,44 @@ function openGame(gameKey) {
   showScreen("game");
 
   if (gameKey === "star") {
-    cleanupCurrentGame = initStarGame(gameContainer);
+    await startStarGame();
     return;
   }
 
   renderGamePlaceholder(game);
+}
+
+async function startStarGame() {
+  if (!gameContainer) {
+    return;
+  }
+
+  gameContainer.innerHTML = `
+    <div class="score-game-placeholder">
+      <div class="score-game-placeholder-icon">⭐</div>
+      <p>loading</p>
+      <h2>星キャッチを準備中</h2>
+      <span>少し待ってね。</span>
+    </div>
+  `;
+
+  try {
+    const { initStarGame } = await import("./star.js");
+
+    clearGameContainer();
+    cleanupCurrentGame = initStarGame(gameContainer);
+  } catch (error) {
+    console.error(error);
+
+    gameContainer.innerHTML = `
+      <div class="score-game-placeholder">
+        <div class="score-game-placeholder-icon">⚠️</div>
+        <p>game error</p>
+        <h2>星キャッチを読み込めませんでした</h2>
+        <span>${escapeHtml(error.message || "不明なエラーです。")}</span>
+      </div>
+    `;
+  }
 }
 
 function renderGamePlaceholder(game) {
