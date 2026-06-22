@@ -29,18 +29,25 @@ export async function submitScore(gameId, score) {
 
   const player = await getPlayerData();
 
-  await Promise.all([
-    saveBestScore(
-      getPeriodKey(gameId, "eventDay"),
-      player,
-      numericScore
-    ),
+  const saveTasks = [
     saveBestScore(
       getPeriodKey(gameId, "all"),
       player,
       numericScore
     )
-  ]);
+  ];
+
+  if (isEventDay()) {
+    saveTasks.push(
+      saveBestScore(
+        getPeriodKey(gameId, "eventDay"),
+        player,
+        numericScore
+      )
+    );
+  }
+
+  await Promise.all(saveTasks);
 }
 
 async function saveBestScore(periodKey, player, score) {
@@ -98,6 +105,16 @@ export async function showRanking(gameId, period = "eventDay") {
   }
 
   const periodKey = getPeriodKey(gameId, period);
+
+if (period === "eventDay" && !isEventDay()) {
+  rankingArea.innerHTML = `
+    <div class="ranking-empty">
+      イベント当日のランキングは、<br>
+      6月29日に公開されます。
+    </div>
+  `;
+  return;
+}
 
   rankingArea.innerHTML = `
     <div class="ranking-loading">
@@ -313,4 +330,27 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}
+
+function isEventDay() {
+  return getJapanDateKey() === EVENT_DATE_KEY;
+}
+
+function getJapanDateKey() {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Asia/Tokyo",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  }).formatToParts(new Date());
+
+  const values = {};
+
+  parts.forEach((part) => {
+    if (part.type !== "literal") {
+      values[part.type] = part.value;
+    }
+  });
+
+  return `${values.year}-${values.month}-${values.day}`;
 }
