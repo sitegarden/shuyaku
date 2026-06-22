@@ -917,3 +917,39 @@ input {
   color: #253257;
   box-shadow: 3px 3px 0 #2d3e70;
 }
+
+/* 文字選択・長押しメニュー・タップ時の青い選択を防止 */
+
+.event-score-page,
+.event-score-page * {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* ダブルタップ拡大を防止 */
+
+html,
+body {
+  touch-action: manipulation;
+}
+
+.event-score-page {
+  touch-action: manipulation;
+}
+
+/* ゲーム画面内はピンチ操作も防止 */
+
+.star-game-field,
+.star-game-controls,
+.star-control-btn,
+.star-start-btn,
+.event-score-game-card,
+.score-ranking-tab,
+.score-ranking-period,
+.event-score-ranking-btn,
+.score-ranking-mini-btn,
+.score-back-btn {
+  touch-action: none;
+}
