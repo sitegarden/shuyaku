@@ -261,3 +261,37 @@ function escapeHtml(value) {
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
 }
+
+document.addEventListener(
+  "gesturestart",
+  (event) => {
+    event.preventDefault();
+  },
+  { passive: false }
+);
+
+document.addEventListener(
+  "gesturechange",
+  (event) => {
+    event.preventDefault();
+  },
+  { passive: false }
+);
+
+document.addEventListener(
+  "gestureend",
+  (event) => {
+    event.preventDefault();
+  },
+  { passive: false }
+);
+
+document.addEventListener(
+  "touchmove",
+  (event) => {
+    if (event.touches.length > 1) {
+      event.preventDefault();
+    }
+  },
+  { passive: false }
+);
